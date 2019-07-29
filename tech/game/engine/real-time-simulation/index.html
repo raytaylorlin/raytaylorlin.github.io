@@ -1,0 +1,907 @@
+<!DOCTYPE HTML>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    
+
+    <title>实时游戏的时间模拟 | </title>
+    <meta name="author" content="RayTaylor Lin">
+    
+    <meta name="description" content="水镜一人性，月读一波明。轻扬一宿星，枫过一帆灵。">
+    
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta property="og:title" content="实时游戏的时间模拟">
+    <meta property="og:site_name" content="Ray Taylor Lin&#39;s world">
+
+    
+    <meta property="og:image" content>
+    
+
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="alternate" href="/atom.xml" title="Ray Taylor Lin&#39;s world" type="application/atom+xml">
+    <link rel="stylesheet" href="/css/lib/materialize.min.css">
+    <link rel="stylesheet" href="/css/lib/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+
+    
+        <link rel="stylesheet" href="/css/lib/prettify-tomorrow-night-eighties.css" type="text/css">
+    
+    <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+</head>
+</html>
+
+<body>
+    <img src="/weixin_favicon.png" style="position: absolute; left: -9999px; opacity: 0; filter: alpha(opacity=0);">
+
+    <nav class="indigo">
+    <div class="nav-wrapper">
+        <a href="#" data-activates="main-menu" class="button-collapse">
+            <i class="fa fa-navicon"></i>
+        </a>
+        <div class>
+            <a href="/" class="brand-logo hide-on-med-and-down">Ray Taylor Lin&#39;s world</a>
+            <ul class="right hide-on-med-and-down">
+                
+                    <li>
+                        <a class="menu-home " href="/">
+                            <i class="fa fa-home "></i>
+                            
+                            首页
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-archive " href="/archives">
+                            <i class="fa fa-archive "></i>
+                            
+                            归档
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-category category-menu" href="javascript:;" data-activates="category-menu">
+                            <i class="fa fa-bookmark "></i>
+                            
+                            分类
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-reading " href="/reading">
+                            <i class="fa fa-book "></i>
+                            
+                            读书
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-about " href="/about">
+                            <i class="fa fa-user "></i>
+                            
+                            关于
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-search modal-trigger " href="#search">
+                            <i class="fa fa-search "></i>
+                            
+                            搜索
+                        </a>
+                    </li>
+                
+            </ul>
+            <div>
+    <ul class="side-nav indigo darken-1" id="main-menu">
+        
+        <li class="side-user">
+            <div class="row">
+                <div class="col s4 no-padding">
+                    <img class="avatar-image circle responsive-img" src="http://tp2.sinaimg.cn/1956184117/180/5674436546/1" alt="User Avatar">
+                </div>
+                <div class="info col s8 valign-wrapper no-padding">
+                    <div class="valign">
+                        <p class="name">林寿山</p>
+                        <p class="desc">游戏开发/Web前端</p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        
+
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-home " href="/">
+                    <i class="fa fa-home "></i>
+                    
+                    首页
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-archive " href="/archives">
+                    <i class="fa fa-archive "></i>
+                    
+                    归档
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-category category-menu" href="javascript:;" data-activates="category-menu">
+                    <i class="fa fa-bookmark "></i>
+                    
+                    分类
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-reading " href="/reading">
+                    <i class="fa fa-book "></i>
+                    
+                    读书
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-about " href="/about">
+                    <i class="fa fa-user "></i>
+                    
+                    关于
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-search modal-trigger " href="#search">
+                    <i class="fa fa-search "></i>
+                    
+                    搜索
+                </a>
+            </li>
+        
+    </ul>
+
+    <ul class="side-nav indigo darken-1" id="category-menu">
+    
+
+            
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/日常/">
+                    日常 <span class="right">8 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/技术/">
+                    技术 <span class="right">93 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/算法/">
+                    算法 <span class="right">6 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/Linux/">
+                    Linux <span class="right">2 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/综合/">
+                    综合 <span class="right">23 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/综合/演示/">
+                    演示 <span class="right">2 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/综合/设计模式/">
+                    设计模式 <span class="right">3 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/综合/软件工程/">
+                    软件工程 <span class="right">15 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/综合/杂项/">
+                    杂项 <span class="right">1 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/综合/项目/">
+                    项目 <span class="right">2 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/游戏开发/">
+                    游戏开发 <span class="right">19 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/游戏开发/服务器端/">
+                    服务器端 <span class="right">2 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/游戏开发/客户端/">
+                    客户端 <span class="right">1 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/游戏开发/游戏引擎/">
+                    游戏引擎 <span class="right">11 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/游戏开发/Unity/">
+                    Unity <span class="right">5 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-3" collapse-level="3">
+                <a class="no-padding" href="/categories/技术/游戏开发/Unity/NGUI/">
+                    NGUI <span class="right">5 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/编程语言/">
+                    编程语言 <span class="right">15 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/编程语言/Lua/">
+                    Lua <span class="right">7 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/编程语言/其它语言/">
+                    其它语言 <span class="right">4 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/编程语言/Python/">
+                    Python <span class="right">4 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/工具/">
+                    工具 <span class="right">7 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/工具/IDE/">
+                    IDE <span class="right">3 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/工具/Git/">
+                    Git <span class="right">4 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/Web前端/">
+                    Web前端 <span class="right">21 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/Web前端/HTTP协议/">
+                    HTTP协议 <span class="right">7 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/Web前端/CSS/">
+                    CSS <span class="right">3 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/Web前端/HTML5/">
+                    HTML5 <span class="right">2 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/Web前端/NodeJS/">
+                    NodeJS <span class="right">9 篇</span></a>
+                
+            </li>
+
+        
+
+    </ul>
+</div>
+
+        </div>
+    </div>
+</nav>
+
+<div id="search" class="modal search-modal">
+    <div class="row">
+        <div class="input-field col s12">
+              <input id="search-input" type="text">
+              <label for="search-input">搜索</label>
+        </div>
+
+    </div>
+    <div id="search-result" class="search-result col s12">
+
+    </div>
+</div>
+
+
+    <main>
+        <div class="container main-container">
+    <nav class="page-nav hide-on-small-only">
+    <div class="nav-wrapper indigo">
+        <span class="breadcrumb">当前位置（分类目录）</span>
+        
+            
+    
+    
+    <a class="breadcrumb" href="/categories/技术/">技术</a><a class="breadcrumb" href="/categories/技术/游戏开发/">游戏开发</a><a class="breadcrumb" href="/categories/技术/游戏开发/游戏引擎/">游戏引擎</a>
+
+
+        
+
+        
+    </div>
+</nav>
+
+<article>
+    <div class="card">
+        <div class="card-content">
+            
+
+            <div class="article-title">
+                
+    
+        <h1>实时游戏的时间模拟</h1>
+    
+
+
+            </div>
+            <time class="green-link-context" datetime="2016-06-28T08:29:02.000Z"><a href="/tech/game/engine/real-time-simulation/">2016-06-28</a></time>
+
+            <span id="busuanzi_container_page_pv" class="read-times-container">
+    <i class="fa fa-eye"></i>
+    <span id="busuanzi_value_page_pv"></span>
+</span>
+
+            
+    <div class="tags-row">
+        
+            <a href="/tags/游戏引擎/" class="chip green lighten-1">游戏引擎</a>
+        
+            <a href="/tags/架构/" class="chip green lighten-1">架构</a>
+        
+    </div>
+
+
+            <div class="toc green-link-context hide-on-med-and-down">
+    <ol class="section table-of-contents"><li class="section table-of-contents-item section table-of-contents-level-1"><a class="section table-of-contents-link" href="#1-抽象时间线"><span class="section table-of-contents-text">1. 抽象时间线</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#1-1-真实时间线"><span class="section table-of-contents-text">1.1 真实时间线</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#1-2-游戏时间线"><span class="section table-of-contents-text">1.2 游戏时间线</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#1-3-局部与全局时间线"><span class="section table-of-contents-text">1.3 局部与全局时间线</span></a></li></ol></li><li class="section table-of-contents-item section table-of-contents-level-1"><a class="section table-of-contents-link" href="#2-测量及处理时间"><span class="section table-of-contents-text">2. 测量及处理时间</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#2-1-帧率与时间增量"><span class="section table-of-contents-text">2.1 帧率与时间增量</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#2-1-1-受CPU速度影响"><span class="section table-of-contents-text">2.1.1 受CPU速度影响</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#2-1-2-基于经过时间的更新"><span class="section table-of-contents-text">2.1.2 基于经过时间的更新</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#2-1-3-使用移动平均"><span class="section table-of-contents-text">2.1.3 使用移动平均</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#2-1-4-调控帧率"><span class="section table-of-contents-text">2.1.4 调控帧率</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#2-1-5-垂直消隐区间"><span class="section table-of-contents-text">2.1.5 垂直消隐区间</span></a></li></ol></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#2-2-高分辨率计时器"><span class="section table-of-contents-text">2.2 高分辨率计时器</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#2-3-时间单位和时钟变量"><span class="section table-of-contents-text">2.3 时间单位和时钟变量</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#2-4-应付断点"><span class="section table-of-contents-text">2.4 应付断点</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#2-5-一个简单的时钟类"><span class="section table-of-contents-text">2.5 一个简单的时钟类</span></a></li></ol></li></ol>
+</div>
+
+
+            <div class="entry green-link-context">
+                <p>游戏是实时的、动态的、互动的计算机模拟，所以<strong>时间</strong>在电子游戏中担当非常重要的角色。游戏中有不同种类的时间——实时、游戏时间、动画的本地时间线、某函数实际消耗的CPU周期等。本文谈及实时、动态模拟软件如何运作，并探讨这类模拟中运用时间的常见方法。</p>
+<a id="more"></a>
+<h1 id="1-抽象时间线"><a href="#1-抽象时间线" class="headerlink" title="1. 抽象时间线"></a>1. 抽象时间线</h1><p>时间线是连续的一维轴，其原点（t=0）可以设置为系统中其他时间线的任何相对位置。时间线可以用简单的时钟变量实现，以整数或浮点数格式储存绝对时间值。时间线可能存在如下几种形式。</p>
+<h2 id="1-1-真实时间线"><a href="#1-1-真实时间线" class="headerlink" title="1.1 真实时间线"></a>1.1 真实时间线</h2><p>可以直接使用CPU的高分辨率计时寄存器来量度时间。此时间线的原点定义为计算机上次启动或重置之时。这种时间的度量单位是CPU周期（或其倍数），但其实只要简单地乘以CPU的高分辨率计时器频率，此单位便可以转换为秒数。</p>
+<h2 id="1-2-游戏时间线"><a href="#1-2-游戏时间线" class="headerlink" title="1.2 游戏时间线"></a>1.2 游戏时间线</h2><p>在正常情况下，游戏时间和真实时间是一致的。但若希望暂停游戏，就可以简单地临时停止对游戏时间的更新，若要把游戏变成慢动作，可以把游戏时钟更新得慢于实时时钟。</p>
+<p>控制游戏时间是很有用的调试工具。例如在追查不正常的渲染时，可以暂停游戏时间，冻结所有动作，然后使用另外时钟的渲染引擎及调试用飞行摄像机继续运作，就能以任意角度观察问题所在。也可以在暂停模式下，手动“逐步更新”推前帧率来调试。要注意这种调试方法暂停游戏时，游戏循环是持续进行的，仅仅是游戏时钟停止，而通过对暂停的时钟加上1/30s去实现单步更新。</p>
+<h2 id="1-3-局部与全局时间线"><a href="#1-3-局部与全局时间线" class="headerlink" title="1.3 局部与全局时间线"></a>1.3 局部与全局时间线</h2><p>可以想象每个动画或音频片段都含有一个局部时间线，其原点定义为片段的开始。在游戏中播放片段时，正常播放、加速、减速、反转等效果可以视觉化为局部到全局时间线的映射。下图给出了几种映射的情况，其中在做缩放播放时，播放速率记为R。</p>
+<p><img src="http://raytaylorlin-blog.oss-cn-shenzhen.aliyuncs.com/image/engine/%E5%B1%80%E9%83%A8%E5%88%B0%E5%85%A8%E5%B1%80%E6%97%B6%E9%97%B4%E7%BA%BF%E6%98%A0%E5%B0%84%E7%9A%84%E5%90%84%E7%A7%8D%E6%83%85%E5%86%B5.jpg" alt="局部到全局时间线映射的各种情况"></p>
+<h1 id="2-测量及处理时间"><a href="#2-测量及处理时间" class="headerlink" title="2. 测量及处理时间"></a>2. 测量及处理时间</h1><h2 id="2-1-帧率与时间增量"><a href="#2-1-帧率与时间增量" class="headerlink" title="2.1 帧率与时间增量"></a>2.1 帧率与时间增量</h2><p>时间增量Δt（delta time）在游戏中非常重要，其值为FPS的倒数（若为60FPS则Δt=16.6ms/f）。假设一个游戏物体以恒定速率v（单位m/s）运行，乘以一帧的时间增量（单位s/f），就能得出该物体每帧的位置变化Δx=vΔt（单位m/f）。<strong>游戏中物体的感知速度依赖于帧时间Δt，因此计算Δt的值是游戏编程的核心问题之一。</strong></p>
+<h3 id="2-1-1-受CPU速度影响"><a href="#2-1-1-受CPU速度影响" class="headerlink" title="2.1.1 受CPU速度影响"></a>2.1.1 受CPU速度影响</h3><p>早期的游戏中，程序员不会尝试在游戏循环中准确量度真实经过的时间，即忽略Δt，以Δx=v计算位置变化。这样的后果是，游戏中物体看上去的速度完全依赖于CPU的速度所产生的帧率。若在较快的CPU上运行这类游戏，游戏看上去就会像快速进带一样。</p>
+<h3 id="2-1-2-基于经过时间的更新"><a href="#2-1-2-基于经过时间的更新" class="headerlink" title="2.1.2 基于经过时间的更新"></a>2.1.2 基于经过时间的更新</h3><p>要开发和CPU速度脱钩的游戏，就要以某种方法度量Δt，只需<em>将CPU的高分辨率计时器取值两次——一次于帧开始时，一次于帧结束时，然后取二者之差就能精确度量上一帧的Δt</em>。绝大部分的游戏引擎都是用这种方法，但它最大的问题是：使用第k帧度量出的Δt去估计第k+1帧的所需时间，这么做不一定准确。有时甚至会产生非常坏的效果，某一帧特别慢导致预测的Δt越来越大，进入低帧率的恶性循环。</p>
+<h3 id="2-1-3-使用移动平均"><a href="#2-1-3-使用移动平均" class="headerlink" title="2.1.3 使用移动平均"></a>2.1.3 使用移动平均</h3><p>游戏循环中每帧之间是有一些连贯性的。例如，若本帧中摄像机对着含许多渲染耗时物体的走廊，那么下一帧有很大机会仍然对着该走廊。因此可以<em>计算连续几帧的平均时间，用来估计下一帧的Δt</em>。此方法能使游戏适应转变中的帧率，同时缓和瞬间帧率尖峰所带来的影响。</p>
+<h3 id="2-1-4-调控帧率"><a href="#2-1-4-调控帧率" class="headerlink" title="2.1.4 调控帧率"></a>2.1.4 调控帧率</h3><p>上述方法都是预测下一帧Δt的做法，难免有误差。预期尝试估算下一帧的经过时间，不如尝试保证每帧都准确耗时固定时间，即帧率调控。首先仍然要度量本帧的耗时，<em>若耗时比目标时间短，则让主线程休眠，直至到达目的时间；若耗时比目标时间长，那么只好白等下一个目标时间</em>。</p>
+<p>当游戏的平均帧率接近目标帧率，此方法才有效。若因经常遇到“慢”帧，就会明显降低游戏质量。因此，仍然需要让将引擎系统设计成能接受任意的Δt。在开发时，引擎停留在“可变帧率”模式，实际运行中，游戏若能一贯地达到目标帧率，就开启帧率调控获其好处。使帧率连续维持稳定对游戏多方面都很重要，例如物理模拟使用的数值积分以固定时间更新运作最佳，或者使游戏录播功能更可靠。</p>
+<p><strong>【题外】</strong>游戏录播的实现方式：需要记录游戏进行时的所有相关事件，并把这些事件及其时间戳储存下来。然后在播放时，使用相同的初始条件和随机种子，就能准确地按时间重播那些事件。理论上，这么做能产生和原来游戏过程一模一样的重播。然而，若帧率不稳定，事情可能以不完全相同的次序发生。此问题的简单解决方法是，同时记录每帧的Δt，使游戏性的逻辑模拟部分能完全重播录制时的状态。若播放时的帧率不能维持原来的速度，可选择以较慢的速度播放，或选择略过渲染一些帧。</p>
+<h3 id="2-1-5-垂直消隐区间"><a href="#2-1-5-垂直消隐区间" class="headerlink" title="2.1.5 垂直消隐区间"></a>2.1.5 垂直消隐区间</h3><p>画面撕裂这种显示异常现象，是指由于CRT显示器的电子枪在扫描中途交换背景和前景缓冲区，导致屏幕上半部分显示了旧的影像，而下半部分则显示了新的影像。为避免画面撕裂，许多渲染引擎会在交换缓冲区之前，等待显示器的垂直消隐区间。等待垂直消隐区间是另一种帧率调控，实际上能限制主游戏循环的帧率，使其必然为屏幕刷新率的倍数。例如，在以60Hz刷新的NTSC显示器上，游戏的真实更新率实际会被量化为1/60s的倍数。若两帧之间的时间超过1/60s，便必须等待下一次垂直消隐区间，即该帧共花了2/60s（30FPS）。</p>
+<h2 id="2-2-高分辨率计时器"><a href="#2-2-高分辨率计时器" class="headerlink" title="2.2 高分辨率计时器"></a>2.2 高分辨率计时器</h2><p>标准C程序库函数time()分辨率为秒，不适合度量游戏帧率。度量时间游戏使用的是现代CPU的高分辨率计时器，这种计时器通常会实现<br>为硬件寄存器，其分辨率为纳秒，如3GHz的奔腾处理器上，计时器每秒递增30亿次。奔腾的<code>rdtsc</code>指令，Win32 API的<code>QueryPerformanceCounter()</code>，一些PowerPC架构的<code>mftb</code>指令等等，都可以查询分辨率计时器。</p>
+<p>要特别注意在一些多核处理器中，每个核有其独立的高分辨率计时器，这些计时器可能会彼此漂移。若比较不同核读取的绝对计算器读数，可能会出现一些奇异情况——甚至是负数的经过时间。</p>
+<h2 id="2-3-时间单位和时钟变量"><a href="#2-3-时间单位和时钟变量" class="headerlink" title="2.3 时间单位和时钟变量"></a>2.3 时间单位和时钟变量</h2><p>大多数计时器都是64位的无符号整数时钟，可以支持非常高的精度及很大的数值范围（3GHz CPU每周期0.333ns，约195年才循环一次），这是最具弹性的表示法。当要度量高精度但较短的时间，例如剖析一段代码的性能，可用32位整数时钟。注意仍然用64位整数变量储存起始和结束时刻，中间的差值才用32位整数变量。</p>
+<p>另一常见方法是把较小的持续时间以秒为单位储存为浮点数，即把以CPU周期为单位的时间度量除以CPU时钟频率。由于32位IEEE浮点数的限制（整数部分占用较少位），应小心避免用浮点时钟变量储存很长的持续时间，最多度量几分钟。若要储存绝对值的浮点时钟，需要定期将其重置为零，以免累加至很大的数值。</p>
+<p>有些游戏引擎支持把时间值设定为自定义单位，如以1/300秒为时间单位，优点是：许多情况下足够精确；约165.7天才会溢出；同时是NTSC和PAL制刷新率的倍数。不过这种时间单位对处理动画时间缩放精度仍不够，但对于处理像枪械每次发射间的空档时间、由AI控制的角色要等多久才开始巡逻这些问题就足够了。</p>
+<h2 id="2-4-应付断点"><a href="#2-4-应付断点" class="headerlink" title="2.4 应付断点"></a>2.4 应付断点</h2><p>当游戏在运行时遇到调试断点，游戏循环会暂停，但CPU实时时钟仍在继续累加，当程序员继续执行程序时，该帧的持续时间会度量出一个巨大的值，显然不适合传到引擎各子系统。最简单的方法就是，在主循环中，若度量到某帧的持续时间超过阈值（如1/10s），则可假定游戏刚从断点恢复执行，于是把增量时间人工设为1/30s或1/60s（或其他目标帧率）。</p>
+<h2 id="2-5-一个简单的时钟类"><a href="#2-5-一个简单的时钟类" class="headerlink" title="2.5 一个简单的时钟类"></a>2.5 一个简单的时钟类</h2><p>以下给出一个简单时钟类的实现。</p>
+<pre><code>class Clock {
+    U64 m_timeCycles;    // 时钟周期
+    F32 m_timeScale;    // 时间缩放因子
+    bool m_isPaused;    // 是否暂停
+    static F32 s_cyclesPerSecond;    // CPU每秒的周期数
+
+    // 将秒数转换为周期数
+    static inline U64 secondsToCycle(F32 timeSeconds) {
+        return (U64) (timeSeconds * s_cyclesPerSecond);
+    }
+
+public:
+    // 游戏启动时调用此初始化
+    static void init() {
+        s_cyclesPerSecond = (F32)readHiResTimerFrequency();
+    }
+
+    // 构建一个时钟
+    explicit Clock(F32 startTimeSeconds = 0.0f) :
+        m_timeCycles(secondToCycles(startTimeSeconds)), m_timeScale(1.Of), m_isPaused(false)
+    { }
+
+    // 以周期为单位返回当前时间
+    U64 getTimeCycles() const {
+        return m_timeCycles;
+    }
+
+    // 应在每帧调此函数一次，并给予真实度量帧时间（以秒为单位）
+    void update(F32 dtRealSeconds) {
+        // 非暂停才更新时钟变量
+        if (!m_isPaused) {
+            U64 dtScaledCycles = secondsToCycles(dtRealSeconds * m_timeScale);    // 乘以缩放因子，实现时间缩放
+            m_timeCycles += dtScaledCycles;
+        }
+    }
+
+    /* 省略其余简单成员函数 */
+}
+</code></pre><p>参考文献：电子工业出版社《游戏引擎架构》第7.4、7.5节</p>
+
+                
+<p class="green-link-context">
+    <a href="/tech/game/engine/human-interface-device/" rel="next" title="人体学接口设备（HID）">
+    上一篇：人体学接口设备（HID）
+  </a>
+</p>
+
+
+
+<p class="green-link-context">
+    <a href="/tech/game/engine/game-loop/" rel="next" title="游戏循环的实现方式">
+    下一篇：游戏循环的实现方式
+  </a>
+</p>
+
+
+            </div>
+			
+        </div>
+    </div>
+</article>
+
+
+
+
+    <section id="comment">
+        <div id="disqus_thread"></div>
+        <script>
+            var disqus_config = function() {
+                this.page.url = 'http://raytaylorlin.github.io/tech/game/engine/real-time-simulation/';
+                this.page.identifier = 'tech/game/engine/real-time-simulation/';
+            };
+            (function() {
+                var d = document,
+                    s = d.createElement('script');
+                s.src = '//raytaylorlin.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', + new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the
+            <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+        </noscript>
+    </section>
+
+
+
+</div>
+
+        <div class="fixed-action-btn float-sitemap">
+    <a class="btn-floating btn-large green">
+      <i class="fa fa-caret-square-o-up"></i>
+    </a>
+    <ul>
+      <li><a class="btn-return-top btn-floating waves-effect pink" title="回到顶部"><i class="fa fa-arrow-circle-o-up"></i></a></li>
+      <li><a class="btn-floating waves-effect button-collapse orange darken-1" data-activates="main-menu" title="菜单"><i class="fa fa-navicon"></i></a></li>
+    </ul>
+  </div>
+
+    </main>
+    <footer class="page-footer indigo darken-1">
+    
+    <div class="footer-container container">
+        <div class="row">
+            
+            <div class="social-group col m4 s12">
+                <h5 class="white-text">社交</h5>
+                
+                    <a class="social-link" href="http://weibo.com/1956184117" target="_blank">
+                        <i class="fa fa-2x fa-weibo"></i>
+                    </a>
+                
+                    <a class="social-link" href="https://github.com/raytaylorlin" target="_blank">
+                        <i class="fa fa-2x fa-github"></i>
+                    </a>
+                
+                    <a class="social-link" href="/atom.xml" target="_blank">
+                        <i class="fa fa-2x fa-rss"></i>
+                    </a>
+                
+                
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+    </script>
+    <div class="site-visitors-container white-text">
+        <span>
+            <i class="fa fa-user"></i>
+            <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+        </span>
+        <span>&nbsp;|&nbsp;</span>
+        <span>
+            <i class="fa fa-eye"></i>
+            <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+        </span>
+    </div>
+
+
+            </div>
+            
+
+            
+            <div class="col m8 s12">
+                <h5 class="white-text">友情链接</h5>
+                
+                    <a class="social-link" href="http://tutuge.me/" target="_blank">土土哥的技术博客</a>
+                
+                    <a class="social-link" href="http://neoyeelf.github.io/" target="_blank">屌刘neoye的博客</a>
+                
+                    <a class="social-link" href="http://diao.li/" target="_blank">李伟涛的博客</a>
+                
+                    <a class="social-link" href="http://suta.im/" target="_blank">苏塔是没有脚的设计师</a>
+                
+                    <a class="social-link" href="http://jfantasy.github.io/" target="_blank">JFantasy的个人博客</a>
+                
+                    <a class="social-link" href="http://pyroc.at/" target="_blank">丁基友的博客</a>
+                
+            </div>
+            
+        </div>
+    </div>
+    
+
+    <div class="footer-copyright green-link-context">
+        <div class="container">
+            © 2019 raytaylorlin.github.io, All rights reserved.
+            <p class="right" style="margin-top: 0;">本博客由 <a href="https://hexo.io">Hexo</a> 强力驱动 | 主题 <a href="https://github.com/raytaylorlin/hexo-theme-raytaylorism">raytaylorism</a></p>
+        </div>
+    </div>
+</footer>
+
+
+    <noscript>
+    <div class="noscript">
+        <p class="center-align">当前网速较慢或者你使用的浏览器不支持博客特定功能，请尝试刷新或换用Chrome、Firefox等现代浏览器</p>
+    </div>
+</noscript>
+<div class="noscript">
+    <p class="center-align">当前网速较慢或者你使用的浏览器不支持博客特定功能，请尝试刷新或换用Chrome、Firefox等现代浏览器</p>
+</div>
+
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/materialize.min.js"></script>
+
+<script>
+    (function($) {
+        $(document).ready(function() {
+            // 隐藏禁用javascript（针对微信内置浏览器）的提示
+            $('.noscript').hide();
+
+            // 图片缩放效果
+            var $imgs = $('img').not('.slider-image').not('.avatar-image').not('.carousel-image').not('.card-cover-image').not('.qrcode');
+
+            // 给图片加上点击放大效果（materialbox插件）
+            $imgs.addClass('materialboxed').each(function(i, el) {
+                $(this).attr('data-caption', $(this).attr('alt') || ' ');
+            }).materialbox();
+
+            // 优化表格的显示
+            $('table').each(function() {
+                var $table = $(this);
+                // 除去多行代码的情况
+                if ($table.find('pre').length == 0) {
+                    $table.addClass('responsive-table striped bordered');
+                }
+            });
+
+            // 首页幻灯片
+            $('.slider').slider({indicators: true, full_width: true, interval: 8000});
+
+            $(".button-collapse").sideNav();
+            $(".category-menu").sideNav();
+
+            // 针对gallery post
+            $('.carousel').carousel({full_width: true});
+            $('.carousel-control.prev').click(function() {
+                $('.carousel').carousel('prev');
+            });
+            $('.carousel-control.next').click(function() {
+                $('.carousel').carousel('next');
+            });
+
+            // 文章目录
+            $('article').not('.simple-article').find('h1').add('h2').add('h3').add('h4').add('h5').add('h6').scrollSpy();
+
+            // 目录随屏幕滚动（防止目录过长越过footer）
+            var $toc = $('.toc');
+            var scrollTargetTop = 0;
+            $(window).scroll(function() {
+                var $activeLink = $toc.find('a.active.section');
+                if ($(window).scrollTop() < 100) {
+                    scrollTargetTop = 0;
+                } else {
+                    if ($activeLink[0]) {
+                        scrollTargetTop = $activeLink.offset().top - $toc.offset().top;
+                    }
+                }
+                $toc.css('top', '-' + scrollTargetTop + 'px');
+            });
+
+            // 修正文章目录的left-border颜色
+            var color = $('.table-of-contents-text').css('color');
+            $('.table-of-contents-link').css('border-left-color', color);
+
+            // 针对移动端做的优化：FAB按钮点击一下收回
+            if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                $('.fixed-action-btn').addClass('click-to-toggle');
+            }
+            // 回到顶部
+            $('.btn-return-top').click(function() {
+                $('body, html').animate({
+                    scrollTop: 0
+                }, 500);
+            });
+
+            // 重置读书页面的Tab标签页的颜色
+            $('li.tab a').hover(function() {
+                $(this).toggleClass('text-lighten-4');
+            });
+            $('.indicator').addClass('green lighten-2');
+
+            
+            // 添加new标签
+            $('.menu-reading').append('<span class="new badge green"></span>');
+            
+
+            // 搜索功能
+            $('.modal-trigger').leanModal({
+                // 打开搜索框时自动聚焦
+                ready: function() {
+                    if ($('#search').is(":visible")) {
+                        $('#search-input').focus();
+                    }
+                }
+            });
+            var searchXml = "search.xml";
+            if (searchXml.length == 0) {
+             	searchXml = "search.xml";
+            }
+            var searchPath = "/" + searchXml;
+            initSearch(searchPath, 'search-input', 'search-result');
+        });
+
+        // 初始化搜索与匹配函数
+        var initSearch = function(path, search_id, content_id) {
+            'use strict';
+            $.ajax({
+                url: path,
+                dataType: "xml",
+                success: function(xmlResponse) {
+                    // get the contents from search data
+                    var datas = $("entry", xmlResponse).map(function() {
+                        return {
+                            title: $("title", this).text(),
+                            content: $("content", this).text(),
+                            url: $("url", this).text()
+                        };
+                    }).get();
+                    var $input = document.getElementById(search_id);
+                    var $resultContent = document.getElementById(content_id);
+                    $input.addEventListener('input', function() {
+                        var str = '<ul class=\"search-result-list\">';
+                        var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                        $resultContent.innerHTML = "";
+                        if (this.value.trim().length <= 0) {
+                            return;
+                        }
+                        // perform local searching
+                        datas.forEach(function(data) {
+                            var isMatch = true;
+                            var content_index = [];
+                            var data_title = data.title.trim().toLowerCase();
+                            var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                            var data_url = data.url;
+                            var index_title = -1;
+                            var index_content = -1;
+                            var first_occur = -1;
+                            // only match artiles with not empty titles and contents
+                            if (data_title != '' && data_content != '') {
+                                keywords.forEach(function(keyword, i) {
+                                    index_title = data_title.indexOf(keyword);
+                                    index_content = data_content.indexOf(keyword);
+                                    if (index_title < 0 && index_content < 0) {
+                                        isMatch = false;
+                                    } else {
+                                        if (index_content < 0) {
+                                            index_content = 0;
+                                        }
+                                        if (i == 0) {
+                                            first_occur = index_content;
+                                        }
+                                    }
+                                });
+                            }
+                            // show search results
+                            if (isMatch) {
+                                keywords.forEach(function(keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    data_title = data_title.replace(regS, "<span class=\"search-keyword green lighten-2\">" + keyword + "</span>");
+                                });
+
+                                str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                                var content = data.content.trim().replace(/<[^>]+>/g, "");
+                                if (first_occur >= 0) {
+                                    // cut out 100 characters
+                                    var start = first_occur - 20;
+                                    var end = first_occur + 80;
+                                    if (start < 0) {
+                                        start = 0;
+                                    }
+                                    if (start == 0) {
+                                        end = 100;
+                                    }
+                                    if (end > content.length) {
+                                        end = content.length;
+                                    }
+                                    var match_content = content.substring(start, end);
+                                    // highlight all keywords
+                                    keywords.forEach(function(keyword) {
+                                        var regS = new RegExp(keyword, "gi");
+                                        match_content = match_content.replace(regS, "<span class=\"search-keyword green lighten-2\">" + keyword + "</span>");
+                                    });
+
+                                    str += "<p class=\"search-result\">..." + match_content + "...</p>"
+                                }
+                                str += "</li>";
+                            }
+                        });
+                        str += "</ul>";
+                        $resultContent.innerHTML = str;
+                    });
+                }
+            });
+        }
+    })(jQuery);
+</script>
+
+
+<script src="/js/prettify.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("pre").addClass("prettyprint");
+        prettyPrint();
+    });
+</script>
+
+
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-43460643-1', 'auto');
+    ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+<script type="text/javascript" async src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+
+</body>
+</html>

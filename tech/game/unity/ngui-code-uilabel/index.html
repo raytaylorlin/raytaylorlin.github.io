@@ -1,0 +1,905 @@
+<!DOCTYPE HTML>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    
+
+    <title>NGUI源码学习——UILabel | </title>
+    <meta name="author" content="RayTaylor Lin">
+    
+    <meta name="description" content="水镜一人性，月读一波明。轻扬一宿星，枫过一帆灵。">
+    
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta property="og:title" content="NGUI源码学习——UILabel">
+    <meta property="og:site_name" content="Ray Taylor Lin&#39;s world">
+
+    
+    <meta property="og:image" content>
+    
+
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="alternate" href="/atom.xml" title="Ray Taylor Lin&#39;s world" type="application/atom+xml">
+    <link rel="stylesheet" href="/css/lib/materialize.min.css">
+    <link rel="stylesheet" href="/css/lib/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+
+    
+        <link rel="stylesheet" href="/css/lib/prettify-tomorrow-night-eighties.css" type="text/css">
+    
+    <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+</head>
+</html>
+
+<body>
+    <img src="/weixin_favicon.png" style="position: absolute; left: -9999px; opacity: 0; filter: alpha(opacity=0);">
+
+    <nav class="indigo">
+    <div class="nav-wrapper">
+        <a href="#" data-activates="main-menu" class="button-collapse">
+            <i class="fa fa-navicon"></i>
+        </a>
+        <div class>
+            <a href="/" class="brand-logo hide-on-med-and-down">Ray Taylor Lin&#39;s world</a>
+            <ul class="right hide-on-med-and-down">
+                
+                    <li>
+                        <a class="menu-home " href="/">
+                            <i class="fa fa-home "></i>
+                            
+                            首页
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-archive " href="/archives">
+                            <i class="fa fa-archive "></i>
+                            
+                            归档
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-category category-menu" href="javascript:;" data-activates="category-menu">
+                            <i class="fa fa-bookmark "></i>
+                            
+                            分类
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-reading " href="/reading">
+                            <i class="fa fa-book "></i>
+                            
+                            读书
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-about " href="/about">
+                            <i class="fa fa-user "></i>
+                            
+                            关于
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-search modal-trigger " href="#search">
+                            <i class="fa fa-search "></i>
+                            
+                            搜索
+                        </a>
+                    </li>
+                
+            </ul>
+            <div>
+    <ul class="side-nav indigo darken-1" id="main-menu">
+        
+        <li class="side-user">
+            <div class="row">
+                <div class="col s4 no-padding">
+                    <img class="avatar-image circle responsive-img" src="http://tp2.sinaimg.cn/1956184117/180/5674436546/1" alt="User Avatar">
+                </div>
+                <div class="info col s8 valign-wrapper no-padding">
+                    <div class="valign">
+                        <p class="name">林寿山</p>
+                        <p class="desc">游戏开发/Web前端</p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        
+
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-home " href="/">
+                    <i class="fa fa-home "></i>
+                    
+                    首页
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-archive " href="/archives">
+                    <i class="fa fa-archive "></i>
+                    
+                    归档
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-category category-menu" href="javascript:;" data-activates="category-menu">
+                    <i class="fa fa-bookmark "></i>
+                    
+                    分类
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-reading " href="/reading">
+                    <i class="fa fa-book "></i>
+                    
+                    读书
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-about " href="/about">
+                    <i class="fa fa-user "></i>
+                    
+                    关于
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-search modal-trigger " href="#search">
+                    <i class="fa fa-search "></i>
+                    
+                    搜索
+                </a>
+            </li>
+        
+    </ul>
+
+    <ul class="side-nav indigo darken-1" id="category-menu">
+    
+
+            
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/日常/">
+                    日常 <span class="right">8 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/技术/">
+                    技术 <span class="right">93 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/算法/">
+                    算法 <span class="right">6 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/Linux/">
+                    Linux <span class="right">2 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/综合/">
+                    综合 <span class="right">23 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/综合/演示/">
+                    演示 <span class="right">2 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/综合/设计模式/">
+                    设计模式 <span class="right">3 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/综合/软件工程/">
+                    软件工程 <span class="right">15 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/综合/杂项/">
+                    杂项 <span class="right">1 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/综合/项目/">
+                    项目 <span class="right">2 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/游戏开发/">
+                    游戏开发 <span class="right">19 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/游戏开发/服务器端/">
+                    服务器端 <span class="right">2 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/游戏开发/客户端/">
+                    客户端 <span class="right">1 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/游戏开发/游戏引擎/">
+                    游戏引擎 <span class="right">11 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/游戏开发/Unity/">
+                    Unity <span class="right">5 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-3" collapse-level="3">
+                <a class="no-padding" href="/categories/技术/游戏开发/Unity/NGUI/">
+                    NGUI <span class="right">5 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/编程语言/">
+                    编程语言 <span class="right">15 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/编程语言/Lua/">
+                    Lua <span class="right">7 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/编程语言/其它语言/">
+                    其它语言 <span class="right">4 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/编程语言/Python/">
+                    Python <span class="right">4 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/工具/">
+                    工具 <span class="right">7 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/工具/IDE/">
+                    IDE <span class="right">3 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/工具/Git/">
+                    Git <span class="right">4 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/Web前端/">
+                    Web前端 <span class="right">21 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/Web前端/HTTP协议/">
+                    HTTP协议 <span class="right">7 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/Web前端/CSS/">
+                    CSS <span class="right">3 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/Web前端/HTML5/">
+                    HTML5 <span class="right">2 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/Web前端/NodeJS/">
+                    NodeJS <span class="right">9 篇</span></a>
+                
+            </li>
+
+        
+
+    </ul>
+</div>
+
+        </div>
+    </div>
+</nav>
+
+<div id="search" class="modal search-modal">
+    <div class="row">
+        <div class="input-field col s12">
+              <input id="search-input" type="text">
+              <label for="search-input">搜索</label>
+        </div>
+
+    </div>
+    <div id="search-result" class="search-result col s12">
+
+    </div>
+</div>
+
+
+    <main>
+        <div class="container main-container">
+    <nav class="page-nav hide-on-small-only">
+    <div class="nav-wrapper indigo">
+        <span class="breadcrumb">当前位置（分类目录）</span>
+        
+            
+    
+    
+    <a class="breadcrumb" href="/categories/技术/">技术</a><a class="breadcrumb" href="/categories/技术/游戏开发/">游戏开发</a><a class="breadcrumb" href="/categories/技术/游戏开发/Unity/">Unity</a><a class="breadcrumb" href="/categories/技术/游戏开发/Unity/NGUI/">NGUI</a>
+
+
+        
+
+        
+    </div>
+</nav>
+
+<article>
+    <div class="card">
+        <div class="card-content">
+            
+
+            <div class="article-title">
+                
+    
+        <h1>NGUI源码学习——UILabel</h1>
+    
+
+
+            </div>
+            <time class="green-link-context" datetime="2017-04-05T14:02:07.000Z"><a href="/tech/game/unity/ngui-code-uilabel/">2017-04-05</a></time>
+
+            <span id="busuanzi_container_page_pv" class="read-times-container">
+    <i class="fa fa-eye"></i>
+    <span id="busuanzi_value_page_pv"></span>
+</span>
+
+            
+    <div class="tags-row">
+        
+            <a href="/tags/NGUI/" class="chip green lighten-1">NGUI</a>
+        
+            <a href="/tags/Unity/" class="chip green lighten-1">Unity</a>
+        
+    </div>
+
+
+            <div class="toc green-link-context hide-on-med-and-down">
+    <ol class="section table-of-contents"><li class="section table-of-contents-item section table-of-contents-level-1"><a class="section table-of-contents-link" href="#1-基础要点"><span class="section table-of-contents-text">1. 基础要点</span></a></li><li class="section table-of-contents-item section table-of-contents-level-1"><a class="section table-of-contents-link" href="#2-核心方法"><span class="section table-of-contents-text">2. 核心方法</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#2-1-ProcessText-bool-legacyMode-bool-full"><span class="section table-of-contents-text">2.1 ProcessText(bool legacyMode, bool full)</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#2-2-OnFill-BetterList-verts-BetterList-uvs-BetterList-cols"><span class="section table-of-contents-text">2.2 OnFill(BetterList verts, BetterList uvs, BetterList cols)</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#2-3-NGUIText-Print-text-verts-uvs-cols"><span class="section table-of-contents-text">2.3 NGUIText.Print(text, verts, uvs, cols)</span></a></li></ol></li><li class="section table-of-contents-item section table-of-contents-level-1"><a class="section table-of-contents-link" href="#3-一些要注意的点"><span class="section table-of-contents-text">3. 一些要注意的点</span></a></li></ol>
+</div>
+
+
+            <div class="entry green-link-context">
+                <p>UILabel是NGUI中用于显示文字的控件。其核心思想是遍历每个字符，将其转化为字体贴图的数据。本篇会抛开BBCode解析，表情符symbol解析，特殊效果（阴影、描边等）等细节，只记录几个渲染字体的核心方法。NGUI有独立的一套BMFont管理工具和类，等以后再另开篇章讲解。</p>
+<p>【参考版本：NGUI 3.6.9】</p>
+<a id="more"></a>
+<h1 id="1-基础要点"><a href="#1-基础要点" class="headerlink" title="1. 基础要点"></a>1. 基础要点</h1><ul>
+<li>基本上只要设置了某个属性，都会使shouldBeProcessed变成true。在必要的时候，例如设置text、fontSize、fontStyle、alignment、OnValidate()，或者在获取父类UIWidget的一些属性，如localSize、drawingDimensions、worldCorners等等，才会根据shouldBeProcessed去调用<code>ProcessText</code>重绘字体。</li>
+<li>NGUIText作为中转处理的静态类，包含了大量的公共静态属性供缓存</li>
+<li>字体方案有两种：Unity自带的动态字体（TTF）和NGUI的BitmapFont（即图字<a href="http://www.angelcode.com/products/bmfont/" target="_blank" rel="noopener">BMFont</a>）。后者在获取glyph信息时会多考虑当前字符与上一个字符的字距。</li>
+</ul>
+<h1 id="2-核心方法"><a href="#2-核心方法" class="headerlink" title="2. 核心方法"></a>2. 核心方法</h1><h2 id="2-1-ProcessText-bool-legacyMode-bool-full"><a href="#2-1-ProcessText-bool-legacyMode-bool-full" class="headerlink" title="2.1 ProcessText(bool legacyMode, bool full)"></a>2.1 ProcessText(bool legacyMode, bool full)</h2><ul>
+<li><code>NGUIText.Update(false)</code>：计算最终字体尺寸、space大小、行高</li>
+<li><code>NGUIText.WrapText</code>：根据rectHeight、maxLines、finalLineHeight算出在widget最多可以容纳多少行。遍历每个字符，依旧获取glyph信息，并维护剩余宽度remainingWidth来决定是否截断显示字符串。该方法还会对空格和换行做一些特殊处理。最后输出fits表示rect是否能容纳得下应该显示的字符串，finalText表示最终显示的字符串</li>
+<li><code>NGUIText.CalculatePrintedSize(mProcessedText)</code>：计算最终字符显示的区域大小，结果可从printedSize属性获取（小于等于rect大小）</li>
+</ul>
+<p>几种Overflow模式的基本原理：</p>
+<ul>
+<li>ShrinkContent缩放原理：循环从ps = mPrintedSize = defaultFontSize开始往下递减，直到ps可以满足在当前rect里容纳显示所有字符。例如当一个240×30的label不能一行显示字号为60的“New\nlabel”，则ps可能会递减到30左右，<code>NGUIText.WrapText</code>计算出可以fit整个rect了，才停止循环。</li>
+<li>ClampContent裁切原理：实际上这种方式没有做任何处理，因为在<code>NGUIText.WrapText</code>的时候就已经按rect大小做截断了</li>
+<li>ResizeFreely自适应原理：一开始先把rect和region设得足够大，WrapText之后再重算printedSize</li>
+<li>ResizeHeight：同ResizeFreely，但只会重设高度，不会重设宽度</li>
+</ul>
+<h2 id="2-2-OnFill-BetterList-verts-BetterList-uvs-BetterList-cols"><a href="#2-2-OnFill-BetterList-verts-BetterList-uvs-BetterList-cols" class="headerlink" title="2.2 OnFill(BetterList verts, BetterList uvs, BetterList cols)"></a>2.2 OnFill(BetterList<vector3> verts, BetterList<vector2> uvs, BetterList<color32> cols)</color32></vector2></vector3></h2><p>在UIWidget调用UpdateGeometry时用到。</p>
+<ul>
+<li><code>UpdateNGUIText</code>：将label的各种属性复制到NGUIText的公共静态属性中</li>
+<li><code>NGUIText.Print(text, verts, uvs, cols)</code>将文本内容输出到列表中。</li>
+<li><code>ApplyOffset</code>用偏移值变换顶点：原理是根据pivotOffset（锚点相对偏移，右上角为(1,1)）和label的宽高插值出offset，然后应用到顶点列表的每个顶点，最后返回offset</li>
+<li>如果有开启阴影，则调用一次ApplyShadow【增加一些顶点】；如果开启描边，则再调用3次ApplyShadow，实质上就是用四个方向的阴影包围来模拟描边</li>
+</ul>
+<h2 id="2-3-NGUIText-Print-text-verts-uvs-cols"><a href="#2-3-NGUIText-Print-text-verts-uvs-cols" class="headerlink" title="2.3 NGUIText.Print(text, verts, uvs, cols)"></a>2.3 NGUIText.Print(text, verts, uvs, cols)</h2><ul>
+<li><code>Prepare(text)</code>：当使用动态字体时，调用Unity API <code>Font.RequestCharactersInTexture</code>刷新所需字符的纹理</li>
+<li>遍历text的每个字符 =&gt;</li>
+<li>处理换行符号，略过非法字符</li>
+<li><code>ParseSymbol</code>解析BBCode，该函数有很多ref参数，用于存放解析结果（如加粗、斜体、下划线等等）</li>
+<li><code>GetSymbol(text, i, textLength)</code>获取有没有图字符号（新版本NGUI label支持表情符解析），有符号走符号分支，否则进入普通字符分支。【下面只讲解普通字符分支】</li>
+<li>处理alignment为居中或右侧的情况</li>
+</ul>
+<p>普通字符处理：</p>
+<ul>
+<li><code>GetGlyph(ch, prev)</code>：根据当前字符ch和上一个字符prev，会根据使用的是位图字体还是动态字体，计算出对应的UV坐标。【得到的GlyphInfo数据结构见下方解释】</li>
+<li>计算subscriptMode不为0（即上标或下标）的情况，算法：glyph.v0和glyph.v1乘以sizeShrinkage常量，然后根据上下标情况，上下偏移y坐标</li>
+<li>若x + w &gt; regionWidth，则将字符换行</li>
+<li>若字符为空格：若BBCode对应是下划线，则替换为“下划线”；若对应中划线，则替换为“减号”；都不对应，则continue</li>
+<li>处理纹理坐标</li>
+<li>根据glyph.channel以不同方式计算顶点颜色</li>
+<li>处理粗体和斜体的情况</li>
+<li>处理下划线或中划线的情况</li>
+<li><strong>该方法最终会为每个字符，在uvs、cols、verts添加4个顶点数据，顺序为左下、左上、右上、右下</strong></li>
+</ul>
+<pre><code>public class GlyphInfo
+{
+    public Vector2 v0;          // 字形在生成的text mesh中左下角屏幕坐标
+    public Vector2 v1;          // 字形在生成的text mesh中的右上角屏幕坐标
+    public Vector2 u0;          // UV左下角坐标
+    public Vector2 u1;          // UV右上角坐标
+    public float advance = 0f;  // 从本字符到下个字符的步进宽度
+    public int channel = 0;     // RGBA通道值，通常为15（1+2+4+8）
+}
+</code></pre><p>注意在输出顶点数据前，已经调用<code>UpdateNGUIText</code>确保NGUIText中已保存所需的数据。</p>
+<h1 id="3-一些要注意的点"><a href="#3-一些要注意的点" class="headerlink" title="3. 一些要注意的点"></a>3. 一些要注意的点</h1><ul>
+<li>使用动态字体时，Unity会生成要用到的字符的纹理，可能一开始是128×128的FontTexture就够了。若后面纹理不够用会重新生成一张新的更大的，触发<a href="https://docs.unity3d.com/460/Documentation/ScriptReference/Font-textureRebuildCallback.html" target="_blank" rel="noopener">textureRebuildCallback</a>，对应到<code>UILabel.OnFontTextureChanged</code>。这个方法会将所有引用到的label的字符，通过font.<a href="https://docs.unity3d.com/460/Documentation/ScriptReference/Font.RequestCharactersInTexture.html" target="_blank" rel="noopener">RequestCharactersInTexture</a>这个API去把所有字符都推到新的字体纹理中。接着再把所有label从panel移除再添加回去。【字体破碎现象很可能就是因为字体纹理重建引起的）</li>
+</ul>
+
+                
+<p class="green-link-context">
+    <a href="/tech/game/unity/ngui-code-uiscrollview/" rel="next" title="NGUI源码学习——UIScrollView">
+    上一篇：NGUI源码学习——UIScrollView
+  </a>
+</p>
+
+
+
+<p class="green-link-context">
+    <a href="/tech/game/unity/ngui-code-uicamera/" rel="next" title="NGUI源码学习——UICamera">
+    下一篇：NGUI源码学习——UICamera
+  </a>
+</p>
+
+
+            </div>
+			
+        </div>
+    </div>
+</article>
+
+
+
+
+    <section id="comment">
+        <div id="disqus_thread"></div>
+        <script>
+            var disqus_config = function() {
+                this.page.url = 'http://raytaylorlin.github.io/tech/game/unity/ngui-code-uilabel/';
+                this.page.identifier = 'tech/game/unity/ngui-code-uilabel/';
+            };
+            (function() {
+                var d = document,
+                    s = d.createElement('script');
+                s.src = '//raytaylorlin.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', + new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the
+            <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+        </noscript>
+    </section>
+
+
+
+</div>
+
+        <div class="fixed-action-btn float-sitemap">
+    <a class="btn-floating btn-large green">
+      <i class="fa fa-caret-square-o-up"></i>
+    </a>
+    <ul>
+      <li><a class="btn-return-top btn-floating waves-effect pink" title="回到顶部"><i class="fa fa-arrow-circle-o-up"></i></a></li>
+      <li><a class="btn-floating waves-effect button-collapse orange darken-1" data-activates="main-menu" title="菜单"><i class="fa fa-navicon"></i></a></li>
+    </ul>
+  </div>
+
+    </main>
+    <footer class="page-footer indigo darken-1">
+    
+    <div class="footer-container container">
+        <div class="row">
+            
+            <div class="social-group col m4 s12">
+                <h5 class="white-text">社交</h5>
+                
+                    <a class="social-link" href="http://weibo.com/1956184117" target="_blank">
+                        <i class="fa fa-2x fa-weibo"></i>
+                    </a>
+                
+                    <a class="social-link" href="https://github.com/raytaylorlin" target="_blank">
+                        <i class="fa fa-2x fa-github"></i>
+                    </a>
+                
+                    <a class="social-link" href="/atom.xml" target="_blank">
+                        <i class="fa fa-2x fa-rss"></i>
+                    </a>
+                
+                
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+    </script>
+    <div class="site-visitors-container white-text">
+        <span>
+            <i class="fa fa-user"></i>
+            <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+        </span>
+        <span>&nbsp;|&nbsp;</span>
+        <span>
+            <i class="fa fa-eye"></i>
+            <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+        </span>
+    </div>
+
+
+            </div>
+            
+
+            
+            <div class="col m8 s12">
+                <h5 class="white-text">友情链接</h5>
+                
+                    <a class="social-link" href="http://tutuge.me/" target="_blank">土土哥的技术博客</a>
+                
+                    <a class="social-link" href="http://neoyeelf.github.io/" target="_blank">屌刘neoye的博客</a>
+                
+                    <a class="social-link" href="http://diao.li/" target="_blank">李伟涛的博客</a>
+                
+                    <a class="social-link" href="http://suta.im/" target="_blank">苏塔是没有脚的设计师</a>
+                
+                    <a class="social-link" href="http://jfantasy.github.io/" target="_blank">JFantasy的个人博客</a>
+                
+                    <a class="social-link" href="http://pyroc.at/" target="_blank">丁基友的博客</a>
+                
+            </div>
+            
+        </div>
+    </div>
+    
+
+    <div class="footer-copyright green-link-context">
+        <div class="container">
+            © 2019 raytaylorlin.github.io, All rights reserved.
+            <p class="right" style="margin-top: 0;">本博客由 <a href="https://hexo.io">Hexo</a> 强力驱动 | 主题 <a href="https://github.com/raytaylorlin/hexo-theme-raytaylorism">raytaylorism</a></p>
+        </div>
+    </div>
+</footer>
+
+
+    <noscript>
+    <div class="noscript">
+        <p class="center-align">当前网速较慢或者你使用的浏览器不支持博客特定功能，请尝试刷新或换用Chrome、Firefox等现代浏览器</p>
+    </div>
+</noscript>
+<div class="noscript">
+    <p class="center-align">当前网速较慢或者你使用的浏览器不支持博客特定功能，请尝试刷新或换用Chrome、Firefox等现代浏览器</p>
+</div>
+
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/materialize.min.js"></script>
+
+<script>
+    (function($) {
+        $(document).ready(function() {
+            // 隐藏禁用javascript（针对微信内置浏览器）的提示
+            $('.noscript').hide();
+
+            // 图片缩放效果
+            var $imgs = $('img').not('.slider-image').not('.avatar-image').not('.carousel-image').not('.card-cover-image').not('.qrcode');
+
+            // 给图片加上点击放大效果（materialbox插件）
+            $imgs.addClass('materialboxed').each(function(i, el) {
+                $(this).attr('data-caption', $(this).attr('alt') || ' ');
+            }).materialbox();
+
+            // 优化表格的显示
+            $('table').each(function() {
+                var $table = $(this);
+                // 除去多行代码的情况
+                if ($table.find('pre').length == 0) {
+                    $table.addClass('responsive-table striped bordered');
+                }
+            });
+
+            // 首页幻灯片
+            $('.slider').slider({indicators: true, full_width: true, interval: 8000});
+
+            $(".button-collapse").sideNav();
+            $(".category-menu").sideNav();
+
+            // 针对gallery post
+            $('.carousel').carousel({full_width: true});
+            $('.carousel-control.prev').click(function() {
+                $('.carousel').carousel('prev');
+            });
+            $('.carousel-control.next').click(function() {
+                $('.carousel').carousel('next');
+            });
+
+            // 文章目录
+            $('article').not('.simple-article').find('h1').add('h2').add('h3').add('h4').add('h5').add('h6').scrollSpy();
+
+            // 目录随屏幕滚动（防止目录过长越过footer）
+            var $toc = $('.toc');
+            var scrollTargetTop = 0;
+            $(window).scroll(function() {
+                var $activeLink = $toc.find('a.active.section');
+                if ($(window).scrollTop() < 100) {
+                    scrollTargetTop = 0;
+                } else {
+                    if ($activeLink[0]) {
+                        scrollTargetTop = $activeLink.offset().top - $toc.offset().top;
+                    }
+                }
+                $toc.css('top', '-' + scrollTargetTop + 'px');
+            });
+
+            // 修正文章目录的left-border颜色
+            var color = $('.table-of-contents-text').css('color');
+            $('.table-of-contents-link').css('border-left-color', color);
+
+            // 针对移动端做的优化：FAB按钮点击一下收回
+            if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                $('.fixed-action-btn').addClass('click-to-toggle');
+            }
+            // 回到顶部
+            $('.btn-return-top').click(function() {
+                $('body, html').animate({
+                    scrollTop: 0
+                }, 500);
+            });
+
+            // 重置读书页面的Tab标签页的颜色
+            $('li.tab a').hover(function() {
+                $(this).toggleClass('text-lighten-4');
+            });
+            $('.indicator').addClass('green lighten-2');
+
+            
+            // 添加new标签
+            $('.menu-reading').append('<span class="new badge green"></span>');
+            
+
+            // 搜索功能
+            $('.modal-trigger').leanModal({
+                // 打开搜索框时自动聚焦
+                ready: function() {
+                    if ($('#search').is(":visible")) {
+                        $('#search-input').focus();
+                    }
+                }
+            });
+            var searchXml = "search.xml";
+            if (searchXml.length == 0) {
+             	searchXml = "search.xml";
+            }
+            var searchPath = "/" + searchXml;
+            initSearch(searchPath, 'search-input', 'search-result');
+        });
+
+        // 初始化搜索与匹配函数
+        var initSearch = function(path, search_id, content_id) {
+            'use strict';
+            $.ajax({
+                url: path,
+                dataType: "xml",
+                success: function(xmlResponse) {
+                    // get the contents from search data
+                    var datas = $("entry", xmlResponse).map(function() {
+                        return {
+                            title: $("title", this).text(),
+                            content: $("content", this).text(),
+                            url: $("url", this).text()
+                        };
+                    }).get();
+                    var $input = document.getElementById(search_id);
+                    var $resultContent = document.getElementById(content_id);
+                    $input.addEventListener('input', function() {
+                        var str = '<ul class=\"search-result-list\">';
+                        var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                        $resultContent.innerHTML = "";
+                        if (this.value.trim().length <= 0) {
+                            return;
+                        }
+                        // perform local searching
+                        datas.forEach(function(data) {
+                            var isMatch = true;
+                            var content_index = [];
+                            var data_title = data.title.trim().toLowerCase();
+                            var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                            var data_url = data.url;
+                            var index_title = -1;
+                            var index_content = -1;
+                            var first_occur = -1;
+                            // only match artiles with not empty titles and contents
+                            if (data_title != '' && data_content != '') {
+                                keywords.forEach(function(keyword, i) {
+                                    index_title = data_title.indexOf(keyword);
+                                    index_content = data_content.indexOf(keyword);
+                                    if (index_title < 0 && index_content < 0) {
+                                        isMatch = false;
+                                    } else {
+                                        if (index_content < 0) {
+                                            index_content = 0;
+                                        }
+                                        if (i == 0) {
+                                            first_occur = index_content;
+                                        }
+                                    }
+                                });
+                            }
+                            // show search results
+                            if (isMatch) {
+                                keywords.forEach(function(keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    data_title = data_title.replace(regS, "<span class=\"search-keyword green lighten-2\">" + keyword + "</span>");
+                                });
+
+                                str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                                var content = data.content.trim().replace(/<[^>]+>/g, "");
+                                if (first_occur >= 0) {
+                                    // cut out 100 characters
+                                    var start = first_occur - 20;
+                                    var end = first_occur + 80;
+                                    if (start < 0) {
+                                        start = 0;
+                                    }
+                                    if (start == 0) {
+                                        end = 100;
+                                    }
+                                    if (end > content.length) {
+                                        end = content.length;
+                                    }
+                                    var match_content = content.substring(start, end);
+                                    // highlight all keywords
+                                    keywords.forEach(function(keyword) {
+                                        var regS = new RegExp(keyword, "gi");
+                                        match_content = match_content.replace(regS, "<span class=\"search-keyword green lighten-2\">" + keyword + "</span>");
+                                    });
+
+                                    str += "<p class=\"search-result\">..." + match_content + "...</p>"
+                                }
+                                str += "</li>";
+                            }
+                        });
+                        str += "</ul>";
+                        $resultContent.innerHTML = str;
+                    });
+                }
+            });
+        }
+    })(jQuery);
+</script>
+
+
+<script src="/js/prettify.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("pre").addClass("prettyprint");
+        prettyPrint();
+    });
+</script>
+
+
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-43460643-1', 'auto');
+    ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+<script type="text/javascript" async src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+
+</body>
+</html>

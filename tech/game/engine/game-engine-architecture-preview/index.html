@@ -1,0 +1,910 @@
+<!DOCTYPE HTML>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    
+
+    <title>游戏引擎架构总览 | </title>
+    <meta name="author" content="RayTaylor Lin">
+    
+    <meta name="description" content="水镜一人性，月读一波明。轻扬一宿星，枫过一帆灵。">
+    
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta property="og:title" content="游戏引擎架构总览">
+    <meta property="og:site_name" content="Ray Taylor Lin&#39;s world">
+
+    
+    <meta property="og:image" content>
+    
+
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="alternate" href="/atom.xml" title="Ray Taylor Lin&#39;s world" type="application/atom+xml">
+    <link rel="stylesheet" href="/css/lib/materialize.min.css">
+    <link rel="stylesheet" href="/css/lib/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+
+    
+        <link rel="stylesheet" href="/css/lib/prettify-tomorrow-night-eighties.css" type="text/css">
+    
+    <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+</head>
+</html>
+
+<body>
+    <img src="/weixin_favicon.png" style="position: absolute; left: -9999px; opacity: 0; filter: alpha(opacity=0);">
+
+    <nav class="indigo">
+    <div class="nav-wrapper">
+        <a href="#" data-activates="main-menu" class="button-collapse">
+            <i class="fa fa-navicon"></i>
+        </a>
+        <div class>
+            <a href="/" class="brand-logo hide-on-med-and-down">Ray Taylor Lin&#39;s world</a>
+            <ul class="right hide-on-med-and-down">
+                
+                    <li>
+                        <a class="menu-home " href="/">
+                            <i class="fa fa-home "></i>
+                            
+                            首页
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-archive " href="/archives">
+                            <i class="fa fa-archive "></i>
+                            
+                            归档
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-category category-menu" href="javascript:;" data-activates="category-menu">
+                            <i class="fa fa-bookmark "></i>
+                            
+                            分类
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-reading " href="/reading">
+                            <i class="fa fa-book "></i>
+                            
+                            读书
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-about " href="/about">
+                            <i class="fa fa-user "></i>
+                            
+                            关于
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-search modal-trigger " href="#search">
+                            <i class="fa fa-search "></i>
+                            
+                            搜索
+                        </a>
+                    </li>
+                
+            </ul>
+            <div>
+    <ul class="side-nav indigo darken-1" id="main-menu">
+        
+        <li class="side-user">
+            <div class="row">
+                <div class="col s4 no-padding">
+                    <img class="avatar-image circle responsive-img" src="http://tp2.sinaimg.cn/1956184117/180/5674436546/1" alt="User Avatar">
+                </div>
+                <div class="info col s8 valign-wrapper no-padding">
+                    <div class="valign">
+                        <p class="name">林寿山</p>
+                        <p class="desc">游戏开发/Web前端</p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        
+
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-home " href="/">
+                    <i class="fa fa-home "></i>
+                    
+                    首页
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-archive " href="/archives">
+                    <i class="fa fa-archive "></i>
+                    
+                    归档
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-category category-menu" href="javascript:;" data-activates="category-menu">
+                    <i class="fa fa-bookmark "></i>
+                    
+                    分类
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-reading " href="/reading">
+                    <i class="fa fa-book "></i>
+                    
+                    读书
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-about " href="/about">
+                    <i class="fa fa-user "></i>
+                    
+                    关于
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-search modal-trigger " href="#search">
+                    <i class="fa fa-search "></i>
+                    
+                    搜索
+                </a>
+            </li>
+        
+    </ul>
+
+    <ul class="side-nav indigo darken-1" id="category-menu">
+    
+
+            
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/日常/">
+                    日常 <span class="right">8 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/技术/">
+                    技术 <span class="right">93 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/算法/">
+                    算法 <span class="right">6 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/Linux/">
+                    Linux <span class="right">2 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/综合/">
+                    综合 <span class="right">23 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/综合/演示/">
+                    演示 <span class="right">2 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/综合/设计模式/">
+                    设计模式 <span class="right">3 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/综合/软件工程/">
+                    软件工程 <span class="right">15 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/综合/杂项/">
+                    杂项 <span class="right">1 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/综合/项目/">
+                    项目 <span class="right">2 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/游戏开发/">
+                    游戏开发 <span class="right">19 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/游戏开发/服务器端/">
+                    服务器端 <span class="right">2 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/游戏开发/客户端/">
+                    客户端 <span class="right">1 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/游戏开发/游戏引擎/">
+                    游戏引擎 <span class="right">11 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/游戏开发/Unity/">
+                    Unity <span class="right">5 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-3" collapse-level="3">
+                <a class="no-padding" href="/categories/技术/游戏开发/Unity/NGUI/">
+                    NGUI <span class="right">5 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/编程语言/">
+                    编程语言 <span class="right">15 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/编程语言/Lua/">
+                    Lua <span class="right">7 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/编程语言/其它语言/">
+                    其它语言 <span class="right">4 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/编程语言/Python/">
+                    Python <span class="right">4 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/工具/">
+                    工具 <span class="right">7 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/工具/IDE/">
+                    IDE <span class="right">3 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/工具/Git/">
+                    Git <span class="right">4 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/Web前端/">
+                    Web前端 <span class="right">21 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/Web前端/HTTP协议/">
+                    HTTP协议 <span class="right">7 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/Web前端/CSS/">
+                    CSS <span class="right">3 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/Web前端/HTML5/">
+                    HTML5 <span class="right">2 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/Web前端/NodeJS/">
+                    NodeJS <span class="right">9 篇</span></a>
+                
+            </li>
+
+        
+
+    </ul>
+</div>
+
+        </div>
+    </div>
+</nav>
+
+<div id="search" class="modal search-modal">
+    <div class="row">
+        <div class="input-field col s12">
+              <input id="search-input" type="text">
+              <label for="search-input">搜索</label>
+        </div>
+
+    </div>
+    <div id="search-result" class="search-result col s12">
+
+    </div>
+</div>
+
+
+    <main>
+        <div class="container main-container">
+    <nav class="page-nav hide-on-small-only">
+    <div class="nav-wrapper indigo">
+        <span class="breadcrumb">当前位置（分类目录）</span>
+        
+            
+    
+    
+    <a class="breadcrumb" href="/categories/技术/">技术</a><a class="breadcrumb" href="/categories/技术/游戏开发/">游戏开发</a><a class="breadcrumb" href="/categories/技术/游戏开发/游戏引擎/">游戏引擎</a>
+
+
+        
+
+        
+    </div>
+</nav>
+
+<article>
+    <div class="card">
+        <div class="card-content">
+            
+
+            <div class="article-title">
+                
+    
+        <h1>游戏引擎架构总览</h1>
+    
+
+
+            </div>
+            <time class="green-link-context" datetime="2016-05-27T09:07:53.000Z"><a href="/tech/game/engine/game-engine-architecture-preview/">2016-05-27</a></time>
+
+            <span id="busuanzi_container_page_pv" class="read-times-container">
+    <i class="fa fa-eye"></i>
+    <span id="busuanzi_value_page_pv"></span>
+</span>
+
+            
+    <div class="tags-row">
+        
+            <a href="/tags/游戏引擎/" class="chip green lighten-1">游戏引擎</a>
+        
+            <a href="/tags/架构/" class="chip green lighten-1">架构</a>
+        
+    </div>
+
+
+            <div class="toc green-link-context hide-on-med-and-down">
+    <ol class="section table-of-contents"><li class="section table-of-contents-item section table-of-contents-level-1"><a class="section table-of-contents-link" href="#1-运行时引擎架构"><span class="section table-of-contents-text">1. 运行时引擎架构</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#1-1-硬件与操作系统"><span class="section table-of-contents-text">1.1 硬件与操作系统</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#1-2-第三方软件开发包和中间件"><span class="section table-of-contents-text">1.2 第三方软件开发包和中间件</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#1-3-平台独立层"><span class="section table-of-contents-text">1.3 平台独立层</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#1-4-核心系统"><span class="section table-of-contents-text">1.4 核心系统</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#1-5-资源管理"><span class="section table-of-contents-text">1.5 资源管理</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#1-6-渲染引擎"><span class="section table-of-contents-text">1.6 渲染引擎</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#1-7-剖析与调试工具"><span class="section table-of-contents-text">1.7 剖析与调试工具</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#1-8-碰撞和物理"><span class="section table-of-contents-text">1.8 碰撞和物理</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#1-9-动画"><span class="section table-of-contents-text">1.9 动画</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#1-10-人体学接口设备"><span class="section table-of-contents-text">1.10 人体学接口设备</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#1-11-音频"><span class="section table-of-contents-text">1.11 音频</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#1-12-在线多人-网络"><span class="section table-of-contents-text">1.12 在线多人/网络</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#1-13-游戏性基础系统"><span class="section table-of-contents-text">1.13 游戏性基础系统</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#1-14-个别游戏专用子系统"><span class="section table-of-contents-text">1.14 个别游戏专用子系统</span></a></li></ol></li><li class="section table-of-contents-item section table-of-contents-level-1"><a class="section table-of-contents-link" href="#2-工具套件"><span class="section table-of-contents-text">2. 工具套件</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#2-1-数字内容创作工具"><span class="section table-of-contents-text">2.1 数字内容创作工具</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#2-2-资产（asset）调节管道"><span class="section table-of-contents-text">2.2 资产（asset）调节管道</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#2-3-常见的游戏资产数据"><span class="section table-of-contents-text">2.3 常见的游戏资产数据</span></a></li></ol></li></ol>
+</div>
+
+
+            <div class="entry green-link-context">
+                <p>游戏引擎通常由运行时组件和工具套件两部分构成。本文先探讨运行时部分的架构，给出了一个不包含工具的极其庞大的总览图（如果时间有限仅看此图即可），并对图中每一组件进行描述，最后再阐述工具方面的内容。如同所有软件系统，游戏引擎也是以软件层构建的，而且通常上层依赖下层，下层不依赖上层。</p>
+<a id="more"></a>
+<h1 id="1-运行时引擎架构"><a href="#1-运行时引擎架构" class="headerlink" title="1. 运行时引擎架构"></a>1. 运行时引擎架构</h1><p>下图为游戏运行时引擎架构的总览图，本图相对原书标上了序号，以方便下面各节阐述时对应其位置，并省略了一些细节的组成部分。<strong>图片较大，建议在新标签页中打开图片查看。</strong></p>
+<p><img src="http://raytaylorlin-blog.oss-cn-shenzhen.aliyuncs.com/image%2Fengine%2F%E6%B8%B8%E6%88%8F%E8%BF%90%E8%A1%8C%E6%97%B6%E5%BC%95%E6%93%8E%E6%9E%B6%E6%9E%84.png" alt="游戏运行时引擎架构"></p>
+<h2 id="1-1-硬件与操作系统"><a href="#1-1-硬件与操作系统" class="headerlink" title="1.1 硬件与操作系统"></a>1.1 硬件与操作系统</h2><p>图中的A1为目标硬件层，代表用来执行游戏的计算机系统或游戏主机。典型平台包括基于微软Windows或Linux的PC、苹果的iPhone及Machintosh、微软的Xbox360、索尼的PS4/PSP、任天堂的NDS/Wii等等。</p>
+<p>图中的A2是设备驱动程序，是由操作系统或硬件厂商提供的最低阶软件组件。驱动程序负责管理硬件资源，也隔离了操作系统及上层引擎，使上层的软件无须理解不同硬件版本的通信细节差异。</p>
+<p>图中的A3是操作系统。在PC上操作系统是一直运行的，PC游戏不能假设拥有硬件的所有控制权；而在游戏主机上，操作系统通常只是个轻量级的库，链接到游戏的执行档里。不过像Xbox 360和PS3这些新主机中，操作系统也会中断游戏的执行，接管某些系统资源以显示在线信息。</p>
+<h2 id="1-2-第三方软件开发包和中间件"><a href="#1-2-第三方软件开发包和中间件" class="headerlink" title="1.2 第三方软件开发包和中间件"></a>1.2 第三方软件开发包和中间件</h2><p>图中的B表明大多数游戏引擎会借用第三方SDK及中间件（middleware），SDK提供基于函数或基于类的API。下面是一些常见的例子：</p>
+<ul>
+<li>数据结构及算法：如STL、STLport、Boost、Loki。因为PC上有虚拟内存系统，所以可以无碍使用STL，而游戏主机上，只有有限的（甚至没有）虚拟内存功能，而且缓存命中失败的代价极高，所以最好编写自定义的数据结构</li>
+<li>图形：如DirextX、OpenGL、libgcm、Edge等</li>
+<li>碰撞和物理：如Havok、PhysX、ODE（Open Dynamics Engine）等</li>
+<li>角色动画：如Granny、Havok Animation、Edge等</li>
+<li>人工智能：如Kynapse，提供低阶的AI构件，例如路径搜寻、静态和动态物体回避、空间内的脆弱点辨认，以及相当好的AI和动画间接口</li>
+<li>生物力学角色模型：如Endorphin、Euphoria等，利用了真实人类运动的高阶生物力学模型，去产生角色动作</li>
+</ul>
+<h2 id="1-3-平台独立层"><a href="#1-3-平台独立层" class="headerlink" title="1.3 平台独立层"></a>1.3 平台独立层</h2><p>图中的C为平台独立层。大部分游戏引擎需要运行于不同的平台上，该层包装了常用的标准C语言库、操作系统调用及其他基础API，确保包装了的接口在所有硬件平台上均为一致。</p>
+<h2 id="1-4-核心系统"><a href="#1-4-核心系统" class="headerlink" title="1.4 核心系统"></a>1.4 核心系统</h2><p>游戏引擎以及其他大规模复杂C++应用软件，都需要一些有用的实用软件（utility)，统称为“核心系统”，即图中的D。以下是一些核心系统层的常见功能：</p>
+<ul>
+<li>内存管理：几乎每个游戏引擎都有若干个自定义内存分配系统，以保证高速的内存分配及释放，并控制内存碎片所造成的负面影响</li>
+<li>数学库：游戏本质上就是高度数学密集的，所以每个游戏引擎都有若干个数学库，提供矢量、矩阵、四元数旋转、三角学、数值积分、解方程组，以及其他游戏程序员需要的功能</li>
+<li>自定义数据结构及算法：除非引擎设计者想完全依靠第三方软件包，否则引擎通常要提供一组工具去管理基础数据结构和算法，以减少或完全消去动态内存分配，并保证在目标平台上的运行效率为最优</li>
+</ul>
+<h2 id="1-5-资源管理"><a href="#1-5-资源管理" class="headerlink" title="1.5 资源管理"></a>1.5 资源管理</h2><p>图中的E为资源管理器，提供一组统一的接口去访问任何类型的游戏资产及其他引擎输入数据。有些引擎使用高度集中及一致的方式（例如虚幻的包package、OGRE的ResourceManager类）。其他引擎使用专案（ad hoc）方法，比如让程序员直接读取磁盘的或压缩的文件（如雷神之锤引擎使用的PAK文件）。</p>
+<h2 id="1-6-渲染引擎"><a href="#1-6-渲染引擎" class="headerlink" title="1.6 渲染引擎"></a>1.6 渲染引擎</h2><p>任何游戏引擎中，渲染引擎是最大及最复杂的组件之一。渲染器有很多不同的架构方式，通常采用分层架构。</p>
+<ul>
+<li>低阶渲染器（图中F1）：包含引擎中全部原始的渲染功能，着重于高速渲染丰富的几何图元集合<ul>
+<li>图形设备接口：使用图形SDK（如DirectX及OpenGL），都需要编写不少代码去枚举图形设备，初始化设备，建立渲染表面等，这些工作通常由图形设备接口组件负责</li>
+<li>其他渲染器组件：目的是要收集须提交的几何图元，包括网格、线表、点表、例子、地形块、字符串等等。低阶渲染器还提供视区（viewport）抽象、材质系统及动态光照系统</li>
+</ul>
+</li>
+<li>场景图/剔除优化（图中F2）：该层基于某些可视性判别算法去限制低阶渲染器提交的图元数量。非常小的游戏世界可能只需要简单的平截头体剔除算法，比较大的游戏世界则可能需要较高阶的空间细分数据结构，令渲染更有效率</li>
+<li>视觉效果（图中F3）：支持广泛的视觉效果，例如粒子系统（烟、火、水花等）、贴花系统（弹孔、脚印等），还有一些全屏幕后期处理，例如高动态范围光照（HDR）、敷霜效果、全屏抗锯齿（FSAA）、颜色校正等等</li>
+<li>前端（图中F4）：该层主要用于显示2D图形，如平视显示器（HUD）、GUI界面等等，通常会用附有纹理的四边形结合正射投影来渲染，或者用完全三维的四边形公告板（billboard）渲染</li>
+</ul>
+<h2 id="1-7-剖析与调试工具"><a href="#1-7-剖析与调试工具" class="headerlink" title="1.7 剖析与调试工具"></a>1.7 剖析与调试工具</h2><p>图中的G用于剖析调优性能，分析内存。还包含了游戏内置调试功能，包括调试用绘图、内置菜单、主控台、录制回放游戏过程等。市场上有很多优良的通用软件剖析工具，如VTune、Quantify、Purify等等，但是多数游戏也会加入自制的剖析与调试工具以应对特殊需求。</p>
+<h2 id="1-8-碰撞和物理"><a href="#1-8-碰撞和物理" class="headerlink" title="1.8 碰撞和物理"></a>1.8 碰撞和物理</h2><p>图中的H为碰撞与物理组件。游戏中如果没有碰撞检测，物体会互相穿透，并且无法在虚拟世界里合理地互动。碰撞和物理系统一般是紧密联系的，因为当碰撞发生时，碰撞几乎总是由物理积分及约束满足逻辑来解决。一些游戏还包含真实或半真实的刚体动力学模拟。时至今日，游戏引擎通常使用第三方的物理SDK，如Havok、PhysX和ODE。</p>
+<h2 id="1-9-动画"><a href="#1-9-动画" class="headerlink" title="1.9 动画"></a>1.9 动画</h2><p>图中的I为动画系统，游戏常会用到精灵/纹理动画、刚体层次结构动画、骨骼动画、每顶点动画、变形目标动画5种基本动画。现今游戏<br>中，骨骼动画是最盛行的动画方式。此外，骨骼网格渲染组件是连接渲染器和动画系统的桥梁，这些组件合作渲染的过程称为蒙皮（skinning）。</p>
+<p>当使用布娃娃系统时，动画和物理系统便产生紧密耦合，这是因为布娃娃是无力的（经常是死了的）角色，其运动完全由物理系统模拟。物理系统把布娃娃当作受约束的刚体系统，用模拟来决定身体每部分的位置及方向。</p>
+<h2 id="1-10-人体学接口设备"><a href="#1-10-人体学接口设备" class="headerlink" title="1.10 人体学接口设备"></a>1.10 人体学接口设备</h2><p>图中的J用于处理玩家输入，包括键盘鼠标、游戏手柄及其他专用游戏控制器（如方向盘、跳舞毯、Wii遥控器等）。除了输入功能，一些设备也提供输出，如游戏手柄的震动、Wii遥控器的音频输出等。</p>
+<p>在架构HID引擎时，通常让硬件的低阶细节与高阶游戏操作脱钩。HID引擎从硬件取得原始数据，为控制器的每个摇杆设置环绕中心点的死<br>区，去除按钮抖动，检测按下和释放按钮事件，演绎加速计的输入并使该输入平滑。HID引擎也可能包含一个系统，负责检测弦（chord）（即数个按钮一起按下）、序列（即接钮在时限内顺序按下）、手势（即按钮、摇杆、加速计等输入的序列）。</p>
+<h2 id="1-11-音频"><a href="#1-11-音频" class="headerlink" title="1.11 音频"></a>1.11 音频</h2><p>图中的K为音频引擎。一些游戏团队会为这些引擎加入自定义功能，或用内部方案替换，例如微软为DirectX平台提供一个名为XACT的优秀的音频工具包，艺电也开发了内部的音频引擎SoundR!OT。然而，即使游戏团队用既有的音频引擎，开发每个游戏时仍然需要大量的定制软件开发、整合工作及注意细节，才可以制作出有高质量音频的最终产品。</p>
+<h2 id="1-12-在线多人-网络"><a href="#1-12-在线多人-网络" class="headerlink" title="1.12 在线多人/网络"></a>1.12 在线多人/网络</h2><p>图中的L为在线多人/网络组件。多人游戏有单屏多人、切割平多人、网络多人、大型多人在线等多种基本形式。支持多人游戏，会深切影响到游戏世界对象模型、人体学接口设备系统、玩家控制系统、动画系统等多个组件的设计。把一个现有的担任引擎改装成多人引擎的难度是非常大的，但如果反过来则比较简单——许多游戏引擎把单人游戏模式当做是一个玩家参与的多人游戏。</p>
+<h2 id="1-13-游戏性基础系统"><a href="#1-13-游戏性基础系统" class="headerlink" title="1.13 游戏性基础系统"></a>1.13 游戏性基础系统</h2><p>游戏性（gameplay）是指：游戏内进行的活动、支配游戏虚拟世界的规则、玩家角色的能力（也称为玩家机制）、其他角色和对象的能力、玩家的长短期目标。游戏性编程除了用引擎的原生语言，通常还会使用高阶的脚本语言，为了连接低阶的引擎子系统和游戏性代码，多数游戏引擎会引入一个软件层，即图中的M。</p>
+<ul>
+<li>游戏世界和游戏对象模型：游戏世界含动态与静态的元素，而典型的游戏对象有静态背景几何物体（如建筑、地形）、动态刚体（如石头、椅子）、玩家角色、NPC、武器、抛射物、载具、光源、摄像机</li>
+<li>事件系统：事件驱动架构常用于游戏对象间的通信</li>
+<li>脚本系统：使用脚本语言来编写游戏独有的游戏性规则和内容，可以快速开发，避免重新编译链接</li>
+<li>人工智能基础：像Kynapse这种商用AI引擎，抽象了大多数AI系统共有的模式，在这个基础层上可以很容易地开发个别游戏的逻辑。其功能包括用路径节点和漫游体积组成网络定义AI角色可行走的地区和路径，在漫游地区边界周围的简化碰撞信息，A*路径搜寻，联系碰撞系统及世界模型进行视线追踪及其他感知，AI决策层架构等等</li>
+</ul>
+<h2 id="1-14-个别游戏专用子系统"><a href="#1-14-个别游戏专用子系统" class="headerlink" title="1.14 个别游戏专用子系统"></a>1.14 个别游戏专用子系统</h2><p>如图中的N，每个游戏都有若干自身特有的游戏性系统。如果可以清楚地分开引擎和游戏，这条分界线会位于特定游戏专用子系统和游戏性基础软件层之间。实际上，这条分界线永远不会是完美的。一些游戏的特定知识，总是会向下渗透到游戏基础软件层中，更有甚者会延伸至引擎核心。</p>
+<h1 id="2-工具套件"><a href="#2-工具套件" class="headerlink" title="2. 工具套件"></a>2. 工具套件</h1><h2 id="2-1-数字内容创作工具"><a href="#2-1-数字内容创作工具" class="headerlink" title="2.1 数字内容创作工具"></a>2.1 数字内容创作工具</h2><p>游戏本质上是多媒体应用。游戏引擎的输入数据形式广泛，例如三维网格数据、纹理位图、动画数据、音频文件等。所有源数据皆由美术或音效师等专业人员使用数字内容创作（Digital Content Creation，DCC）应用软件制作，如Maya、3ds Max、Photoshop、SoundForge等等。有些游戏引擎提供专门的设计游戏世界的编辑器，而有的团队会在现有软件像3ds Max的基础上开发插件去设计场景，甚至用简单的位图编辑器去制作地形高度图。总之，游戏团队想要及时开发高完成度的产品，工具必须<strong>相对易用</strong>，并且<strong>绝对可靠</strong>。</p>
+<h2 id="2-2-资产（asset）调节管道"><a href="#2-2-资产（asset）调节管道" class="headerlink" title="2.2 资产（asset）调节管道"></a>2.2 资产（asset）调节管道</h2><p>DCC所生成的数据格式，很少有直接用于游戏中的，原因有两点：生成的数据格式通常比游戏所需的复杂得多，游戏引擎只需其中一小部分信息；直接读取速度过慢，而且有些格式是不公开的专有格式。因此，DCC软件制作的数据，通常要导出为容易读取的标准格式或自定义格式，有时还需要针对不同平台进行再处理，以便在游戏中使用。从DCC到游戏引擎的管道，就是所谓的资产调节管道。</p>
+<h2 id="2-3-常见的游戏资产数据"><a href="#2-3-常见的游戏资产数据" class="headerlink" title="2.3 常见的游戏资产数据"></a>2.3 常见的游戏资产数据</h2><ul>
+<li>几何图形数据<ul>
+<li>笔刷集合图形：由凸包集合定义，每个凸包则由多个平面定义。其优点是制作迅速简单，便于设计师建立粗略的原型，也可用作碰撞体积；缺点是分辨率低难以制作复杂图形，不能支持有关节的物体或运动角色</li>
+<li>三维模型/网格：由三角形和顶点组成，每个网格使用若干个材质。网格通常在三维建模软件里制作，并且需要专用的导出器来导出游戏引擎可读的格式</li>
+</ul>
+</li>
+<li>骨骼动画数据：骨骼网格是一种为关节动画而绑定到骨骼层次结构之上的特殊网格，游戏引擎需要网格本身、骨骼层次结构和若干动画片段3种数据来渲染骨骼网络</li>
+<li>音频数据：由专业的音频制作工具导出，有不同格式和采样率。音频文件通常组织成音频库，以方便管理，载入及串流。</li>
+<li>粒子系统数据：由视觉特效设计师使用第三方工具（如Houdini）或引擎自带的粒子效果编辑工具制作</li>
+<li>游戏世界数据：不少商用游戏引擎会提供优良的世界编辑器，用于编辑游戏世界</li>
+</ul>
+<p>参考文献：电子工业出版社《游戏引擎架构》第1.6、1.7节</p>
+
+                
+<p class="green-link-context">
+    <a href="/tech/game/engine/engine-support-system-1/" rel="next" title="游戏引擎支持系统（上）">
+    上一篇：游戏引擎支持系统（上）
+  </a>
+</p>
+
+
+
+<p class="green-link-context">
+    <a href="/tech/complex/software/software-construction-15/" rel="next" title="软件构建（十五）——尾声">
+    下一篇：软件构建（十五）——尾声
+  </a>
+</p>
+
+
+            </div>
+			
+        </div>
+    </div>
+</article>
+
+
+
+
+    <section id="comment">
+        <div id="disqus_thread"></div>
+        <script>
+            var disqus_config = function() {
+                this.page.url = 'http://raytaylorlin.github.io/tech/game/engine/game-engine-architecture-preview/';
+                this.page.identifier = 'tech/game/engine/game-engine-architecture-preview/';
+            };
+            (function() {
+                var d = document,
+                    s = d.createElement('script');
+                s.src = '//raytaylorlin.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', + new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the
+            <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+        </noscript>
+    </section>
+
+
+
+</div>
+
+        <div class="fixed-action-btn float-sitemap">
+    <a class="btn-floating btn-large green">
+      <i class="fa fa-caret-square-o-up"></i>
+    </a>
+    <ul>
+      <li><a class="btn-return-top btn-floating waves-effect pink" title="回到顶部"><i class="fa fa-arrow-circle-o-up"></i></a></li>
+      <li><a class="btn-floating waves-effect button-collapse orange darken-1" data-activates="main-menu" title="菜单"><i class="fa fa-navicon"></i></a></li>
+    </ul>
+  </div>
+
+    </main>
+    <footer class="page-footer indigo darken-1">
+    
+    <div class="footer-container container">
+        <div class="row">
+            
+            <div class="social-group col m4 s12">
+                <h5 class="white-text">社交</h5>
+                
+                    <a class="social-link" href="http://weibo.com/1956184117" target="_blank">
+                        <i class="fa fa-2x fa-weibo"></i>
+                    </a>
+                
+                    <a class="social-link" href="https://github.com/raytaylorlin" target="_blank">
+                        <i class="fa fa-2x fa-github"></i>
+                    </a>
+                
+                    <a class="social-link" href="/atom.xml" target="_blank">
+                        <i class="fa fa-2x fa-rss"></i>
+                    </a>
+                
+                
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+    </script>
+    <div class="site-visitors-container white-text">
+        <span>
+            <i class="fa fa-user"></i>
+            <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+        </span>
+        <span>&nbsp;|&nbsp;</span>
+        <span>
+            <i class="fa fa-eye"></i>
+            <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+        </span>
+    </div>
+
+
+            </div>
+            
+
+            
+            <div class="col m8 s12">
+                <h5 class="white-text">友情链接</h5>
+                
+                    <a class="social-link" href="http://tutuge.me/" target="_blank">土土哥的技术博客</a>
+                
+                    <a class="social-link" href="http://neoyeelf.github.io/" target="_blank">屌刘neoye的博客</a>
+                
+                    <a class="social-link" href="http://diao.li/" target="_blank">李伟涛的博客</a>
+                
+                    <a class="social-link" href="http://suta.im/" target="_blank">苏塔是没有脚的设计师</a>
+                
+                    <a class="social-link" href="http://jfantasy.github.io/" target="_blank">JFantasy的个人博客</a>
+                
+                    <a class="social-link" href="http://pyroc.at/" target="_blank">丁基友的博客</a>
+                
+            </div>
+            
+        </div>
+    </div>
+    
+
+    <div class="footer-copyright green-link-context">
+        <div class="container">
+            © 2019 raytaylorlin.github.io, All rights reserved.
+            <p class="right" style="margin-top: 0;">本博客由 <a href="https://hexo.io">Hexo</a> 强力驱动 | 主题 <a href="https://github.com/raytaylorlin/hexo-theme-raytaylorism">raytaylorism</a></p>
+        </div>
+    </div>
+</footer>
+
+
+    <noscript>
+    <div class="noscript">
+        <p class="center-align">当前网速较慢或者你使用的浏览器不支持博客特定功能，请尝试刷新或换用Chrome、Firefox等现代浏览器</p>
+    </div>
+</noscript>
+<div class="noscript">
+    <p class="center-align">当前网速较慢或者你使用的浏览器不支持博客特定功能，请尝试刷新或换用Chrome、Firefox等现代浏览器</p>
+</div>
+
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/materialize.min.js"></script>
+
+<script>
+    (function($) {
+        $(document).ready(function() {
+            // 隐藏禁用javascript（针对微信内置浏览器）的提示
+            $('.noscript').hide();
+
+            // 图片缩放效果
+            var $imgs = $('img').not('.slider-image').not('.avatar-image').not('.carousel-image').not('.card-cover-image').not('.qrcode');
+
+            // 给图片加上点击放大效果（materialbox插件）
+            $imgs.addClass('materialboxed').each(function(i, el) {
+                $(this).attr('data-caption', $(this).attr('alt') || ' ');
+            }).materialbox();
+
+            // 优化表格的显示
+            $('table').each(function() {
+                var $table = $(this);
+                // 除去多行代码的情况
+                if ($table.find('pre').length == 0) {
+                    $table.addClass('responsive-table striped bordered');
+                }
+            });
+
+            // 首页幻灯片
+            $('.slider').slider({indicators: true, full_width: true, interval: 8000});
+
+            $(".button-collapse").sideNav();
+            $(".category-menu").sideNav();
+
+            // 针对gallery post
+            $('.carousel').carousel({full_width: true});
+            $('.carousel-control.prev').click(function() {
+                $('.carousel').carousel('prev');
+            });
+            $('.carousel-control.next').click(function() {
+                $('.carousel').carousel('next');
+            });
+
+            // 文章目录
+            $('article').not('.simple-article').find('h1').add('h2').add('h3').add('h4').add('h5').add('h6').scrollSpy();
+
+            // 目录随屏幕滚动（防止目录过长越过footer）
+            var $toc = $('.toc');
+            var scrollTargetTop = 0;
+            $(window).scroll(function() {
+                var $activeLink = $toc.find('a.active.section');
+                if ($(window).scrollTop() < 100) {
+                    scrollTargetTop = 0;
+                } else {
+                    if ($activeLink[0]) {
+                        scrollTargetTop = $activeLink.offset().top - $toc.offset().top;
+                    }
+                }
+                $toc.css('top', '-' + scrollTargetTop + 'px');
+            });
+
+            // 修正文章目录的left-border颜色
+            var color = $('.table-of-contents-text').css('color');
+            $('.table-of-contents-link').css('border-left-color', color);
+
+            // 针对移动端做的优化：FAB按钮点击一下收回
+            if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                $('.fixed-action-btn').addClass('click-to-toggle');
+            }
+            // 回到顶部
+            $('.btn-return-top').click(function() {
+                $('body, html').animate({
+                    scrollTop: 0
+                }, 500);
+            });
+
+            // 重置读书页面的Tab标签页的颜色
+            $('li.tab a').hover(function() {
+                $(this).toggleClass('text-lighten-4');
+            });
+            $('.indicator').addClass('green lighten-2');
+
+            
+            // 添加new标签
+            $('.menu-reading').append('<span class="new badge green"></span>');
+            
+
+            // 搜索功能
+            $('.modal-trigger').leanModal({
+                // 打开搜索框时自动聚焦
+                ready: function() {
+                    if ($('#search').is(":visible")) {
+                        $('#search-input').focus();
+                    }
+                }
+            });
+            var searchXml = "search.xml";
+            if (searchXml.length == 0) {
+             	searchXml = "search.xml";
+            }
+            var searchPath = "/" + searchXml;
+            initSearch(searchPath, 'search-input', 'search-result');
+        });
+
+        // 初始化搜索与匹配函数
+        var initSearch = function(path, search_id, content_id) {
+            'use strict';
+            $.ajax({
+                url: path,
+                dataType: "xml",
+                success: function(xmlResponse) {
+                    // get the contents from search data
+                    var datas = $("entry", xmlResponse).map(function() {
+                        return {
+                            title: $("title", this).text(),
+                            content: $("content", this).text(),
+                            url: $("url", this).text()
+                        };
+                    }).get();
+                    var $input = document.getElementById(search_id);
+                    var $resultContent = document.getElementById(content_id);
+                    $input.addEventListener('input', function() {
+                        var str = '<ul class=\"search-result-list\">';
+                        var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                        $resultContent.innerHTML = "";
+                        if (this.value.trim().length <= 0) {
+                            return;
+                        }
+                        // perform local searching
+                        datas.forEach(function(data) {
+                            var isMatch = true;
+                            var content_index = [];
+                            var data_title = data.title.trim().toLowerCase();
+                            var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                            var data_url = data.url;
+                            var index_title = -1;
+                            var index_content = -1;
+                            var first_occur = -1;
+                            // only match artiles with not empty titles and contents
+                            if (data_title != '' && data_content != '') {
+                                keywords.forEach(function(keyword, i) {
+                                    index_title = data_title.indexOf(keyword);
+                                    index_content = data_content.indexOf(keyword);
+                                    if (index_title < 0 && index_content < 0) {
+                                        isMatch = false;
+                                    } else {
+                                        if (index_content < 0) {
+                                            index_content = 0;
+                                        }
+                                        if (i == 0) {
+                                            first_occur = index_content;
+                                        }
+                                    }
+                                });
+                            }
+                            // show search results
+                            if (isMatch) {
+                                keywords.forEach(function(keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    data_title = data_title.replace(regS, "<span class=\"search-keyword green lighten-2\">" + keyword + "</span>");
+                                });
+
+                                str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                                var content = data.content.trim().replace(/<[^>]+>/g, "");
+                                if (first_occur >= 0) {
+                                    // cut out 100 characters
+                                    var start = first_occur - 20;
+                                    var end = first_occur + 80;
+                                    if (start < 0) {
+                                        start = 0;
+                                    }
+                                    if (start == 0) {
+                                        end = 100;
+                                    }
+                                    if (end > content.length) {
+                                        end = content.length;
+                                    }
+                                    var match_content = content.substring(start, end);
+                                    // highlight all keywords
+                                    keywords.forEach(function(keyword) {
+                                        var regS = new RegExp(keyword, "gi");
+                                        match_content = match_content.replace(regS, "<span class=\"search-keyword green lighten-2\">" + keyword + "</span>");
+                                    });
+
+                                    str += "<p class=\"search-result\">..." + match_content + "...</p>"
+                                }
+                                str += "</li>";
+                            }
+                        });
+                        str += "</ul>";
+                        $resultContent.innerHTML = str;
+                    });
+                }
+            });
+        }
+    })(jQuery);
+</script>
+
+
+<script src="/js/prettify.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("pre").addClass("prettyprint");
+        prettyPrint();
+    });
+</script>
+
+
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-43460643-1', 'auto');
+    ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+<script type="text/javascript" async src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+
+</body>
+</html>

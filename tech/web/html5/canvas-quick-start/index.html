@@ -1,0 +1,973 @@
+<!DOCTYPE HTML>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    
+
+    <title>Canvas快速入门 | </title>
+    <meta name="author" content="RayTaylor Lin">
+    
+    <meta name="description" content="水镜一人性，月读一波明。轻扬一宿星，枫过一帆灵。">
+    
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta property="og:title" content="Canvas快速入门">
+    <meta property="og:site_name" content="Ray Taylor Lin&#39;s world">
+
+    
+    <meta property="og:image" content>
+    
+
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="alternate" href="/atom.xml" title="Ray Taylor Lin&#39;s world" type="application/atom+xml">
+    <link rel="stylesheet" href="/css/lib/materialize.min.css">
+    <link rel="stylesheet" href="/css/lib/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+
+    
+        <link rel="stylesheet" href="/css/lib/prettify-tomorrow-night-eighties.css" type="text/css">
+    
+    <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+</head>
+</html>
+
+<body>
+    <img src="/weixin_favicon.png" style="position: absolute; left: -9999px; opacity: 0; filter: alpha(opacity=0);">
+
+    <nav class="indigo">
+    <div class="nav-wrapper">
+        <a href="#" data-activates="main-menu" class="button-collapse">
+            <i class="fa fa-navicon"></i>
+        </a>
+        <div class>
+            <a href="/" class="brand-logo hide-on-med-and-down">Ray Taylor Lin&#39;s world</a>
+            <ul class="right hide-on-med-and-down">
+                
+                    <li>
+                        <a class="menu-home " href="/">
+                            <i class="fa fa-home "></i>
+                            
+                            首页
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-archive " href="/archives">
+                            <i class="fa fa-archive "></i>
+                            
+                            归档
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-category category-menu" href="javascript:;" data-activates="category-menu">
+                            <i class="fa fa-bookmark "></i>
+                            
+                            分类
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-reading " href="/reading">
+                            <i class="fa fa-book "></i>
+                            
+                            读书
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-about " href="/about">
+                            <i class="fa fa-user "></i>
+                            
+                            关于
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-search modal-trigger " href="#search">
+                            <i class="fa fa-search "></i>
+                            
+                            搜索
+                        </a>
+                    </li>
+                
+            </ul>
+            <div>
+    <ul class="side-nav indigo darken-1" id="main-menu">
+        
+        <li class="side-user">
+            <div class="row">
+                <div class="col s4 no-padding">
+                    <img class="avatar-image circle responsive-img" src="http://tp2.sinaimg.cn/1956184117/180/5674436546/1" alt="User Avatar">
+                </div>
+                <div class="info col s8 valign-wrapper no-padding">
+                    <div class="valign">
+                        <p class="name">林寿山</p>
+                        <p class="desc">游戏开发/Web前端</p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        
+
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-home " href="/">
+                    <i class="fa fa-home "></i>
+                    
+                    首页
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-archive " href="/archives">
+                    <i class="fa fa-archive "></i>
+                    
+                    归档
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-category category-menu" href="javascript:;" data-activates="category-menu">
+                    <i class="fa fa-bookmark "></i>
+                    
+                    分类
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-reading " href="/reading">
+                    <i class="fa fa-book "></i>
+                    
+                    读书
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-about " href="/about">
+                    <i class="fa fa-user "></i>
+                    
+                    关于
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-search modal-trigger " href="#search">
+                    <i class="fa fa-search "></i>
+                    
+                    搜索
+                </a>
+            </li>
+        
+    </ul>
+
+    <ul class="side-nav indigo darken-1" id="category-menu">
+    
+
+            
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/日常/">
+                    日常 <span class="right">8 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/技术/">
+                    技术 <span class="right">93 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/算法/">
+                    算法 <span class="right">6 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/Linux/">
+                    Linux <span class="right">2 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/综合/">
+                    综合 <span class="right">23 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/综合/演示/">
+                    演示 <span class="right">2 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/综合/设计模式/">
+                    设计模式 <span class="right">3 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/综合/软件工程/">
+                    软件工程 <span class="right">15 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/综合/杂项/">
+                    杂项 <span class="right">1 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/综合/项目/">
+                    项目 <span class="right">2 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/游戏开发/">
+                    游戏开发 <span class="right">19 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/游戏开发/服务器端/">
+                    服务器端 <span class="right">2 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/游戏开发/客户端/">
+                    客户端 <span class="right">1 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/游戏开发/游戏引擎/">
+                    游戏引擎 <span class="right">11 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/游戏开发/Unity/">
+                    Unity <span class="right">5 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-3" collapse-level="3">
+                <a class="no-padding" href="/categories/技术/游戏开发/Unity/NGUI/">
+                    NGUI <span class="right">5 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/编程语言/">
+                    编程语言 <span class="right">15 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/编程语言/Lua/">
+                    Lua <span class="right">7 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/编程语言/其它语言/">
+                    其它语言 <span class="right">4 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/编程语言/Python/">
+                    Python <span class="right">4 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/工具/">
+                    工具 <span class="right">7 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/工具/IDE/">
+                    IDE <span class="right">3 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/工具/Git/">
+                    Git <span class="right">4 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/Web前端/">
+                    Web前端 <span class="right">21 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/Web前端/HTTP协议/">
+                    HTTP协议 <span class="right">7 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/Web前端/CSS/">
+                    CSS <span class="right">3 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/Web前端/HTML5/">
+                    HTML5 <span class="right">2 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/Web前端/NodeJS/">
+                    NodeJS <span class="right">9 篇</span></a>
+                
+            </li>
+
+        
+
+    </ul>
+</div>
+
+        </div>
+    </div>
+</nav>
+
+<div id="search" class="modal search-modal">
+    <div class="row">
+        <div class="input-field col s12">
+              <input id="search-input" type="text">
+              <label for="search-input">搜索</label>
+        </div>
+
+    </div>
+    <div id="search-result" class="search-result col s12">
+
+    </div>
+</div>
+
+
+    <main>
+        <div class="container main-container">
+    <nav class="page-nav hide-on-small-only">
+    <div class="nav-wrapper indigo">
+        <span class="breadcrumb">当前位置（分类目录）</span>
+        
+            
+    
+    
+    <a class="breadcrumb" href="/categories/技术/">技术</a><a class="breadcrumb" href="/categories/技术/Web前端/">Web前端</a><a class="breadcrumb" href="/categories/技术/Web前端/HTML5/">HTML5</a>
+
+
+        
+
+        
+    </div>
+</nav>
+
+<article>
+    <div class="card">
+        <div class="card-content">
+            
+
+            <div class="article-title">
+                
+    
+        <h1>Canvas快速入门</h1>
+    
+
+
+            </div>
+            <time class="green-link-context" datetime="2013-01-05T12:13:24.000Z"><a href="/tech/web/html5/canvas-quick-start/">2013-01-05</a></time>
+
+            <span id="busuanzi_container_page_pv" class="read-times-container">
+    <i class="fa fa-eye"></i>
+    <span id="busuanzi_value_page_pv"></span>
+</span>
+
+            
+    <div class="tags-row">
+        
+            <a href="/tags/HTML5/" class="chip green lighten-1">HTML5</a>
+        
+            <a href="/tags/Canvas/" class="chip green lighten-1">Canvas</a>
+        
+    </div>
+
+
+            <div class="toc green-link-context hide-on-med-and-down">
+    <ol class="section table-of-contents"><li class="section table-of-contents-item section table-of-contents-level-1"><a class="section table-of-contents-link" href="#1-Canvas元素"><span class="section table-of-contents-text">1. Canvas元素</span></a></li><li class="section table-of-contents-item section table-of-contents-level-1"><a class="section table-of-contents-link" href="#2-基础API"><span class="section table-of-contents-text">2. 基础API</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#2-1-坐标系统"><span class="section table-of-contents-text">2.1 坐标系统</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#2-2-绘制基本图形"><span class="section table-of-contents-text">2.2 绘制基本图形</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#2-2-1-矩形"><span class="section table-of-contents-text">2.2.1 矩形</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#2-2-2-线条"><span class="section table-of-contents-text">2.2.2 线条</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#2-2-3-圆形"><span class="section table-of-contents-text">2.2.3 圆形</span></a></li></ol></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#2-3-样式"><span class="section table-of-contents-text">2.3 样式</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#2-3-1-修改线条颜色"><span class="section table-of-contents-text">2.3.1 修改线条颜色</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#2-3-2-修改线宽"><span class="section table-of-contents-text">2.3.2 修改线宽</span></a></li></ol></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#2-4-绘制文本"><span class="section table-of-contents-text">2.4 绘制文本</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#2-5-绘制图像"><span class="section table-of-contents-text">2.5 绘制图像</span></a></li></ol></li><li class="section table-of-contents-item section table-of-contents-level-1"><a class="section table-of-contents-link" href="#3-高级功能"><span class="section table-of-contents-text">3. 高级功能</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#3-1-使Canvas填满浏览器窗口"><span class="section table-of-contents-text">3.1 使Canvas填满浏览器窗口</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#3-2-绘图状态"><span class="section table-of-contents-text">3.2 绘图状态</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#3-3-变形"><span class="section table-of-contents-text">3.3 变形</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#3-3-1-平移"><span class="section table-of-contents-text">3.3.1 平移</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#3-3-2-缩放"><span class="section table-of-contents-text">3.3.2 缩放</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#3-3-3-旋转"><span class="section table-of-contents-text">3.3.3 旋转</span></a></li></ol></li></ol></li></ol>
+</div>
+
+
+            <div class="entry green-link-context">
+                <p>本文是一个Canvas快速入门，亦是<a href="http://book.douban.com/subject/7162014/" target="_blank" rel="noopener">Rob Hawkes《HTML5 Canvas基础教程》人民邮电出版社</a>一书的读书笔记。</p>
+<a id="more"></a>
+<h1 id="1-Canvas元素"><a href="#1-Canvas元素" class="headerlink" title="1. Canvas元素"></a>1. Canvas元素</h1><p>以下html代码定义了一个canvas元素。</p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Canvas快速入门&lt;/title&gt;
+    &lt;meta charset=&quot;utf-8&quot;/&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div&gt;
+    &lt;canvas id=&quot;mainCanvas&quot; width=&quot;640&quot; height=&quot;480&quot;&gt;&lt;/canvas&gt;
+&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>通过以下Javascript语句访问canvas元素：</p>
+<pre><code>//DOM写法
+window.onload = function () {
+    var canvas = document.getElementById(&quot;mainCanvas&quot;);
+    var context = canvas.getContext(&quot;2d&quot;);
+};
+//jQuery写法
+$(document).ready(function () {
+    var canvas = $(&quot;#mainCanvas&quot;);
+    var context = canvas.get(0).getContext(&quot;2d&quot;);
+});
+//接下来就可以调用context的方法来调用绘图API
+</code></pre><h1 id="2-基础API"><a href="#2-基础API" class="headerlink" title="2. 基础API"></a>2. 基础API</h1><h2 id="2-1-坐标系统"><a href="#2-1-坐标系统" class="headerlink" title="2.1 坐标系统"></a>2.1 坐标系统</h2><p>Canvas 2D渲染上下文采用平面笛卡尔坐标系统，左上角为原点(0,0)，坐标系统的1个单位相当于屏幕的1个像素。具体如下图：<br><img src="http://raytaylorlin-blog.oss-cn-shenzhen.aliyuncs.com/image/HTML5/HTML5%20Canvas%E5%9D%90%E6%A0%87%E7%B3%BB%E7%BB%9F.jpg" alt="HTML5 Canvas坐标系统"></p>
+<h2 id="2-2-绘制基本图形"><a href="#2-2-绘制基本图形" class="headerlink" title="2.2 绘制基本图形"></a>2.2 绘制基本图形</h2><h3 id="2-2-1-矩形"><a href="#2-2-1-矩形" class="headerlink" title="2.2.1 矩形"></a>2.2.1 矩形</h3><pre><code>//绘制一个填充矩形
+context.fillRect(x, y, width, height)
+//绘制一个边框矩形
+context.strokeRect(x, y, width, height)
+//清除一个矩形区域
+context.clearRect(x, y, width, height)
+</code></pre><h3 id="2-2-2-线条"><a href="#2-2-2-线条" class="headerlink" title="2.2.2 线条"></a>2.2.2 线条</h3><p>绘制线条与绘制图形有一些区别，线条实际上称为路径。要绘制一条简单的路径，首先必须调用beginPath方法，接着调用moveTo设置路径的起点坐标，然后调用lineTo设置线段终点坐标（可多次设置），再调用closePath完成路径绘制。最后调用stroke绘制轮廓（或调用fill填充路径）。以下为例子：</p>
+<pre><code>//示例
+context.beginPath();    //开始路径
+context.moveTo(40, 40);    //移动到点(40,40)
+context.lineTo(300, 40);    //画线到点(300,30)
+context.lineTo(40, 300);    //画线到点(40,300)
+context.closePath();    //结束路径
+context.stroke();    //绘制轮廓
+//或者填充用context.fill();
+</code></pre><h3 id="2-2-3-圆形"><a href="#2-2-3-圆形" class="headerlink" title="2.2.3 圆形"></a>2.2.3 圆形</h3><p>Canvas实际上并没有专门绘制圆形的方法，可以通过画圆弧来模拟圆形。由于圆弧是一种路径，所以画圆弧的API应该包含在beginPath和closePath之间。</p>
+<pre><code>/* 绘制一条圆弧
+ * @param x,y 圆心的横纵坐标
+ * @param radius 圆的半径
+ * @param startAngle 起始角度，以弧度为单位，x轴方向为0
+ * @param endAngle 结束角度，以弧度为单位
+ * @param anticlockwise 布尔值，表示是否按逆时针方向绘制
+ */
+context.arc(x, y, radius, startAngle, endAngle, anticlockwise)
+</code></pre><p>更多用法参见<a href="https://developer.mozilla.org/en-US/docs/HTML/Canvas/Tutorial/Drawing_shapes?redirectlocale=en-US&amp;redirectslug=Canvas_tutorial%2FDrawing_shapes" target="_blank" rel="noopener">Drawing shapes(MDN)</a>。</p>
+<h2 id="2-3-样式"><a href="#2-3-样式" class="headerlink" title="2.3 样式"></a>2.3 样式</h2><h3 id="2-3-1-修改线条颜色"><a href="#2-3-1-修改线条颜色" class="headerlink" title="2.3.1 修改线条颜色"></a>2.3.1 修改线条颜色</h3><pre><code>var color;
+//指定RGB值
+color = &quot;rgb(255, 0, 0)&quot;;
+//指定RGBA值（最后一个参数为alpha值，取值0.0~1.0）
+color = &quot;rgba(255, 0, 0, 1)&quot;;
+//指定16进制码
+color = &quot;#FF0000&quot;;
+//用单词指定
+color = &quot;red&quot;;
+//设置填充颜色
+context.fillStyle = color;
+//设置边框颜色
+context.strokeStyle = color;
+</code></pre><h3 id="2-3-2-修改线宽"><a href="#2-3-2-修改线宽" class="headerlink" title="2.3.2 修改线宽"></a>2.3.2 修改线宽</h3><pre><code>//指定线宽值
+var value= 3;
+//设置边框颜色
+context.linewidth = value;
+</code></pre><p>更多样式介绍参见<a href="https://developer.mozilla.org/en-US/docs/HTML/Canvas/Tutorial/Applying_styles_and_colors" target="_blank" rel="noopener">Applying styles and colors(MDN)</a>。</p>
+<h2 id="2-4-绘制文本"><a href="#2-4-绘制文本" class="headerlink" title="2.4 绘制文本"></a>2.4 绘制文本</h2><pre><code>//指定字体样式
+context.font = &quot;italic 30px 黑体&quot;;
+//在点(40,40)处画文字
+context.fillText(&quot;Hello world!&quot;, 40, 40);
+</code></pre><h2 id="2-5-绘制图像"><a href="#2-5-绘制图像" class="headerlink" title="2.5 绘制图像"></a>2.5 绘制图像</h2><p>在绘制图像之前，需要先定义图像并加载。</p>
+<pre><code>var img = new Image();
+img.src = &quot;myImage.png&quot;;
+img.onload = function () {
+    //图像加载完毕执行
+};
+</code></pre><p>以下是drawImage API解释：</p>
+<pre><code>//在(x,y)出绘制图像image
+context.drawImage(image, x, y)
+//在(x,y)出绘制width*height的图像image
+context.drawImage(image, x, y, width, height)
+//在image的(sx,sy)处截取sWidth*sHeight的图像，在(dx,dy)处绘制dWidth*dHeight的图像
+context.drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight)
+</code></pre><h1 id="3-高级功能"><a href="#3-高级功能" class="headerlink" title="3. 高级功能"></a>3. 高级功能</h1><h2 id="3-1-使Canvas填满浏览器窗口"><a href="#3-1-使Canvas填满浏览器窗口" class="headerlink" title="3.1 使Canvas填满浏览器窗口"></a>3.1 使Canvas填满浏览器窗口</h2><p>最简单的方式是将canvas元素的宽度和高度精确设置为浏览器窗口的宽度和高度，用CSS消去白色空隙。</p>
+<p>CSS代码：</p>
+<pre><code>* {
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+}
+
+canvas {
+    display: block;
+}
+</code></pre><p>Javascript代码：</p>
+<pre><code>function resizeCanvas() {
+    //canvas由jQuery获取
+    canvas.attr(&quot;width&quot;, $(window).get(0).innerWidth);
+    canvas.attr(&quot;height&quot;, $(window).get(0).innerHeight);
+    context.fillRect(0, 0, canvas.width(), canvas.height());
+}
+$(window).resize(resizeCanvas);
+resizeCanvas();
+</code></pre><h2 id="3-2-绘图状态"><a href="#3-2-绘图状态" class="headerlink" title="3.2 绘图状态"></a>3.2 绘图状态</h2><p>在canvas中，绘图状图指的是描述某一时刻2D渲染上下文外观的整套属性，包括：变换矩阵、裁剪区域、globalAlpha、globalCompositeOperation、strokeStyle、fillStyle、lineWidth、lineCap、lineJoin、miterLimit、shadowOffsetX、shadowOffsetY、shadowBlur、shadowColor、font、textAlign和textBaseline。</p>
+<p>当需要改变画布全局状态时，一般先将当前状态保存起来——调用save方法将状态推入绘图状态栈），做完操作之后，再调用restore方法回复绘图状态。</p>
+<pre><code>//示例
+context.save();
+context.globalAlpha = 0.5;
+context.fillRect(0, 0, 200, 100);
+context.restore();
+</code></pre><h2 id="3-3-变形"><a href="#3-3-变形" class="headerlink" title="3.3 变形"></a>3.3 变形</h2><h3 id="3-3-1-平移"><a href="#3-3-1-平移" class="headerlink" title="3.3.1 平移"></a>3.3.1 平移</h3><p>将2D渲染上下文的原点从一个位置移动到另一个位置。注意，这里移动的是坐标原点即全局绘图位置，API如下：</p>
+<pre><code>//将坐标原点移动到(x,y)
+context.translate(x, y)
+</code></pre><h3 id="3-3-2-缩放"><a href="#3-3-2-缩放" class="headerlink" title="3.3.2 缩放"></a>3.3.2 缩放</h3><pre><code>//将全局横纵尺寸缩放至x,y倍（即在原有数值乘上倍乘因子）
+context.scale(x, y)
+</code></pre><h3 id="3-3-3-旋转"><a href="#3-3-3-旋转" class="headerlink" title="3.3.3 旋转"></a>3.3.3 旋转</h3><pre><code>//将画布绕着原点旋转radius弧度
+context.rotate(radius)
+</code></pre><p>更多高级特性参见<a href="https://developer.mozilla.org/en-US/docs/HTML/Canvas/Tutorial/Transformations?redirectlocale=en-US&amp;redirectslug=Canvas_tutorial%2FTransformations" target="_blank" rel="noopener">Transformations(MDN)</a>。</p>
+<p>参考文献：<a href="http://book.douban.com/subject/7162014/" target="_blank" rel="noopener">Rob Hawkes《HTML5 Canvas基础教程》人民邮电出版社</a></p>
+
+                
+<p class="green-link-context">
+    <a href="/daily/2012-autumn-summary/" rel="next" title="2012年秋季学期总结">
+    上一篇：2012年秋季学期总结
+  </a>
+</p>
+
+
+
+<p class="green-link-context">
+    <a href="/tech/language/lua/lua-note-3/" rel="next" title="Lua学习笔记（3）——Lua语句">
+    下一篇：Lua学习笔记（3）——Lua语句
+  </a>
+</p>
+
+
+            </div>
+			
+        </div>
+    </div>
+</article>
+
+
+
+
+    <section id="comment">
+        <div id="disqus_thread"></div>
+        <script>
+            var disqus_config = function() {
+                this.page.url = 'http://raytaylorlin.github.io/tech/web/html5/canvas-quick-start/';
+                this.page.identifier = 'tech/web/html5/canvas-quick-start/';
+            };
+            (function() {
+                var d = document,
+                    s = d.createElement('script');
+                s.src = '//raytaylorlin.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', + new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the
+            <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+        </noscript>
+    </section>
+
+
+
+</div>
+
+        <div class="fixed-action-btn float-sitemap">
+    <a class="btn-floating btn-large green">
+      <i class="fa fa-caret-square-o-up"></i>
+    </a>
+    <ul>
+      <li><a class="btn-return-top btn-floating waves-effect pink" title="回到顶部"><i class="fa fa-arrow-circle-o-up"></i></a></li>
+      <li><a class="btn-floating waves-effect button-collapse orange darken-1" data-activates="main-menu" title="菜单"><i class="fa fa-navicon"></i></a></li>
+    </ul>
+  </div>
+
+    </main>
+    <footer class="page-footer indigo darken-1">
+    
+    <div class="footer-container container">
+        <div class="row">
+            
+            <div class="social-group col m4 s12">
+                <h5 class="white-text">社交</h5>
+                
+                    <a class="social-link" href="http://weibo.com/1956184117" target="_blank">
+                        <i class="fa fa-2x fa-weibo"></i>
+                    </a>
+                
+                    <a class="social-link" href="https://github.com/raytaylorlin" target="_blank">
+                        <i class="fa fa-2x fa-github"></i>
+                    </a>
+                
+                    <a class="social-link" href="/atom.xml" target="_blank">
+                        <i class="fa fa-2x fa-rss"></i>
+                    </a>
+                
+                
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+    </script>
+    <div class="site-visitors-container white-text">
+        <span>
+            <i class="fa fa-user"></i>
+            <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+        </span>
+        <span>&nbsp;|&nbsp;</span>
+        <span>
+            <i class="fa fa-eye"></i>
+            <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+        </span>
+    </div>
+
+
+            </div>
+            
+
+            
+            <div class="col m8 s12">
+                <h5 class="white-text">友情链接</h5>
+                
+                    <a class="social-link" href="http://tutuge.me/" target="_blank">土土哥的技术博客</a>
+                
+                    <a class="social-link" href="http://neoyeelf.github.io/" target="_blank">屌刘neoye的博客</a>
+                
+                    <a class="social-link" href="http://diao.li/" target="_blank">李伟涛的博客</a>
+                
+                    <a class="social-link" href="http://suta.im/" target="_blank">苏塔是没有脚的设计师</a>
+                
+                    <a class="social-link" href="http://jfantasy.github.io/" target="_blank">JFantasy的个人博客</a>
+                
+                    <a class="social-link" href="http://pyroc.at/" target="_blank">丁基友的博客</a>
+                
+            </div>
+            
+        </div>
+    </div>
+    
+
+    <div class="footer-copyright green-link-context">
+        <div class="container">
+            © 2019 raytaylorlin.github.io, All rights reserved.
+            <p class="right" style="margin-top: 0;">本博客由 <a href="https://hexo.io">Hexo</a> 强力驱动 | 主题 <a href="https://github.com/raytaylorlin/hexo-theme-raytaylorism">raytaylorism</a></p>
+        </div>
+    </div>
+</footer>
+
+
+    <noscript>
+    <div class="noscript">
+        <p class="center-align">当前网速较慢或者你使用的浏览器不支持博客特定功能，请尝试刷新或换用Chrome、Firefox等现代浏览器</p>
+    </div>
+</noscript>
+<div class="noscript">
+    <p class="center-align">当前网速较慢或者你使用的浏览器不支持博客特定功能，请尝试刷新或换用Chrome、Firefox等现代浏览器</p>
+</div>
+
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/materialize.min.js"></script>
+
+<script>
+    (function($) {
+        $(document).ready(function() {
+            // 隐藏禁用javascript（针对微信内置浏览器）的提示
+            $('.noscript').hide();
+
+            // 图片缩放效果
+            var $imgs = $('img').not('.slider-image').not('.avatar-image').not('.carousel-image').not('.card-cover-image').not('.qrcode');
+
+            // 给图片加上点击放大效果（materialbox插件）
+            $imgs.addClass('materialboxed').each(function(i, el) {
+                $(this).attr('data-caption', $(this).attr('alt') || ' ');
+            }).materialbox();
+
+            // 优化表格的显示
+            $('table').each(function() {
+                var $table = $(this);
+                // 除去多行代码的情况
+                if ($table.find('pre').length == 0) {
+                    $table.addClass('responsive-table striped bordered');
+                }
+            });
+
+            // 首页幻灯片
+            $('.slider').slider({indicators: true, full_width: true, interval: 8000});
+
+            $(".button-collapse").sideNav();
+            $(".category-menu").sideNav();
+
+            // 针对gallery post
+            $('.carousel').carousel({full_width: true});
+            $('.carousel-control.prev').click(function() {
+                $('.carousel').carousel('prev');
+            });
+            $('.carousel-control.next').click(function() {
+                $('.carousel').carousel('next');
+            });
+
+            // 文章目录
+            $('article').not('.simple-article').find('h1').add('h2').add('h3').add('h4').add('h5').add('h6').scrollSpy();
+
+            // 目录随屏幕滚动（防止目录过长越过footer）
+            var $toc = $('.toc');
+            var scrollTargetTop = 0;
+            $(window).scroll(function() {
+                var $activeLink = $toc.find('a.active.section');
+                if ($(window).scrollTop() < 100) {
+                    scrollTargetTop = 0;
+                } else {
+                    if ($activeLink[0]) {
+                        scrollTargetTop = $activeLink.offset().top - $toc.offset().top;
+                    }
+                }
+                $toc.css('top', '-' + scrollTargetTop + 'px');
+            });
+
+            // 修正文章目录的left-border颜色
+            var color = $('.table-of-contents-text').css('color');
+            $('.table-of-contents-link').css('border-left-color', color);
+
+            // 针对移动端做的优化：FAB按钮点击一下收回
+            if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                $('.fixed-action-btn').addClass('click-to-toggle');
+            }
+            // 回到顶部
+            $('.btn-return-top').click(function() {
+                $('body, html').animate({
+                    scrollTop: 0
+                }, 500);
+            });
+
+            // 重置读书页面的Tab标签页的颜色
+            $('li.tab a').hover(function() {
+                $(this).toggleClass('text-lighten-4');
+            });
+            $('.indicator').addClass('green lighten-2');
+
+            
+            // 添加new标签
+            $('.menu-reading').append('<span class="new badge green"></span>');
+            
+
+            // 搜索功能
+            $('.modal-trigger').leanModal({
+                // 打开搜索框时自动聚焦
+                ready: function() {
+                    if ($('#search').is(":visible")) {
+                        $('#search-input').focus();
+                    }
+                }
+            });
+            var searchXml = "search.xml";
+            if (searchXml.length == 0) {
+             	searchXml = "search.xml";
+            }
+            var searchPath = "/" + searchXml;
+            initSearch(searchPath, 'search-input', 'search-result');
+        });
+
+        // 初始化搜索与匹配函数
+        var initSearch = function(path, search_id, content_id) {
+            'use strict';
+            $.ajax({
+                url: path,
+                dataType: "xml",
+                success: function(xmlResponse) {
+                    // get the contents from search data
+                    var datas = $("entry", xmlResponse).map(function() {
+                        return {
+                            title: $("title", this).text(),
+                            content: $("content", this).text(),
+                            url: $("url", this).text()
+                        };
+                    }).get();
+                    var $input = document.getElementById(search_id);
+                    var $resultContent = document.getElementById(content_id);
+                    $input.addEventListener('input', function() {
+                        var str = '<ul class=\"search-result-list\">';
+                        var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                        $resultContent.innerHTML = "";
+                        if (this.value.trim().length <= 0) {
+                            return;
+                        }
+                        // perform local searching
+                        datas.forEach(function(data) {
+                            var isMatch = true;
+                            var content_index = [];
+                            var data_title = data.title.trim().toLowerCase();
+                            var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                            var data_url = data.url;
+                            var index_title = -1;
+                            var index_content = -1;
+                            var first_occur = -1;
+                            // only match artiles with not empty titles and contents
+                            if (data_title != '' && data_content != '') {
+                                keywords.forEach(function(keyword, i) {
+                                    index_title = data_title.indexOf(keyword);
+                                    index_content = data_content.indexOf(keyword);
+                                    if (index_title < 0 && index_content < 0) {
+                                        isMatch = false;
+                                    } else {
+                                        if (index_content < 0) {
+                                            index_content = 0;
+                                        }
+                                        if (i == 0) {
+                                            first_occur = index_content;
+                                        }
+                                    }
+                                });
+                            }
+                            // show search results
+                            if (isMatch) {
+                                keywords.forEach(function(keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    data_title = data_title.replace(regS, "<span class=\"search-keyword green lighten-2\">" + keyword + "</span>");
+                                });
+
+                                str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                                var content = data.content.trim().replace(/<[^>]+>/g, "");
+                                if (first_occur >= 0) {
+                                    // cut out 100 characters
+                                    var start = first_occur - 20;
+                                    var end = first_occur + 80;
+                                    if (start < 0) {
+                                        start = 0;
+                                    }
+                                    if (start == 0) {
+                                        end = 100;
+                                    }
+                                    if (end > content.length) {
+                                        end = content.length;
+                                    }
+                                    var match_content = content.substring(start, end);
+                                    // highlight all keywords
+                                    keywords.forEach(function(keyword) {
+                                        var regS = new RegExp(keyword, "gi");
+                                        match_content = match_content.replace(regS, "<span class=\"search-keyword green lighten-2\">" + keyword + "</span>");
+                                    });
+
+                                    str += "<p class=\"search-result\">..." + match_content + "...</p>"
+                                }
+                                str += "</li>";
+                            }
+                        });
+                        str += "</ul>";
+                        $resultContent.innerHTML = str;
+                    });
+                }
+            });
+        }
+    })(jQuery);
+</script>
+
+
+<script src="/js/prettify.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("pre").addClass("prettyprint");
+        prettyPrint();
+    });
+</script>
+
+
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-43460643-1', 'auto');
+    ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+<script type="text/javascript" async src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+
+</body>
+</html>

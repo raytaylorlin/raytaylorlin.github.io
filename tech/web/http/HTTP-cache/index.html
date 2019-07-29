@@ -1,0 +1,907 @@
+<!DOCTYPE HTML>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    
+
+    <title>HTTP学习笔记：缓存 | </title>
+    <meta name="author" content="RayTaylor Lin">
+    
+    <meta name="description" content="水镜一人性，月读一波明。轻扬一宿星，枫过一帆灵。">
+    
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta property="og:title" content="HTTP学习笔记：缓存">
+    <meta property="og:site_name" content="Ray Taylor Lin&#39;s world">
+
+    
+    <meta property="og:image" content>
+    
+
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="alternate" href="/atom.xml" title="Ray Taylor Lin&#39;s world" type="application/atom+xml">
+    <link rel="stylesheet" href="/css/lib/materialize.min.css">
+    <link rel="stylesheet" href="/css/lib/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+
+    
+        <link rel="stylesheet" href="/css/lib/prettify-tomorrow-night-eighties.css" type="text/css">
+    
+    <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+</head>
+</html>
+
+<body>
+    <img src="/weixin_favicon.png" style="position: absolute; left: -9999px; opacity: 0; filter: alpha(opacity=0);">
+
+    <nav class="indigo">
+    <div class="nav-wrapper">
+        <a href="#" data-activates="main-menu" class="button-collapse">
+            <i class="fa fa-navicon"></i>
+        </a>
+        <div class>
+            <a href="/" class="brand-logo hide-on-med-and-down">Ray Taylor Lin&#39;s world</a>
+            <ul class="right hide-on-med-and-down">
+                
+                    <li>
+                        <a class="menu-home " href="/">
+                            <i class="fa fa-home "></i>
+                            
+                            首页
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-archive " href="/archives">
+                            <i class="fa fa-archive "></i>
+                            
+                            归档
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-category category-menu" href="javascript:;" data-activates="category-menu">
+                            <i class="fa fa-bookmark "></i>
+                            
+                            分类
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-reading " href="/reading">
+                            <i class="fa fa-book "></i>
+                            
+                            读书
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-about " href="/about">
+                            <i class="fa fa-user "></i>
+                            
+                            关于
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-search modal-trigger " href="#search">
+                            <i class="fa fa-search "></i>
+                            
+                            搜索
+                        </a>
+                    </li>
+                
+            </ul>
+            <div>
+    <ul class="side-nav indigo darken-1" id="main-menu">
+        
+        <li class="side-user">
+            <div class="row">
+                <div class="col s4 no-padding">
+                    <img class="avatar-image circle responsive-img" src="http://tp2.sinaimg.cn/1956184117/180/5674436546/1" alt="User Avatar">
+                </div>
+                <div class="info col s8 valign-wrapper no-padding">
+                    <div class="valign">
+                        <p class="name">林寿山</p>
+                        <p class="desc">游戏开发/Web前端</p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        
+
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-home " href="/">
+                    <i class="fa fa-home "></i>
+                    
+                    首页
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-archive " href="/archives">
+                    <i class="fa fa-archive "></i>
+                    
+                    归档
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-category category-menu" href="javascript:;" data-activates="category-menu">
+                    <i class="fa fa-bookmark "></i>
+                    
+                    分类
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-reading " href="/reading">
+                    <i class="fa fa-book "></i>
+                    
+                    读书
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-about " href="/about">
+                    <i class="fa fa-user "></i>
+                    
+                    关于
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-search modal-trigger " href="#search">
+                    <i class="fa fa-search "></i>
+                    
+                    搜索
+                </a>
+            </li>
+        
+    </ul>
+
+    <ul class="side-nav indigo darken-1" id="category-menu">
+    
+
+            
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/日常/">
+                    日常 <span class="right">8 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/技术/">
+                    技术 <span class="right">93 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/算法/">
+                    算法 <span class="right">6 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/Linux/">
+                    Linux <span class="right">2 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/综合/">
+                    综合 <span class="right">23 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/综合/演示/">
+                    演示 <span class="right">2 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/综合/设计模式/">
+                    设计模式 <span class="right">3 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/综合/软件工程/">
+                    软件工程 <span class="right">15 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/综合/杂项/">
+                    杂项 <span class="right">1 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/综合/项目/">
+                    项目 <span class="right">2 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/游戏开发/">
+                    游戏开发 <span class="right">19 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/游戏开发/服务器端/">
+                    服务器端 <span class="right">2 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/游戏开发/客户端/">
+                    客户端 <span class="right">1 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/游戏开发/游戏引擎/">
+                    游戏引擎 <span class="right">11 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/游戏开发/Unity/">
+                    Unity <span class="right">5 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-3" collapse-level="3">
+                <a class="no-padding" href="/categories/技术/游戏开发/Unity/NGUI/">
+                    NGUI <span class="right">5 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/编程语言/">
+                    编程语言 <span class="right">15 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/编程语言/Lua/">
+                    Lua <span class="right">7 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/编程语言/其它语言/">
+                    其它语言 <span class="right">4 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/编程语言/Python/">
+                    Python <span class="right">4 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/工具/">
+                    工具 <span class="right">7 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/工具/IDE/">
+                    IDE <span class="right">3 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/工具/Git/">
+                    Git <span class="right">4 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/Web前端/">
+                    Web前端 <span class="right">21 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/Web前端/HTTP协议/">
+                    HTTP协议 <span class="right">7 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/Web前端/CSS/">
+                    CSS <span class="right">3 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/Web前端/HTML5/">
+                    HTML5 <span class="right">2 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/Web前端/NodeJS/">
+                    NodeJS <span class="right">9 篇</span></a>
+                
+            </li>
+
+        
+
+    </ul>
+</div>
+
+        </div>
+    </div>
+</nav>
+
+<div id="search" class="modal search-modal">
+    <div class="row">
+        <div class="input-field col s12">
+              <input id="search-input" type="text">
+              <label for="search-input">搜索</label>
+        </div>
+
+    </div>
+    <div id="search-result" class="search-result col s12">
+
+    </div>
+</div>
+
+
+    <main>
+        <div class="container main-container">
+    <nav class="page-nav hide-on-small-only">
+    <div class="nav-wrapper indigo">
+        <span class="breadcrumb">当前位置（分类目录）</span>
+        
+            
+    
+    
+    <a class="breadcrumb" href="/categories/技术/">技术</a><a class="breadcrumb" href="/categories/技术/Web前端/">Web前端</a><a class="breadcrumb" href="/categories/技术/Web前端/HTTP协议/">HTTP协议</a>
+
+
+        
+
+        
+    </div>
+</nav>
+
+<article>
+    <div class="card">
+        <div class="card-content">
+            
+
+            <div class="article-title">
+                
+    
+        <h1>HTTP学习笔记：缓存</h1>
+    
+
+
+            </div>
+            <time class="green-link-context" datetime="2014-05-14T02:47:05.000Z"><a href="/tech/web/http/HTTP-cache/">2014-05-14</a></time>
+
+            <span id="busuanzi_container_page_pv" class="read-times-container">
+    <i class="fa fa-eye"></i>
+    <span id="busuanzi_value_page_pv"></span>
+</span>
+
+            
+    <div class="tags-row">
+        
+            <a href="/tags/HTTP/" class="chip green lighten-1">HTTP</a>
+        
+            <a href="/tags/缓存/" class="chip green lighten-1">缓存</a>
+        
+    </div>
+
+
+            <div class="toc green-link-context hide-on-med-and-down">
+    <ol class="section table-of-contents"><li class="section table-of-contents-item section table-of-contents-level-1"><a class="section table-of-contents-link" href="#1-使用缓存的意义"><span class="section table-of-contents-text">1. 使用缓存的意义</span></a></li><li class="section table-of-contents-item section table-of-contents-level-1"><a class="section table-of-contents-link" href="#2-缓存命中"><span class="section table-of-contents-text">2. 缓存命中</span></a></li><li class="section table-of-contents-item section table-of-contents-level-1"><a class="section table-of-contents-link" href="#3-缓存的拓扑结构"><span class="section table-of-contents-text">3. 缓存的拓扑结构</span></a></li><li class="section table-of-contents-item section table-of-contents-level-1"><a class="section table-of-contents-link" href="#4-缓存的处理步骤"><span class="section table-of-contents-text">4. 缓存的处理步骤</span></a></li><li class="section table-of-contents-item section table-of-contents-level-1"><a class="section table-of-contents-link" href="#5-保持副本的新鲜"><span class="section table-of-contents-text">5. 保持副本的新鲜</span></a></li><li class="section table-of-contents-item section table-of-contents-level-1"><a class="section table-of-contents-link" href="#6-控制缓存"><span class="section table-of-contents-text">6. 控制缓存</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#6-1-响应首部"><span class="section table-of-contents-text">6.1 响应首部</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#6-2-请求首部"><span class="section table-of-contents-text">6.2 请求首部</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#6-3-控制Apache的HTTP首部"><span class="section table-of-contents-text">6.3 控制Apache的HTTP首部</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#6-4-通过HTML的http-equiv控制HTML缓存"><span class="section table-of-contents-text">6.4 通过HTML的http-equiv控制HTML缓存</span></a></li></ol></li></ol>
+</div>
+
+
+            <div class="entry green-link-context">
+                <p>Web缓存是可以自动保存常见文档副本的HTTP设备。当Web请求抵达缓存时，如果本地有“已缓存的”副本，就可以从本地存储设备而不是原始服务器中提取这个文档。使用缓存可以减少冗余的数据传输，环节网络瓶颈的问题，降低对原始服务器的要求以及降低距离时延。</p>
+<p>本文解释了缓存怎样提供性能降低费用，如何去衡量其有效性以及将缓存置于何处可以发挥它的最大作用。此外还会解释HTTP如何保持已缓存副本的新鲜度，缓存如何与其他缓存和服务器通信等问题。</p>
+<a id="more"></a>
+<h1 id="1-使用缓存的意义"><a href="#1-使用缓存的意义" class="headerlink" title="1. 使用缓存的意义"></a>1. 使用缓存的意义</h1><p>很多客户端访问一个流行的原始服务器页面时，服务器会多次传输同一份文档，一些相同的字节会在网络中一遍遍地传输。这些冗余的数据传输会消耗昂贵的网络带宽，降低传输速度。有了缓存，就可以保留第一条服务器响应的副本，后继请求就可以由缓存副本来应对了。缓存还可以缓解网络的瓶颈问题，因为本地网络提供的带宽远比远程服务器的带宽要宽，所以如果本地网络中有缓存，则可以显著提高性能。此外，缓存在应对“瞬间拥塞”即短时间内访问量激增的情况显得非常重要。</p>
+<p>每台网络路由器都会增加因特网流量的时延，即使客户端和服务器之间没有太多的路由器，光速自身也会造成显著的时延。这种时延尤其体现在跨国之间的数据传输，而一份在附近机房的缓存可以将文件传输距离从数千公里缩短为数十米。</p>
+<h1 id="2-缓存命中"><a href="#2-缓存命中" class="headerlink" title="2. 缓存命中"></a>2. 缓存命中</h1><p>缓存不能保存世界上每份文档的副本。当可以用已有的副本为某些到达缓存的请求提供服务，则称为<strong>缓存命中</strong>（cache hit），到达缓存的请求可能因为没有副本可用而被转发到原始服务器，称为<strong>缓存未命中</strong>（cache miss）。原始服务器的内容可能随时发生变化，缓存要不时对其进行检测看保存的副本是否仍是服务器上最新的副本，这种“新鲜度检测”称为<strong>HTTP再验证</strong>（revalidatioin）。</p>
+<p>缓存进行再验证时，最常用的是将If-Modified-Since首部加到GET请求中。服务器收到该请求会发生以下三种情况：</p>
+<ul>
+<li>再验证命中：如果内容未被修改，服务器会以304 Not Modified响应，只要缓存知道副本仍然有效，就会再次将副本标识为暂时新鲜，并将副本提供给客户端。</li>
+<li>再验证未命中：服务器向客户端发送一条普通的带有完整内容的HTTP 200 OK响应</li>
+<li>对象被删除：如果服务器对象已被删除，服务器会回送404 Not Found，缓存也会将副本删除。</li>
+</ul>
+<p>由缓存提供服务的请求所占的比例称为<strong>缓存命中率</strong>。对现在中等规模的Web缓存来说，40%的命中率是比较合理的。还有一种<strong>字节命中率</strong>表示缓存提供的字节在传输的所有字节所占的比例。文档命中率说明阻止了多少通往外部网络的Web事务，字节命中率说明阻止了多少字节传向因特网，提高字节命中率对节省带宽很有利。</p>
+<p>HTTP没有为用户提供一种手段来区分响应是否来自缓存。可以使用Date首部来间接地判断，如果响应中的日期值比当前时间早，则可以认为这是一条缓存的响应。</p>
+<h1 id="3-缓存的拓扑结构"><a href="#3-缓存的拓扑结构" class="headerlink" title="3. 缓存的拓扑结构"></a>3. 缓存的拓扑结构</h1><p>缓存可以是单个用户专用的私有缓存，也可以是包含某个用户团体常用页面的公有缓存。私有缓存不需要很大的存储空间，可以将其做得很小很便宜，比如很多Web浏览器都有内建的私有缓存。公有缓存是特殊的共享代理服务器，它会接受来自多个用户的访问，可以更好地减少冗余流量。</p>
+<p>在实际应用中，层次化的缓存是很有意义的。在较小的缓存中未命中的请求会被导向较大的父缓存，在靠近客户端的地方使用小型廉价缓存，更高层次中逐步采用更大，功能更强的缓存来装载多用户共享的文档。此外还有更加复杂的网状缓存，它们会根据URL在父缓存或原始服务器之间进行动态选择，也会决定选择何种路由对内容进行访问、管理和传送。</p>
+<h1 id="4-缓存的处理步骤"><a href="#4-缓存的处理步骤" class="headerlink" title="4. 缓存的处理步骤"></a>4. 缓存的处理步骤</h1><p>Web缓存的基本处理步骤包括7个步骤，如下图所示。</p>
+<p><img src="http://raytaylorlin-blog.oss-cn-shenzhen.aliyuncs.com/image/HTTP/Web%E7%BC%93%E5%AD%98%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%A4%84%E7%90%86%E6%AD%A5%E9%AA%A4.jpg" alt="Web缓存的基本处理步骤"></p>
+<ol>
+<li>接收：缓存检测到一条网络连接上的活动，读取输入数据。高性能的缓存会同时从多条输入连接上读取数据，在整条报文抵达之前开始处理事务。</li>
+<li>解析：将请求报文解析为片段，将首部各个部分放入易于操作的数据结构中。</li>
+<li>查找：查找本地副本（可能位于内存、本地磁盘甚至另一台计算机中）。专业级的缓存会使用快速算法来确定本地缓存中是否有某个对象。</li>
+<li>新鲜度检测：缓存会将服务器文档的副本保留一段时间，在“新鲜度限值”的时间之内都认为文档是“新鲜的”。超过限值的要和服务器进行再验证，以查看文档是否发生变化。新鲜度检测是一个非常复杂的问题，本文剩余部分将讨论这个问题。</li>
+<li>创建响应：缓存会对服务器响应的基础首部进行修改和扩充，例如将低版本的HTTP转换成HTTP/1.1响应。缓存还会向首部插入新鲜度信息（Cache-Control、Age、Expires首部等）。</li>
+<li>发送：高性能缓存会尽力高效发送数据，通常可以避免在本地缓存和网络I/O缓冲区之间进行文档内容的复制。</li>
+<li>日志：保存于缓存使用有关的一些统计数据，如更新缓存命中和未命中数目数据等。</li>
+</ol>
+<h1 id="5-保持副本的新鲜"><a href="#5-保持副本的新鲜" class="headerlink" title="5. 保持副本的新鲜"></a>5. 保持副本的新鲜</h1><p>不是所有的缓存副本都与服务器上的文档一致，因为服务器上的文档可能随时都会变化，缓存数据必须要与服务器保持一致。HTTP有一些简单的机制可以在<em>不要求服务器记住有哪些缓存拥有其文档副本的情况下</em>，保持已缓存数据与服务器之间充分一致。通过特殊的HTTP <code>Cache-Control:max-age</code>（HTTP/1.1首部，定义了文档的最大试用期）和<code>Exipires</code>（HTTP/1.0+首部，指定一个绝对的过期日期）首部，原始服务器向每个文档附加一个“过期日期”，说明了再多长时间内可以将这些内容视为新鲜的。</p>
+<p>过了过期日期之后只是意味着缓存要和服务器进行再验证。若再验证显示内容发生了变化，缓存会获取一份新的副本并存储在旧文档的位置上；若没有发生变化，缓存只需要获取新的过期日期并更新就可以了。</p>
+<p>正如第2节所说的，缓存可以向原始服务器发送一个“条件GET”来进行再验证。最常见的缓存再验证首部是<code>If-Modified-Since:Date</code>（IMS请求）。只有自某个日期之后资源发生了变化，GET才会成功执行回送新的文档。该首部可以与<code>Last-Modified</code>服务器响应首部配合工作。原始服务器会将最后的修改日期附加到所提供的文档上去。当缓存要再验证时，就会发送携带最后修改日期的IMS请求。</p>
+<p>有一些情况仅使用最后修改日期进行再验证是不够的，例如：有的文档可能会被周期性地重写，尽管内容没变，但修改日期会变；有的文档可能被修改了，但所做修改没必要让世界范围内的缓存都重新获取数据；有的服务器无法准确判定其页面的最后修改日期；有的服务器提供的文档会在秒级以内发生变化，以一秒为粒度的修改日期可能不够用。为了解决这些问题，HTTP允许用户对<strong>实体标签ETag</strong>进行比较。当发布者对文档进行修改时，可以修改文档的实体标签来说明这个新的版本，缓存可以用<code>If-None-Match</code>条件首部来GET文档的新副本。</p>
+<p>如果服务器回送一个ETag，客户端就必须使用实体标签验证器；如果服务器只回送一个Last-Modified值，客户端就可以使用If-Modified-Since验证。如果两者都提供，客户端就应该使用两种验证方案。当服务器同时收到两种方案的请求，只有当两个条件都满足时，才能返回304 Not Modified响应。</p>
+<h1 id="6-控制缓存"><a href="#6-控制缓存" class="headerlink" title="6. 控制缓存"></a>6. 控制缓存</h1><h2 id="6-1-响应首部"><a href="#6-1-响应首部" class="headerlink" title="6.1 响应首部"></a>6.1 响应首部</h2><p>服务器可以通过HTTP定义的几种方式来指定在文档过期之前可以将其缓存多长时间。按照优先级递减的顺序，以下给出了这些控制缓存的首部。</p>
+<ul>
+<li>Cache-Control:no-store：禁止缓存对响应进行复制。缓存会向客户端转发一条no-store响应，然后删除对象。</li>
+<li>Cache-Control:no-cache：实际上可以存储在本地缓存区。只是在与原始服务器进行新鲜度再验证之前，缓存不能将其提供给客户端使用。</li>
+<li>Cache-Control:must-revalidate：缓存是可以提供一些过期的对象的（保存在缓存上的副本有多个版本）。原始服务器可以用这个首部告诉缓存，在事先没有再验证的情况下，不能提供这个对象的过期副本。缓存仍然可以随意提供新鲜的副本。</li>
+<li>Cache-Control:max-age：表示从服务器将文档传来之时起，可以认为此文档处于新鲜状态的秒数。若为0，每次访问都不缓存。</li>
+<li>Expires：指定实际（绝对）的过期日期。但由于很多服务器的时钟不同步或不正确，最好还是使用max-age剩余秒数来表示过期时间。</li>
+</ul>
+<p>如果响应中没有说明过期时间的首部，缓存可以通过一些算法来计算出一个试探性最大使用期。比如LM-Factor算法利用文档的最后修改日期来计算过期时间。</p>
+<h2 id="6-2-请求首部"><a href="#6-2-请求首部" class="headerlink" title="6.2 请求首部"></a>6.2 请求首部</h2><p>Web浏览器也可以用Cache-Control请求首部来强化或放松对过期时间的限制，下面列举这些首部。</p>
+<ul>
+<li>Cache-Control:max-stale=s：缓存可以随意提供过期的文件。如果指定了参数s，在这段时间内文档就不能过期。这条指令放松了缓存规则。</li>
+<li>Cache-Control:min-fresh=s：至少在未来s秒内文档要保持新鲜。这条指令使缓存规则更加严格。</li>
+<li>Cache-Control:no-cache：除非资源进行了再验证，否则这个客户端不会接受已缓存的资源。</li>
+<li>Cache-Control:no-store：缓存应该尽快从存储器中删除文档的所有痕迹。</li>
+<li>Cache-Control:only-if-cached：只有当缓存中有副本存在时，客户端才会获取一份副本。</li>
+</ul>
+<h2 id="6-3-控制Apache的HTTP首部"><a href="#6-3-控制Apache的HTTP首部" class="headerlink" title="6.3 控制Apache的HTTP首部"></a>6.3 控制Apache的HTTP首部</h2><p>Apache Web服务器提供了几种设置HTTP缓存控制首部的机制，其中很多机制在默认情况下是没有启动的（需要手动启动或自行安装扩展模块）。</p>
+<ul>
+<li>mod_headers：该模块可以对单独的首部进行配置，还可以将这些配置与Apache的常用表达式及过滤器结合在一起使用</li>
+<li>mod_expires：可以自动生成带有正确过期日期的Expires首部。</li>
+<li>mod_cern_meta：可以将一个包含HTTP首部的文件与特定的对象联系起来。</li>
+</ul>
+<h2 id="6-4-通过HTML的http-equiv控制HTML缓存"><a href="#6-4-通过HTML的http-equiv控制HTML缓存" class="headerlink" title="6.4 通过HTML的http-equiv控制HTML缓存"></a>6.4 通过HTML的http-equiv控制HTML缓存</h2><p>为了让开发者在无需与服务器配置文件进行交互的情况下，能够更容易地为所提供的HTML文档分配HTTP首部信息，可以使用一个meta标签来控制HTML缓存。例如下面的代码将HTML文档标记为非缓存的。</p>
+<pre><code>&lt;head&gt;
+    &lt;meta http-equiv=&quot;Cache-Control&quot; content=&quot;no-cache&quot;&gt;
+&lt;/head&gt;
+</code></pre><p>但是，通过meta标签并不是控制文档缓存特性的好方法，因为这个可选特性会增加服务器的额外负载，很多服务器或代理也不支持此特性。由经过正确配置的服务器发送的HTTP首部来交流对文档的缓存控制请求是唯一可靠的方法。</p>
+<p>注：本文略过了原书“7.11详细算法”缓存使用期和新鲜度计算算法的内容以及“7.12缓存和广告”的内容。</p>
+<p>参考文献：人民邮电出版社《HTTP权威指南》第7章</p>
+
+                
+<p class="green-link-context">
+    <a href="/tech/tool/IDE/console2-better-windows-cmd/" rel="next" title="Console2：Windows命令行威力加强版">
+    上一篇：Console2：Windows命令行威力加强版
+  </a>
+</p>
+
+
+
+<p class="green-link-context">
+    <a href="/tech/web/http/HTTP-proxy/" rel="next" title="HTTP学习笔记：代理">
+    下一篇：HTTP学习笔记：代理
+  </a>
+</p>
+
+
+            </div>
+			
+        </div>
+    </div>
+</article>
+
+
+
+
+    <section id="comment">
+        <div id="disqus_thread"></div>
+        <script>
+            var disqus_config = function() {
+                this.page.url = 'http://raytaylorlin.github.io/tech/web/http/HTTP-cache/';
+                this.page.identifier = 'tech/web/http/HTTP-cache/';
+            };
+            (function() {
+                var d = document,
+                    s = d.createElement('script');
+                s.src = '//raytaylorlin.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', + new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the
+            <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+        </noscript>
+    </section>
+
+
+
+</div>
+
+        <div class="fixed-action-btn float-sitemap">
+    <a class="btn-floating btn-large green">
+      <i class="fa fa-caret-square-o-up"></i>
+    </a>
+    <ul>
+      <li><a class="btn-return-top btn-floating waves-effect pink" title="回到顶部"><i class="fa fa-arrow-circle-o-up"></i></a></li>
+      <li><a class="btn-floating waves-effect button-collapse orange darken-1" data-activates="main-menu" title="菜单"><i class="fa fa-navicon"></i></a></li>
+    </ul>
+  </div>
+
+    </main>
+    <footer class="page-footer indigo darken-1">
+    
+    <div class="footer-container container">
+        <div class="row">
+            
+            <div class="social-group col m4 s12">
+                <h5 class="white-text">社交</h5>
+                
+                    <a class="social-link" href="http://weibo.com/1956184117" target="_blank">
+                        <i class="fa fa-2x fa-weibo"></i>
+                    </a>
+                
+                    <a class="social-link" href="https://github.com/raytaylorlin" target="_blank">
+                        <i class="fa fa-2x fa-github"></i>
+                    </a>
+                
+                    <a class="social-link" href="/atom.xml" target="_blank">
+                        <i class="fa fa-2x fa-rss"></i>
+                    </a>
+                
+                
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+    </script>
+    <div class="site-visitors-container white-text">
+        <span>
+            <i class="fa fa-user"></i>
+            <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+        </span>
+        <span>&nbsp;|&nbsp;</span>
+        <span>
+            <i class="fa fa-eye"></i>
+            <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+        </span>
+    </div>
+
+
+            </div>
+            
+
+            
+            <div class="col m8 s12">
+                <h5 class="white-text">友情链接</h5>
+                
+                    <a class="social-link" href="http://tutuge.me/" target="_blank">土土哥的技术博客</a>
+                
+                    <a class="social-link" href="http://neoyeelf.github.io/" target="_blank">屌刘neoye的博客</a>
+                
+                    <a class="social-link" href="http://diao.li/" target="_blank">李伟涛的博客</a>
+                
+                    <a class="social-link" href="http://suta.im/" target="_blank">苏塔是没有脚的设计师</a>
+                
+                    <a class="social-link" href="http://jfantasy.github.io/" target="_blank">JFantasy的个人博客</a>
+                
+                    <a class="social-link" href="http://pyroc.at/" target="_blank">丁基友的博客</a>
+                
+            </div>
+            
+        </div>
+    </div>
+    
+
+    <div class="footer-copyright green-link-context">
+        <div class="container">
+            © 2019 raytaylorlin.github.io, All rights reserved.
+            <p class="right" style="margin-top: 0;">本博客由 <a href="https://hexo.io">Hexo</a> 强力驱动 | 主题 <a href="https://github.com/raytaylorlin/hexo-theme-raytaylorism">raytaylorism</a></p>
+        </div>
+    </div>
+</footer>
+
+
+    <noscript>
+    <div class="noscript">
+        <p class="center-align">当前网速较慢或者你使用的浏览器不支持博客特定功能，请尝试刷新或换用Chrome、Firefox等现代浏览器</p>
+    </div>
+</noscript>
+<div class="noscript">
+    <p class="center-align">当前网速较慢或者你使用的浏览器不支持博客特定功能，请尝试刷新或换用Chrome、Firefox等现代浏览器</p>
+</div>
+
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/materialize.min.js"></script>
+
+<script>
+    (function($) {
+        $(document).ready(function() {
+            // 隐藏禁用javascript（针对微信内置浏览器）的提示
+            $('.noscript').hide();
+
+            // 图片缩放效果
+            var $imgs = $('img').not('.slider-image').not('.avatar-image').not('.carousel-image').not('.card-cover-image').not('.qrcode');
+
+            // 给图片加上点击放大效果（materialbox插件）
+            $imgs.addClass('materialboxed').each(function(i, el) {
+                $(this).attr('data-caption', $(this).attr('alt') || ' ');
+            }).materialbox();
+
+            // 优化表格的显示
+            $('table').each(function() {
+                var $table = $(this);
+                // 除去多行代码的情况
+                if ($table.find('pre').length == 0) {
+                    $table.addClass('responsive-table striped bordered');
+                }
+            });
+
+            // 首页幻灯片
+            $('.slider').slider({indicators: true, full_width: true, interval: 8000});
+
+            $(".button-collapse").sideNav();
+            $(".category-menu").sideNav();
+
+            // 针对gallery post
+            $('.carousel').carousel({full_width: true});
+            $('.carousel-control.prev').click(function() {
+                $('.carousel').carousel('prev');
+            });
+            $('.carousel-control.next').click(function() {
+                $('.carousel').carousel('next');
+            });
+
+            // 文章目录
+            $('article').not('.simple-article').find('h1').add('h2').add('h3').add('h4').add('h5').add('h6').scrollSpy();
+
+            // 目录随屏幕滚动（防止目录过长越过footer）
+            var $toc = $('.toc');
+            var scrollTargetTop = 0;
+            $(window).scroll(function() {
+                var $activeLink = $toc.find('a.active.section');
+                if ($(window).scrollTop() < 100) {
+                    scrollTargetTop = 0;
+                } else {
+                    if ($activeLink[0]) {
+                        scrollTargetTop = $activeLink.offset().top - $toc.offset().top;
+                    }
+                }
+                $toc.css('top', '-' + scrollTargetTop + 'px');
+            });
+
+            // 修正文章目录的left-border颜色
+            var color = $('.table-of-contents-text').css('color');
+            $('.table-of-contents-link').css('border-left-color', color);
+
+            // 针对移动端做的优化：FAB按钮点击一下收回
+            if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                $('.fixed-action-btn').addClass('click-to-toggle');
+            }
+            // 回到顶部
+            $('.btn-return-top').click(function() {
+                $('body, html').animate({
+                    scrollTop: 0
+                }, 500);
+            });
+
+            // 重置读书页面的Tab标签页的颜色
+            $('li.tab a').hover(function() {
+                $(this).toggleClass('text-lighten-4');
+            });
+            $('.indicator').addClass('green lighten-2');
+
+            
+            // 添加new标签
+            $('.menu-reading').append('<span class="new badge green"></span>');
+            
+
+            // 搜索功能
+            $('.modal-trigger').leanModal({
+                // 打开搜索框时自动聚焦
+                ready: function() {
+                    if ($('#search').is(":visible")) {
+                        $('#search-input').focus();
+                    }
+                }
+            });
+            var searchXml = "search.xml";
+            if (searchXml.length == 0) {
+             	searchXml = "search.xml";
+            }
+            var searchPath = "/" + searchXml;
+            initSearch(searchPath, 'search-input', 'search-result');
+        });
+
+        // 初始化搜索与匹配函数
+        var initSearch = function(path, search_id, content_id) {
+            'use strict';
+            $.ajax({
+                url: path,
+                dataType: "xml",
+                success: function(xmlResponse) {
+                    // get the contents from search data
+                    var datas = $("entry", xmlResponse).map(function() {
+                        return {
+                            title: $("title", this).text(),
+                            content: $("content", this).text(),
+                            url: $("url", this).text()
+                        };
+                    }).get();
+                    var $input = document.getElementById(search_id);
+                    var $resultContent = document.getElementById(content_id);
+                    $input.addEventListener('input', function() {
+                        var str = '<ul class=\"search-result-list\">';
+                        var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                        $resultContent.innerHTML = "";
+                        if (this.value.trim().length <= 0) {
+                            return;
+                        }
+                        // perform local searching
+                        datas.forEach(function(data) {
+                            var isMatch = true;
+                            var content_index = [];
+                            var data_title = data.title.trim().toLowerCase();
+                            var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                            var data_url = data.url;
+                            var index_title = -1;
+                            var index_content = -1;
+                            var first_occur = -1;
+                            // only match artiles with not empty titles and contents
+                            if (data_title != '' && data_content != '') {
+                                keywords.forEach(function(keyword, i) {
+                                    index_title = data_title.indexOf(keyword);
+                                    index_content = data_content.indexOf(keyword);
+                                    if (index_title < 0 && index_content < 0) {
+                                        isMatch = false;
+                                    } else {
+                                        if (index_content < 0) {
+                                            index_content = 0;
+                                        }
+                                        if (i == 0) {
+                                            first_occur = index_content;
+                                        }
+                                    }
+                                });
+                            }
+                            // show search results
+                            if (isMatch) {
+                                keywords.forEach(function(keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    data_title = data_title.replace(regS, "<span class=\"search-keyword green lighten-2\">" + keyword + "</span>");
+                                });
+
+                                str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                                var content = data.content.trim().replace(/<[^>]+>/g, "");
+                                if (first_occur >= 0) {
+                                    // cut out 100 characters
+                                    var start = first_occur - 20;
+                                    var end = first_occur + 80;
+                                    if (start < 0) {
+                                        start = 0;
+                                    }
+                                    if (start == 0) {
+                                        end = 100;
+                                    }
+                                    if (end > content.length) {
+                                        end = content.length;
+                                    }
+                                    var match_content = content.substring(start, end);
+                                    // highlight all keywords
+                                    keywords.forEach(function(keyword) {
+                                        var regS = new RegExp(keyword, "gi");
+                                        match_content = match_content.replace(regS, "<span class=\"search-keyword green lighten-2\">" + keyword + "</span>");
+                                    });
+
+                                    str += "<p class=\"search-result\">..." + match_content + "...</p>"
+                                }
+                                str += "</li>";
+                            }
+                        });
+                        str += "</ul>";
+                        $resultContent.innerHTML = str;
+                    });
+                }
+            });
+        }
+    })(jQuery);
+</script>
+
+
+<script src="/js/prettify.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("pre").addClass("prettyprint");
+        prettyPrint();
+    });
+</script>
+
+
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-43460643-1', 'auto');
+    ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+<script type="text/javascript" async src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+
+</body>
+</html>

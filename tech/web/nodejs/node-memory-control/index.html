@@ -1,0 +1,874 @@
+<!DOCTYPE HTML>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    
+
+    <title>Node.js学习笔记：内存控制 | </title>
+    <meta name="author" content="RayTaylor Lin">
+    
+    <meta name="description" content="水镜一人性，月读一波明。轻扬一宿星，枫过一帆灵。">
+    
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta property="og:title" content="Node.js学习笔记：内存控制">
+    <meta property="og:site_name" content="Ray Taylor Lin&#39;s world">
+
+    
+    <meta property="og:image" content>
+    
+
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="alternate" href="/atom.xml" title="Ray Taylor Lin&#39;s world" type="application/atom+xml">
+    <link rel="stylesheet" href="/css/lib/materialize.min.css">
+    <link rel="stylesheet" href="/css/lib/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+
+    
+        <link rel="stylesheet" href="/css/lib/prettify-tomorrow-night-eighties.css" type="text/css">
+    
+    <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+</head>
+</html>
+
+<body>
+    <img src="/weixin_favicon.png" style="position: absolute; left: -9999px; opacity: 0; filter: alpha(opacity=0);">
+
+    <nav class="indigo">
+    <div class="nav-wrapper">
+        <a href="#" data-activates="main-menu" class="button-collapse">
+            <i class="fa fa-navicon"></i>
+        </a>
+        <div class>
+            <a href="/" class="brand-logo hide-on-med-and-down">Ray Taylor Lin&#39;s world</a>
+            <ul class="right hide-on-med-and-down">
+                
+                    <li>
+                        <a class="menu-home " href="/">
+                            <i class="fa fa-home "></i>
+                            
+                            首页
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-archive " href="/archives">
+                            <i class="fa fa-archive "></i>
+                            
+                            归档
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-category category-menu" href="javascript:;" data-activates="category-menu">
+                            <i class="fa fa-bookmark "></i>
+                            
+                            分类
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-reading " href="/reading">
+                            <i class="fa fa-book "></i>
+                            
+                            读书
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-about " href="/about">
+                            <i class="fa fa-user "></i>
+                            
+                            关于
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-search modal-trigger " href="#search">
+                            <i class="fa fa-search "></i>
+                            
+                            搜索
+                        </a>
+                    </li>
+                
+            </ul>
+            <div>
+    <ul class="side-nav indigo darken-1" id="main-menu">
+        
+        <li class="side-user">
+            <div class="row">
+                <div class="col s4 no-padding">
+                    <img class="avatar-image circle responsive-img" src="http://tp2.sinaimg.cn/1956184117/180/5674436546/1" alt="User Avatar">
+                </div>
+                <div class="info col s8 valign-wrapper no-padding">
+                    <div class="valign">
+                        <p class="name">林寿山</p>
+                        <p class="desc">游戏开发/Web前端</p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        
+
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-home " href="/">
+                    <i class="fa fa-home "></i>
+                    
+                    首页
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-archive " href="/archives">
+                    <i class="fa fa-archive "></i>
+                    
+                    归档
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-category category-menu" href="javascript:;" data-activates="category-menu">
+                    <i class="fa fa-bookmark "></i>
+                    
+                    分类
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-reading " href="/reading">
+                    <i class="fa fa-book "></i>
+                    
+                    读书
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-about " href="/about">
+                    <i class="fa fa-user "></i>
+                    
+                    关于
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-search modal-trigger " href="#search">
+                    <i class="fa fa-search "></i>
+                    
+                    搜索
+                </a>
+            </li>
+        
+    </ul>
+
+    <ul class="side-nav indigo darken-1" id="category-menu">
+    
+
+            
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/日常/">
+                    日常 <span class="right">8 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/技术/">
+                    技术 <span class="right">93 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/算法/">
+                    算法 <span class="right">6 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/Linux/">
+                    Linux <span class="right">2 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/综合/">
+                    综合 <span class="right">23 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/综合/演示/">
+                    演示 <span class="right">2 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/综合/设计模式/">
+                    设计模式 <span class="right">3 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/综合/软件工程/">
+                    软件工程 <span class="right">15 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/综合/杂项/">
+                    杂项 <span class="right">1 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/综合/项目/">
+                    项目 <span class="right">2 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/游戏开发/">
+                    游戏开发 <span class="right">19 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/游戏开发/服务器端/">
+                    服务器端 <span class="right">2 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/游戏开发/客户端/">
+                    客户端 <span class="right">1 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/游戏开发/游戏引擎/">
+                    游戏引擎 <span class="right">11 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/游戏开发/Unity/">
+                    Unity <span class="right">5 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-3" collapse-level="3">
+                <a class="no-padding" href="/categories/技术/游戏开发/Unity/NGUI/">
+                    NGUI <span class="right">5 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/编程语言/">
+                    编程语言 <span class="right">15 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/编程语言/Lua/">
+                    Lua <span class="right">7 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/编程语言/其它语言/">
+                    其它语言 <span class="right">4 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/编程语言/Python/">
+                    Python <span class="right">4 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/工具/">
+                    工具 <span class="right">7 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/工具/IDE/">
+                    IDE <span class="right">3 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/工具/Git/">
+                    Git <span class="right">4 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/Web前端/">
+                    Web前端 <span class="right">21 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/Web前端/HTTP协议/">
+                    HTTP协议 <span class="right">7 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/Web前端/CSS/">
+                    CSS <span class="right">3 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/Web前端/HTML5/">
+                    HTML5 <span class="right">2 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/Web前端/NodeJS/">
+                    NodeJS <span class="right">9 篇</span></a>
+                
+            </li>
+
+        
+
+    </ul>
+</div>
+
+        </div>
+    </div>
+</nav>
+
+<div id="search" class="modal search-modal">
+    <div class="row">
+        <div class="input-field col s12">
+              <input id="search-input" type="text">
+              <label for="search-input">搜索</label>
+        </div>
+
+    </div>
+    <div id="search-result" class="search-result col s12">
+
+    </div>
+</div>
+
+
+    <main>
+        <div class="container main-container">
+    <nav class="page-nav hide-on-small-only">
+    <div class="nav-wrapper indigo">
+        <span class="breadcrumb">当前位置（分类目录）</span>
+        
+            
+    
+    
+    <a class="breadcrumb" href="/categories/技术/">技术</a><a class="breadcrumb" href="/categories/技术/Web前端/">Web前端</a><a class="breadcrumb" href="/categories/技术/Web前端/NodeJS/">NodeJS</a>
+
+
+        
+
+        
+    </div>
+</nav>
+
+<article>
+    <div class="card">
+        <div class="card-content">
+            
+
+            <div class="article-title">
+                
+    
+        <h1>Node.js学习笔记：内存控制</h1>
+    
+
+
+            </div>
+            <time class="green-link-context" datetime="2014-11-06T02:22:49.000Z"><a href="/tech/web/nodejs/node-memory-control/">2014-11-06</a></time>
+
+            <span id="busuanzi_container_page_pv" class="read-times-container">
+    <i class="fa fa-eye"></i>
+    <span id="busuanzi_value_page_pv"></span>
+</span>
+
+            
+    <div class="tags-row">
+        
+            <a href="/tags/Node-js/" class="chip green lighten-1">Node.js</a>
+        
+    </div>
+
+
+            <div class="toc green-link-context hide-on-med-and-down">
+    <ol class="section table-of-contents"><li class="section table-of-contents-item section table-of-contents-level-1"><a class="section table-of-contents-link" href="#1-V8的垃圾回收机制与内存限制"><span class="section table-of-contents-text">1. V8的垃圾回收机制与内存限制</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#1-1-V8的对象分配"><span class="section table-of-contents-text">1.1 V8的对象分配</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#1-2-V8的垃圾回收机制"><span class="section table-of-contents-text">1.2 V8的垃圾回收机制</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#1-2-1-内存分代"><span class="section table-of-contents-text">1.2.1 内存分代</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#1-2-2-新生代的Scavenge算法"><span class="section table-of-contents-text">1.2.2 新生代的Scavenge算法</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#1-2-3-老生代的Mark-Sweep和Mark-Compact算法"><span class="section table-of-contents-text">1.2.3 老生代的Mark-Sweep和Mark-Compact算法</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#1-2-4-增量标记"><span class="section table-of-contents-text">1.2.4 增量标记</span></a></li></ol></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#1-3-查看垃圾回收日志"><span class="section table-of-contents-text">1.3 查看垃圾回收日志</span></a></li></ol></li><li class="section table-of-contents-item section table-of-contents-level-1"><a class="section table-of-contents-link" href="#2-高效使用内存"><span class="section table-of-contents-text">2. 高效使用内存</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#2-1-内存泄漏"><span class="section table-of-contents-text">2.1 内存泄漏</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#2-2-内存泄漏排查"><span class="section table-of-contents-text">2.2 内存泄漏排查</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#2-3-大内存应用"><span class="section table-of-contents-text">2.3 大内存应用</span></a></li></ol></li></ol>
+</div>
+
+
+            <div class="entry green-link-context">
+                <p>在过去很长一段时间内，Javascript开发者很少会在开发过程中遇到需要对内存精确控制的场景，也缺乏控制的手段。那些短时间执行的场景，如网页应用、命令行工具等，运行时间短内存很快地释放，即使内存使用过多或内存泄漏也只会影响到终端用户。但随着Node在服务器端的广泛应用，内存控制问题就暴露出来了。</p>
+<p>基于无阻塞、事件驱动的Node服务，具有内存消耗低，适合处理海量网络请求的优点。服务器端的资源向来是寸土寸金，要为海量用户服务，就得使一切资源都要高效利用。本文将介绍Node如何合理高效地使用内存。</p>
+<a id="more"></a>
+<h1 id="1-V8的垃圾回收机制与内存限制"><a href="#1-V8的垃圾回收机制与内存限制" class="headerlink" title="1. V8的垃圾回收机制与内存限制"></a>1. V8的垃圾回收机制与内存限制</h1><p>Javascript与Java一样，由垃圾回收机制在来进行自动内存管理，开发者不需要像C/C++程序员那样时刻关注内存的分配和释放问题。在Node中，内存管理的好坏，垃圾回收状况是否优良，都与Node的Javascript执行引擎V8息息相关。</p>
+<h2 id="1-1-V8的对象分配"><a href="#1-1-V8的对象分配" class="headerlink" title="1.1 V8的对象分配"></a>1.1 V8的对象分配</h2><p>在V8中，所有JS对象都是通过堆来分配。在Node命令行下执行<code>process.memoryUsage()</code>可以查看内存信息，返回的结果中<code>heapTotal</code>是已申请到的堆内存，<code>heapUsed</code>是当前使用的量。如果已申请的堆空闲内存不够分配新的对象，将继续申请堆内存，知道超过V8的限制为止。</p>
+<p>V8对单个进程的Node有内存限制（64位系统约1.4GB，32位系统约0.7GB）。表层原因是V8最初为浏览器设计，不太可能遇到大量内存的场景，深层原因是V8垃圾回收需要一定的开销，内存限制放得过大会使性能和响应能力下降。当然，这个限制是可以打开的，Node在启动时可以传递两个参数来调整内存限制的大小（注意参数只在初始化时生效，之后无法动态改变）：</p>
+<pre><code>node --max-old-space-size=1700 test.js // 单位为MB
+node --max-new-space-size=1024 test.js // 单位为KB
+</code></pre><h2 id="1-2-V8的垃圾回收机制"><a href="#1-2-V8的垃圾回收机制" class="headerlink" title="1.2 V8的垃圾回收机制"></a>1.2 V8的垃圾回收机制</h2><h3 id="1-2-1-内存分代"><a href="#1-2-1-内存分代" class="headerlink" title="1.2.1 内存分代"></a>1.2.1 内存分代</h3><p>V8的垃圾回收策略主要基于分代式，主要将内存分为<em>新生代</em>和<em>老生代</em>，前者存放存活时间较短的对象，后者存放存活时间较长或常驻内存的对象。V8堆的整体大小就是两代内存空间之和，上面提到的两个参数中带有“old”和“new”，就是用于放宽新老生代的内存限制。</p>
+<h3 id="1-2-2-新生代的Scavenge算法"><a href="#1-2-2-新生代的Scavenge算法" class="headerlink" title="1.2.2 新生代的Scavenge算法"></a>1.2.2 新生代的Scavenge算法</h3><p>Scavenge算法将堆内存对半分为两个semispace空间，只有一个处于使用中，称为From空间，另一个处于闲置状态，称为To空间。分配对象时先从From空间分配，当开始垃圾回收时，会将From空间中的存活对象复制到To空间中，非存活对象占用的空间会被释放。完成复制后，From和To空间对换，开始下一轮的垃圾回收。</p>
+<p>该算法的缺点是只能使用堆内存的一半，是典型的牺牲空间换取时间的算法，所以无法大规模地应用到所有的垃圾回收中，但这个算法很适合应用在新生代中，因为新生代的对象生命周期都较短。</p>
+<p>当一个对象经过多次复制依然存活时，它就会被认为是生命周期较长的对象，其随后会被移动到老生代中采用新的算法管理，这个过程称为晋升。晋升的条件主要有两个，一个是对象是否经过Scavenge回收，一个是To空间的内存占用比超过25%的限制。设置25%的限制是因为当此次Scavenge回收完成后，这个To空间会变成From空间，如果占比过高会影响后续的内存分配。</p>
+<h3 id="1-2-3-老生代的Mark-Sweep和Mark-Compact算法"><a href="#1-2-3-老生代的Mark-Sweep和Mark-Compact算法" class="headerlink" title="1.2.3 老生代的Mark-Sweep和Mark-Compact算法"></a>1.2.3 老生代的Mark-Sweep和Mark-Compact算法</h3><p>Mark-Sweep是标记清除的意思，该算法在<em>标记阶段</em>遍历堆中所有对象，并标记活着的对象，接下来在<em>清除阶段</em>只清除没有被标记的对象。可以看出，活对象在新生代只占小部分，Scavenge只复制活对象；死对象在老生代只占小部分，Mark-Sweep只清理死对象，这就是两种回收方式能高效运作的原因。</p>
+<p>Mark-Sweep最大的问题是进行一次标记清除后，内存空间会出现不连续的状态，这很可能会造成无法分配一个大对象的问题。而Mark-Compact则是一种改进，它在清除阶段将活着的对象往一端移动，移动完成后，直接清理掉边界外的内存。但由于Mark-Compact需要移动对象，执行速度不可能很快，所以再取舍上，V8主要使用Mark-Sweep，在空间不足以分配时才使用Mark-Compact。</p>
+<h3 id="1-2-4-增量标记"><a href="#1-2-4-增量标记" class="headerlink" title="1.2.4 增量标记"></a>1.2.4 增量标记</h3><p>为了避免出现JS应用逻辑与垃圾回收器看到的不一致的情况，垃圾回收的3种基本算法都需要将应用逻辑暂停下来，这种暂停成为“全停顿”。V8老生代通常配置得很大，且存活对象较多，全堆垃圾回收的各种动作造成的停顿会比较可怕，需要设法改善。V8先从标记阶段入手，将原本一口气停顿完成的动作改为增量标记，也就是拆分为许多小“步进”，没做完一步就让JS应用逻辑执行一小会儿。这种垃圾回收与应用逻辑交替执行直到标记完成，可以让最大停顿时间减少5倍左右。</p>
+<h2 id="1-3-查看垃圾回收日志"><a href="#1-3-查看垃圾回收日志" class="headerlink" title="1.3 查看垃圾回收日志"></a>1.3 查看垃圾回收日志</h2><p>用命令行启动node时，加入<code>--trace_gc</code>可以输出垃圾回收的日志信息，<code>--prof</code>可以得到V8执行时的性能分析数据。通过分析日志，可以找出垃圾回收的哪些阶段比较耗时，触发的原因是什么。不过，通过<code>--prof</code>得到的log不具备可读性，可以使用Node自带的<code>windows-tick-processor.bat</code>工具来分析。</p>
+<h1 id="2-高效使用内存"><a href="#2-高效使用内存" class="headerlink" title="2. 高效使用内存"></a>2. 高效使用内存</h1><h2 id="2-1-内存泄漏"><a href="#2-1-内存泄漏" class="headerlink" title="2.1 内存泄漏"></a>2.1 内存泄漏</h2><p>Node对内存泄漏十分敏感，一旦线上应用有成千上万的流量，哪怕是一个字节的内存泄漏也会造成堆积。在V8的垃圾回收机制机制下，在通常的代码编写中，很少会出现内存泄漏，但内存泄漏通常产生于无意间，较难排查。一旦发生，其实质只有一个：当回收的对象出现意外没有被回收变成了常驻在老生代的对象。造成内存泄漏的原因有这么几个：缓存，队列消费不及时，作用域未释放。</p>
+<p>JS开发者通常喜欢使用对象的键值对来当缓存，但严格意义上的缓存有着完善的过期策略，而普通对象的键值对并没有。所以在Node中，试图拿内存当缓存的行为应该受到限制，小心而为之。除了用对象来当缓存的案例之外，还有一种案例是模块机制。Node的模块都会通过编译执行并缓存起来常驻于老生代，由于通过<code>exports</code>导出的函数可以访问文件模块的私有变量，所以每个文件模块中被导出函数引用的变量不会被释放。在设计模块时，一定要十分小心内存泄漏的出现。下面的代码每次调用leak()方法时，都导致局部变量leakArray不停增加内存占用，不被释放：</p>
+<pre><code>var leakArray = [];
+exports.leak = function() {
+    leakArray.push(&apos;leak&apos; + Math.random());
+};
+</code></pre><p>如果要大量使用缓存，目前比较好的做法是采用进程外缓存，如Redis和Memcached。这样Node进程自身不存储状态减少内存泄漏的可能性，进程之间也可以共享缓存。</p>
+<h2 id="2-2-内存泄漏排查"><a href="#2-2-内存泄漏排查" class="headerlink" title="2.2 内存泄漏排查"></a>2.2 内存泄漏排查</h2><p>可以使用以下一些常见的工具来定位Node应用的内存泄漏：</p>
+<ul>
+<li>node-heapdump：来自Node核心贡献者之一的模块，允许对V8堆内存抓取快照，用于事后分析</li>
+<li>node-memwatch：用法和node-heapdump类似，来自于Mozilla成员贡献的模块</li>
+<li>node-mtrace：使用了GCC的mtrace工具来分析堆的使用</li>
+</ul>
+<h2 id="2-3-大内存应用"><a href="#2-3-大内存应用" class="headerlink" title="2.3 大内存应用"></a>2.3 大内存应用</h2><p>由于Node的内存限制，操作大文件时要小心，好在Node提供了原生stream模块用于处理大文件。不能通过<code>fs.readFile()</code>和<code>fs.writeFile()</code>来直接进行大文件操作，应该使用<code>fs.createReadStream()</code>和<code>fs.createWriteStream()</code>通过流的方式来读写大文件。若不需要进行字符串层面的操作，可以尝试使用<code>Buffer</code>来操作，这不会受到V8堆内存的限制，但依然会受到物理内存限制。</p>
+<p>参考资料：《深入浅出NodeJS》第五章</p>
+
+                
+<p class="green-link-context">
+    <a href="/tech/web/nodejs/node-process-and-cluster/" rel="next" title="Node.js学习笔记：进程与集群">
+    上一篇：Node.js学习笔记：进程与集群
+  </a>
+</p>
+
+
+
+<p class="green-link-context">
+    <a href="/tech/web/nodejs/node-asynchronous-io/" rel="next" title="Node.js学习笔记：异步I/O">
+    下一篇：Node.js学习笔记：异步I/O
+  </a>
+</p>
+
+
+            </div>
+			
+        </div>
+    </div>
+</article>
+
+
+
+
+    <section id="comment">
+        <div id="disqus_thread"></div>
+        <script>
+            var disqus_config = function() {
+                this.page.url = 'http://raytaylorlin.github.io/tech/web/nodejs/node-memory-control/';
+                this.page.identifier = 'tech/web/nodejs/node-memory-control/';
+            };
+            (function() {
+                var d = document,
+                    s = d.createElement('script');
+                s.src = '//raytaylorlin.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', + new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the
+            <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+        </noscript>
+    </section>
+
+
+
+</div>
+
+        <div class="fixed-action-btn float-sitemap">
+    <a class="btn-floating btn-large green">
+      <i class="fa fa-caret-square-o-up"></i>
+    </a>
+    <ul>
+      <li><a class="btn-return-top btn-floating waves-effect pink" title="回到顶部"><i class="fa fa-arrow-circle-o-up"></i></a></li>
+      <li><a class="btn-floating waves-effect button-collapse orange darken-1" data-activates="main-menu" title="菜单"><i class="fa fa-navicon"></i></a></li>
+    </ul>
+  </div>
+
+    </main>
+    <footer class="page-footer indigo darken-1">
+    
+    <div class="footer-container container">
+        <div class="row">
+            
+            <div class="social-group col m4 s12">
+                <h5 class="white-text">社交</h5>
+                
+                    <a class="social-link" href="http://weibo.com/1956184117" target="_blank">
+                        <i class="fa fa-2x fa-weibo"></i>
+                    </a>
+                
+                    <a class="social-link" href="https://github.com/raytaylorlin" target="_blank">
+                        <i class="fa fa-2x fa-github"></i>
+                    </a>
+                
+                    <a class="social-link" href="/atom.xml" target="_blank">
+                        <i class="fa fa-2x fa-rss"></i>
+                    </a>
+                
+                
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+    </script>
+    <div class="site-visitors-container white-text">
+        <span>
+            <i class="fa fa-user"></i>
+            <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+        </span>
+        <span>&nbsp;|&nbsp;</span>
+        <span>
+            <i class="fa fa-eye"></i>
+            <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+        </span>
+    </div>
+
+
+            </div>
+            
+
+            
+            <div class="col m8 s12">
+                <h5 class="white-text">友情链接</h5>
+                
+                    <a class="social-link" href="http://tutuge.me/" target="_blank">土土哥的技术博客</a>
+                
+                    <a class="social-link" href="http://neoyeelf.github.io/" target="_blank">屌刘neoye的博客</a>
+                
+                    <a class="social-link" href="http://diao.li/" target="_blank">李伟涛的博客</a>
+                
+                    <a class="social-link" href="http://suta.im/" target="_blank">苏塔是没有脚的设计师</a>
+                
+                    <a class="social-link" href="http://jfantasy.github.io/" target="_blank">JFantasy的个人博客</a>
+                
+                    <a class="social-link" href="http://pyroc.at/" target="_blank">丁基友的博客</a>
+                
+            </div>
+            
+        </div>
+    </div>
+    
+
+    <div class="footer-copyright green-link-context">
+        <div class="container">
+            © 2019 raytaylorlin.github.io, All rights reserved.
+            <p class="right" style="margin-top: 0;">本博客由 <a href="https://hexo.io">Hexo</a> 强力驱动 | 主题 <a href="https://github.com/raytaylorlin/hexo-theme-raytaylorism">raytaylorism</a></p>
+        </div>
+    </div>
+</footer>
+
+
+    <noscript>
+    <div class="noscript">
+        <p class="center-align">当前网速较慢或者你使用的浏览器不支持博客特定功能，请尝试刷新或换用Chrome、Firefox等现代浏览器</p>
+    </div>
+</noscript>
+<div class="noscript">
+    <p class="center-align">当前网速较慢或者你使用的浏览器不支持博客特定功能，请尝试刷新或换用Chrome、Firefox等现代浏览器</p>
+</div>
+
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/materialize.min.js"></script>
+
+<script>
+    (function($) {
+        $(document).ready(function() {
+            // 隐藏禁用javascript（针对微信内置浏览器）的提示
+            $('.noscript').hide();
+
+            // 图片缩放效果
+            var $imgs = $('img').not('.slider-image').not('.avatar-image').not('.carousel-image').not('.card-cover-image').not('.qrcode');
+
+            // 给图片加上点击放大效果（materialbox插件）
+            $imgs.addClass('materialboxed').each(function(i, el) {
+                $(this).attr('data-caption', $(this).attr('alt') || ' ');
+            }).materialbox();
+
+            // 优化表格的显示
+            $('table').each(function() {
+                var $table = $(this);
+                // 除去多行代码的情况
+                if ($table.find('pre').length == 0) {
+                    $table.addClass('responsive-table striped bordered');
+                }
+            });
+
+            // 首页幻灯片
+            $('.slider').slider({indicators: true, full_width: true, interval: 8000});
+
+            $(".button-collapse").sideNav();
+            $(".category-menu").sideNav();
+
+            // 针对gallery post
+            $('.carousel').carousel({full_width: true});
+            $('.carousel-control.prev').click(function() {
+                $('.carousel').carousel('prev');
+            });
+            $('.carousel-control.next').click(function() {
+                $('.carousel').carousel('next');
+            });
+
+            // 文章目录
+            $('article').not('.simple-article').find('h1').add('h2').add('h3').add('h4').add('h5').add('h6').scrollSpy();
+
+            // 目录随屏幕滚动（防止目录过长越过footer）
+            var $toc = $('.toc');
+            var scrollTargetTop = 0;
+            $(window).scroll(function() {
+                var $activeLink = $toc.find('a.active.section');
+                if ($(window).scrollTop() < 100) {
+                    scrollTargetTop = 0;
+                } else {
+                    if ($activeLink[0]) {
+                        scrollTargetTop = $activeLink.offset().top - $toc.offset().top;
+                    }
+                }
+                $toc.css('top', '-' + scrollTargetTop + 'px');
+            });
+
+            // 修正文章目录的left-border颜色
+            var color = $('.table-of-contents-text').css('color');
+            $('.table-of-contents-link').css('border-left-color', color);
+
+            // 针对移动端做的优化：FAB按钮点击一下收回
+            if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                $('.fixed-action-btn').addClass('click-to-toggle');
+            }
+            // 回到顶部
+            $('.btn-return-top').click(function() {
+                $('body, html').animate({
+                    scrollTop: 0
+                }, 500);
+            });
+
+            // 重置读书页面的Tab标签页的颜色
+            $('li.tab a').hover(function() {
+                $(this).toggleClass('text-lighten-4');
+            });
+            $('.indicator').addClass('green lighten-2');
+
+            
+            // 添加new标签
+            $('.menu-reading').append('<span class="new badge green"></span>');
+            
+
+            // 搜索功能
+            $('.modal-trigger').leanModal({
+                // 打开搜索框时自动聚焦
+                ready: function() {
+                    if ($('#search').is(":visible")) {
+                        $('#search-input').focus();
+                    }
+                }
+            });
+            var searchXml = "search.xml";
+            if (searchXml.length == 0) {
+             	searchXml = "search.xml";
+            }
+            var searchPath = "/" + searchXml;
+            initSearch(searchPath, 'search-input', 'search-result');
+        });
+
+        // 初始化搜索与匹配函数
+        var initSearch = function(path, search_id, content_id) {
+            'use strict';
+            $.ajax({
+                url: path,
+                dataType: "xml",
+                success: function(xmlResponse) {
+                    // get the contents from search data
+                    var datas = $("entry", xmlResponse).map(function() {
+                        return {
+                            title: $("title", this).text(),
+                            content: $("content", this).text(),
+                            url: $("url", this).text()
+                        };
+                    }).get();
+                    var $input = document.getElementById(search_id);
+                    var $resultContent = document.getElementById(content_id);
+                    $input.addEventListener('input', function() {
+                        var str = '<ul class=\"search-result-list\">';
+                        var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                        $resultContent.innerHTML = "";
+                        if (this.value.trim().length <= 0) {
+                            return;
+                        }
+                        // perform local searching
+                        datas.forEach(function(data) {
+                            var isMatch = true;
+                            var content_index = [];
+                            var data_title = data.title.trim().toLowerCase();
+                            var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                            var data_url = data.url;
+                            var index_title = -1;
+                            var index_content = -1;
+                            var first_occur = -1;
+                            // only match artiles with not empty titles and contents
+                            if (data_title != '' && data_content != '') {
+                                keywords.forEach(function(keyword, i) {
+                                    index_title = data_title.indexOf(keyword);
+                                    index_content = data_content.indexOf(keyword);
+                                    if (index_title < 0 && index_content < 0) {
+                                        isMatch = false;
+                                    } else {
+                                        if (index_content < 0) {
+                                            index_content = 0;
+                                        }
+                                        if (i == 0) {
+                                            first_occur = index_content;
+                                        }
+                                    }
+                                });
+                            }
+                            // show search results
+                            if (isMatch) {
+                                keywords.forEach(function(keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    data_title = data_title.replace(regS, "<span class=\"search-keyword green lighten-2\">" + keyword + "</span>");
+                                });
+
+                                str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                                var content = data.content.trim().replace(/<[^>]+>/g, "");
+                                if (first_occur >= 0) {
+                                    // cut out 100 characters
+                                    var start = first_occur - 20;
+                                    var end = first_occur + 80;
+                                    if (start < 0) {
+                                        start = 0;
+                                    }
+                                    if (start == 0) {
+                                        end = 100;
+                                    }
+                                    if (end > content.length) {
+                                        end = content.length;
+                                    }
+                                    var match_content = content.substring(start, end);
+                                    // highlight all keywords
+                                    keywords.forEach(function(keyword) {
+                                        var regS = new RegExp(keyword, "gi");
+                                        match_content = match_content.replace(regS, "<span class=\"search-keyword green lighten-2\">" + keyword + "</span>");
+                                    });
+
+                                    str += "<p class=\"search-result\">..." + match_content + "...</p>"
+                                }
+                                str += "</li>";
+                            }
+                        });
+                        str += "</ul>";
+                        $resultContent.innerHTML = str;
+                    });
+                }
+            });
+        }
+    })(jQuery);
+</script>
+
+
+<script src="/js/prettify.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("pre").addClass("prettyprint");
+        prettyPrint();
+    });
+</script>
+
+
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-43460643-1', 'auto');
+    ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+<script type="text/javascript" async src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+
+</body>
+</html>

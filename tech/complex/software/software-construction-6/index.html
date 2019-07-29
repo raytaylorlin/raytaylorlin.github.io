@@ -1,0 +1,966 @@
+<!DOCTYPE HTML>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    
+
+    <title>软件构建（六）——语句 | </title>
+    <meta name="author" content="RayTaylor Lin">
+    
+    <meta name="description" content="水镜一人性，月读一波明。轻扬一宿星，枫过一帆灵。">
+    
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta property="og:title" content="软件构建（六）——语句">
+    <meta property="og:site_name" content="Ray Taylor Lin&#39;s world">
+
+    
+    <meta property="og:image" content>
+    
+
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="alternate" href="/atom.xml" title="Ray Taylor Lin&#39;s world" type="application/atom+xml">
+    <link rel="stylesheet" href="/css/lib/materialize.min.css">
+    <link rel="stylesheet" href="/css/lib/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+
+    
+        <link rel="stylesheet" href="/css/lib/prettify-tomorrow-night-eighties.css" type="text/css">
+    
+    <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+</head>
+</html>
+
+<body>
+    <img src="/weixin_favicon.png" style="position: absolute; left: -9999px; opacity: 0; filter: alpha(opacity=0);">
+
+    <nav class="indigo">
+    <div class="nav-wrapper">
+        <a href="#" data-activates="main-menu" class="button-collapse">
+            <i class="fa fa-navicon"></i>
+        </a>
+        <div class>
+            <a href="/" class="brand-logo hide-on-med-and-down">Ray Taylor Lin&#39;s world</a>
+            <ul class="right hide-on-med-and-down">
+                
+                    <li>
+                        <a class="menu-home " href="/">
+                            <i class="fa fa-home "></i>
+                            
+                            首页
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-archive " href="/archives">
+                            <i class="fa fa-archive "></i>
+                            
+                            归档
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-category category-menu" href="javascript:;" data-activates="category-menu">
+                            <i class="fa fa-bookmark "></i>
+                            
+                            分类
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-reading " href="/reading">
+                            <i class="fa fa-book "></i>
+                            
+                            读书
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-about " href="/about">
+                            <i class="fa fa-user "></i>
+                            
+                            关于
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-search modal-trigger " href="#search">
+                            <i class="fa fa-search "></i>
+                            
+                            搜索
+                        </a>
+                    </li>
+                
+            </ul>
+            <div>
+    <ul class="side-nav indigo darken-1" id="main-menu">
+        
+        <li class="side-user">
+            <div class="row">
+                <div class="col s4 no-padding">
+                    <img class="avatar-image circle responsive-img" src="http://tp2.sinaimg.cn/1956184117/180/5674436546/1" alt="User Avatar">
+                </div>
+                <div class="info col s8 valign-wrapper no-padding">
+                    <div class="valign">
+                        <p class="name">林寿山</p>
+                        <p class="desc">游戏开发/Web前端</p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        
+
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-home " href="/">
+                    <i class="fa fa-home "></i>
+                    
+                    首页
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-archive " href="/archives">
+                    <i class="fa fa-archive "></i>
+                    
+                    归档
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-category category-menu" href="javascript:;" data-activates="category-menu">
+                    <i class="fa fa-bookmark "></i>
+                    
+                    分类
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-reading " href="/reading">
+                    <i class="fa fa-book "></i>
+                    
+                    读书
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-about " href="/about">
+                    <i class="fa fa-user "></i>
+                    
+                    关于
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-search modal-trigger " href="#search">
+                    <i class="fa fa-search "></i>
+                    
+                    搜索
+                </a>
+            </li>
+        
+    </ul>
+
+    <ul class="side-nav indigo darken-1" id="category-menu">
+    
+
+            
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/日常/">
+                    日常 <span class="right">8 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/技术/">
+                    技术 <span class="right">93 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/算法/">
+                    算法 <span class="right">6 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/Linux/">
+                    Linux <span class="right">2 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/综合/">
+                    综合 <span class="right">23 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/综合/演示/">
+                    演示 <span class="right">2 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/综合/设计模式/">
+                    设计模式 <span class="right">3 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/综合/软件工程/">
+                    软件工程 <span class="right">15 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/综合/杂项/">
+                    杂项 <span class="right">1 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/综合/项目/">
+                    项目 <span class="right">2 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/游戏开发/">
+                    游戏开发 <span class="right">19 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/游戏开发/服务器端/">
+                    服务器端 <span class="right">2 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/游戏开发/客户端/">
+                    客户端 <span class="right">1 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/游戏开发/游戏引擎/">
+                    游戏引擎 <span class="right">11 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/游戏开发/Unity/">
+                    Unity <span class="right">5 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-3" collapse-level="3">
+                <a class="no-padding" href="/categories/技术/游戏开发/Unity/NGUI/">
+                    NGUI <span class="right">5 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/编程语言/">
+                    编程语言 <span class="right">15 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/编程语言/Lua/">
+                    Lua <span class="right">7 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/编程语言/其它语言/">
+                    其它语言 <span class="right">4 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/编程语言/Python/">
+                    Python <span class="right">4 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/工具/">
+                    工具 <span class="right">7 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/工具/IDE/">
+                    IDE <span class="right">3 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/工具/Git/">
+                    Git <span class="right">4 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/Web前端/">
+                    Web前端 <span class="right">21 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/Web前端/HTTP协议/">
+                    HTTP协议 <span class="right">7 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/Web前端/CSS/">
+                    CSS <span class="right">3 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/Web前端/HTML5/">
+                    HTML5 <span class="right">2 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/Web前端/NodeJS/">
+                    NodeJS <span class="right">9 篇</span></a>
+                
+            </li>
+
+        
+
+    </ul>
+</div>
+
+        </div>
+    </div>
+</nav>
+
+<div id="search" class="modal search-modal">
+    <div class="row">
+        <div class="input-field col s12">
+              <input id="search-input" type="text">
+              <label for="search-input">搜索</label>
+        </div>
+
+    </div>
+    <div id="search-result" class="search-result col s12">
+
+    </div>
+</div>
+
+
+    <main>
+        <div class="container main-container">
+    <nav class="page-nav hide-on-small-only">
+    <div class="nav-wrapper indigo">
+        <span class="breadcrumb">当前位置（分类目录）</span>
+        
+            
+    
+    
+    <a class="breadcrumb" href="/categories/技术/">技术</a><a class="breadcrumb" href="/categories/技术/综合/">综合</a><a class="breadcrumb" href="/categories/技术/综合/软件工程/">软件工程</a>
+
+
+        
+
+        
+    </div>
+</nav>
+
+<article>
+    <div class="card">
+        <div class="card-content">
+            
+
+            <div class="article-title">
+                
+    
+        <h1>软件构建（六）——语句</h1>
+    
+
+
+            </div>
+            <time class="green-link-context" datetime="2016-04-16T13:54:28.000Z"><a href="/tech/complex/software/software-construction-6/">2016-04-16</a></time>
+
+            <span id="busuanzi_container_page_pv" class="read-times-container">
+    <i class="fa fa-eye"></i>
+    <span id="busuanzi_value_page_pv"></span>
+</span>
+
+            
+    <div class="tags-row">
+        
+            <a href="/tags/软件构建/" class="chip green lighten-1">软件构建</a>
+        
+            <a href="/tags/软件工程/" class="chip green lighten-1">软件工程</a>
+        
+            <a href="/tags/代码大全/" class="chip green lighten-1">代码大全</a>
+        
+    </div>
+
+
+            <div class="toc green-link-context hide-on-med-and-down">
+    <ol class="section table-of-contents"><li class="section table-of-contents-item section table-of-contents-level-1"><a class="section table-of-contents-link" href="#1-顺序语句"><span class="section table-of-contents-text">1. 顺序语句</span></a></li><li class="section table-of-contents-item section table-of-contents-level-1"><a class="section table-of-contents-link" href="#2-条件语句"><span class="section table-of-contents-text">2. 条件语句</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#2-1-if-else语句"><span class="section table-of-contents-text">2.1 if-else语句</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#2-2-switch-case语句"><span class="section table-of-contents-text">2.2 switch-case语句</span></a></li></ol></li><li class="section table-of-contents-item section table-of-contents-level-1"><a class="section table-of-contents-link" href="#3-循环语句"><span class="section table-of-contents-text">3. 循环语句</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#3-1-循环的种类"><span class="section table-of-contents-text">3.1 循环的种类</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#3-2-循环的原则"><span class="section table-of-contents-text">3.2 循环的原则</span></a></li></ol></li><li class="section table-of-contents-item section table-of-contents-level-1"><a class="section table-of-contents-link" href="#4-不太常见的控制结构"><span class="section table-of-contents-text">4. 不太常见的控制结构</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#4-1-子程序多处返回"><span class="section table-of-contents-text">4.1 子程序多处返回</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#4-2-递归"><span class="section table-of-contents-text">4.2 递归</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#4-3-关于goto语句"><span class="section table-of-contents-text">4.3 关于goto语句</span></a></li></ol></li></ol>
+</div>
+
+
+            <div class="entry green-link-context">
+                <p>本文开始从以数据为中心的编程观点转到以语句为中心的观点上。常用的编程语句有顺序、控制和循环三种基本结构，本文将依次介绍这三种基本结构的使用原则。最后，还总结了一些不太常见的控制结构，如子程序多处返回、递归、关于goto语句的讨论。</p>
+<a id="more"></a>
+<h1 id="1-顺序语句"><a href="#1-顺序语句" class="headerlink" title="1. 顺序语句"></a>1. 顺序语句</h1><p>下面分别举了一个有前后明确的运行顺序的没有明显顺序的例子：</p>
+<pre><code>// 有前后依赖关系的语句
+data = ReadData();
+results = CalculateResultsFromData(data);
+PrintResults(results);
+
+// 不太明显的前后依赖关系的语句
+revenue.ComputeMonthly();
+revenue.ComputeQuarterly();
+revenue.ComputeAnnual();
+</code></pre><p>如果语句之间存在依赖关系，并且这些关系要求你把语句按照一定的顺序加以排列，那么应设法使得这些依赖关系变得明显。下面是一些用于组织语句的简单原则。</p>
+<ul>
+<li>设法组织代码，使依赖关系变得非常明显</li>
+<li>使子程序名能突显依赖关系</li>
+<li>利用子程序参数明确显示依赖关系</li>
+<li>用注释对不清晰的依赖关系进行说明：首先要尽力写没有顺序依赖关系的代码</li>
+<li>用断言或者错误处理代码来检查依赖关系</li>
+</ul>
+<p>如果语句没有明显依赖关系，那也应该按一定原则来排列语句，使得其可读性更好，其中的指导原则就是就近原则：把相关的操作放在一起。<strong>要让程序易于自上而下阅读，而不是让读者的目光跳来跳去。</strong> 此外，还要把相关的语句组织在一起，一种检验的方法是，打印出要检验的程序代码（可以输出图片），然后把相关的语句画上框，如果方框彼此<strong>不交叠</strong>则相关语句组织得好。</p>
+<h1 id="2-条件语句"><a href="#2-条件语句" class="headerlink" title="2. 条件语句"></a>2. 条件语句</h1><h2 id="2-1-if-else语句"><a href="#2-1-if-else语句" class="headerlink" title="2.1 if-else语句"></a>2.1 if-else语句</h2><ul>
+<li>首先写正常代码路径，再处理不常见情况</li>
+<li>确保对于等量的分支是正确的：仔细考虑“&gt;”“&lt;”和“&gt;=”“&lt;=”的逻辑</li>
+<li>把正常情况的处理放在if后面而不要放在else后面</li>
+<li>不要在if分支执行空语句</li>
+<li>考虑else分支：考虑是否真的仅仅只需要一个if分支就可满足，除非原因显而易见，否则也应考虑用注释来解释空else分支是没有必要的</li>
+</ul>
+<h2 id="2-2-switch-case语句"><a href="#2-2-switch-case语句" class="headerlink" title="2.2 switch-case语句"></a>2.2 switch-case语句</h2><ul>
+<li>为case选择最有效的排列方式：按字母数字顺序，或者把正常的情况撞在前面，或者按执行频率高低</li>
+<li>简化每种情况对应的操作：不要在case中堆一堆操作</li>
+<li>不要为了使用case语句而刻意制造一个变量</li>
+<li>把default子句用于检查真正的默认情况或检查错误</li>
+<li>在case末尾明确无误地标明需要穿越执行的程序流程</li>
+</ul>
+<h1 id="3-循环语句"><a href="#3-循环语句" class="headerlink" title="3. 循环语句"></a>3. 循环语句</h1><h2 id="3-1-循环的种类"><a href="#3-1-循环的种类" class="headerlink" title="3.1 循环的种类"></a>3.1 循环的种类</h2><ul>
+<li>计数循环：执行次数一定，如for循环。<strong>不要在for循环中去修改下标值或中途退出。</strong></li>
+<li>连续求值的循环：预先不知道循环次数，如while循环</li>
+<li>无限循环：一旦启动就一直执行，除非在循环中间退出，如while循环带break中断</li>
+<li>迭代器循环：容器类的常见操作，如foreach循环</li>
+</ul>
+<h2 id="3-2-循环的原则"><a href="#3-2-循环的原则" class="headerlink" title="3.2 循环的原则"></a>3.2 循环的原则</h2><ul>
+<li>进入循环<ul>
+<li>只从一个位置进入循环</li>
+<li>把初始化代码紧放在循环前面</li>
+<li>用<code>while(true)</code>表示无限循环</li>
+<li>在适当的情况下多使用for循环；但如果while循环更适用的话，不要使用for循环：因为while循环需要在循环之前初始化条件，循环最后变更条件，容易出错和可读性较差</li>
+</ul>
+</li>
+<li>处理循环体<ul>
+<li>避免空循环</li>
+<li>循环内务操作（循环变量的变更）要么放在循环的开始，要么放在循环的末尾</li>
+<li>一个循环只做一件事：应该把循环体当做黑盒或子程序看待，读者只需要关心其循环条件是什么，而不需关心其内容</li>
+</ul>
+</li>
+<li>退出循环<ul>
+<li>设法确认循环能够终止：要考虑正常的情况、端点，及每一种异常情况</li>
+<li>使循环终止条件看起来很明显</li>
+<li>不要为了终止循环而胡乱改动for循环的下标</li>
+<li>避免出现依赖于循环下标<strong>最终取值</strong>的代码：更具自我描述性的做法是，在循环体内某个适当的地方把这一最终取值赋给某个变量</li>
+<li>考虑使用安全计数器：安全计数器是一个特殊变量，在每次循环之后都递增它，以便判断该循环的执行次数是不是过多</li>
+<li>考虑在while循环中使用break语句而不用布尔标记</li>
+<li>小心那些有很多break散布在循环各处</li>
+<li>在循环开始处用continue进行判断：可以避免用一个让整个循环体的缩进的if块</li>
+<li>除非你已经考虑过各种替换方案，否则不要使用break：使用break消除了把循环看做黑盒子的可能性</li>
+</ul>
+</li>
+<li>检查端点：既要在脑海中模拟，也要手工检查一遍</li>
+<li>循环变量<ul>
+<li>用整数或者枚举类型表示数组和循环的边界</li>
+<li>在嵌套循环中使用有意义的变量名来提高其可读性：避免i、j、k及下标串话误用</li>
+<li>把循环下标变量的作用域限制在本循环内</li>
+</ul>
+</li>
+<li>循环的长度<ul>
+<li>循环要尽可能地短，以便能够一目了然：建议限制在一屏之内</li>
+<li>把嵌套限制在3层以内</li>
+<li>把长循环的内容移到子程序里</li>
+<li>要让长循环格外清晰</li>
+</ul>
+</li>
+</ul>
+<h1 id="4-不太常见的控制结构"><a href="#4-不太常见的控制结构" class="headerlink" title="4. 不太常见的控制结构"></a>4. 不太常见的控制结构</h1><h2 id="4-1-子程序多处返回"><a href="#4-1-子程序多处返回" class="headerlink" title="4.1 子程序多处返回"></a>4.1 子程序多处返回</h2><p>子程序的多处返回是指一个子程序中有多处地方出现return。通常来说，应该用防卫子句（早返回或早退出）来简化复杂的错误处理，不要使用过多的缩进嵌套，并且减少每个子程序中return的数量。下面的例子很好地体现了这些原则。</p>
+<pre><code>if (!file.validName()) {
+    errorStatus = FileError.InvalidFileName;
+    return;
+}
+if (!file.Open()) {
+    errorStatus = FileError.CantOpenFile;
+    return;
+}
+if (!encryptionKey.valid()) {
+    errorStatus = FileError.InvalidEncryptionKey;
+    return;
+}
+// 此处为处理正常情况的代码
+</code></pre><h2 id="4-2-递归"><a href="#4-2-递归" class="headerlink" title="4.2 递归"></a>4.2 递归</h2><p>递归并不常用，但如果使用得谨慎，一些小范围内的问题还是可以得到非常优雅的解。对于大多数问题，它所带来的解将会是极其复杂的——在那些情况下，使用简单的迭代通常会比较容易理解。</p>
+<ul>
+<li>确认递归能够停止</li>
+<li>使用安全计数器防止出现无穷递归：安全计数器必须是一个不随每次子程序调用而重新创建的变量</li>
+<li>把递归限制在一个子程序内：循环边归（A调用B, B调用C, C调用A）非常危险</li>
+<li>留心栈空间：给安全计数器设置上限时考虑给递归子程序分配多少栈空间，并观察递归函数中局部变量的分配情况</li>
+<li>不要用递归去计算阶乘或者斐波纳契数列：最重要的，在用递归之前你应该考虑它的替换方案</li>
+</ul>
+<h2 id="4-3-关于goto语句"><a href="#4-3-关于goto语句" class="headerlink" title="4.3 关于goto语句"></a>4.3 关于goto语句</h2><p>入们反对使用goto的普遍理由是：含有goto的代码很难安排好格式；使用goto也会破坏编译器的优化特性。关于goto的讨论非常多，而且其现代版本仍在以各种各样的形式出现。用不用goto是一个<strong>信仰问题</strong>。《代码大全》作者的信条是：</p>
+<blockquote>
+<p>在现代语言里，你可以很容易地把九成的goto替换成与之等价的顺序结构。对于这些简单的情况，你应该把goto替换掉并把这当成习惯。对于复杂的情况，你仍有九成不用goto的可能：你可以把代码拆分成小的子程序，使用try-finally，使用嵌套if，检测并重新检测某个状态变量，或者重新设置条件结构。对于这些情况，想消除goto相对来说比较难，但这是一种很好的智力训练……<br>对于剩下的那1%的情况，即当使用goto是解决问题的合理办法的时候，请在使用的同时予以详细的说明。如果你穿着雨鞋，那么就没有必要绕开泥潭走路了。不过也要虚心参考别的程序员提出的不用goto的方法。也许他们发现了一些被你忽视的东西。</p>
+</blockquote>
+<ul>
+<li>在那些不直接支持结构化控制语句的语言里，用goto去模拟那些控制结构。在做这些的时候，应该准确地模拟，不要滥用goto所带来的灵活性</li>
+<li>如果语言内置了等价的控制结构，那么就不要用goto</li>
+<li>如果是为提高代码效率而使用goto，请衡量此举实际带来的性能提升</li>
+<li>除非你要模拟结构化语句，否则尽量在每个子程序内只使用一个goto标号</li>
+<li>除非你要模拟结构化语句，否则尽量让goto向前跳转而不要向后跳转</li>
+<li>确认所布的goto标号都被用到了。没用到的goto标号表明缺少了代码，即缺少了跳向该标号的代码。如果某些标号没有用，那么就删掉它们</li>
+<li>确认goto不会产生某些执行不到的代码</li>
+<li>如果你是一位经理，那么就应该持这样的观点：对某一个goto用法所展开的争论并不是事关全局的。如果程序员知道存在替换方案，并且也愿意为使用goto辩解，那么用goto也无妨</li>
+</ul>
+<p>参考文献：电子工业出版社《代码大全（第2版）》第14-17章</p>
+
+                
+<p class="green-link-context">
+    <a href="/tech/complex/software/software-construction-7/" rel="next" title="软件构建（七）——防御式编程">
+    上一篇：软件构建（七）——防御式编程
+  </a>
+</p>
+
+
+
+<p class="green-link-context">
+    <a href="/tech/complex/software/software-construction-5/" rel="next" title="软件构建（五）——各种数据类型的使用原则">
+    下一篇：软件构建（五）——各种数据类型的使用原则
+  </a>
+</p>
+
+
+            </div>
+			
+        </div>
+    </div>
+</article>
+
+
+
+
+    <section id="comment">
+        <div id="disqus_thread"></div>
+        <script>
+            var disqus_config = function() {
+                this.page.url = 'http://raytaylorlin.github.io/tech/complex/software/software-construction-6/';
+                this.page.identifier = 'tech/complex/software/software-construction-6/';
+            };
+            (function() {
+                var d = document,
+                    s = d.createElement('script');
+                s.src = '//raytaylorlin.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', + new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the
+            <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+        </noscript>
+    </section>
+
+
+
+</div>
+
+        <div class="fixed-action-btn float-sitemap">
+    <a class="btn-floating btn-large green">
+      <i class="fa fa-caret-square-o-up"></i>
+    </a>
+    <ul>
+      <li><a class="btn-return-top btn-floating waves-effect pink" title="回到顶部"><i class="fa fa-arrow-circle-o-up"></i></a></li>
+      <li><a class="btn-floating waves-effect button-collapse orange darken-1" data-activates="main-menu" title="菜单"><i class="fa fa-navicon"></i></a></li>
+    </ul>
+  </div>
+
+    </main>
+    <footer class="page-footer indigo darken-1">
+    
+    <div class="footer-container container">
+        <div class="row">
+            
+            <div class="social-group col m4 s12">
+                <h5 class="white-text">社交</h5>
+                
+                    <a class="social-link" href="http://weibo.com/1956184117" target="_blank">
+                        <i class="fa fa-2x fa-weibo"></i>
+                    </a>
+                
+                    <a class="social-link" href="https://github.com/raytaylorlin" target="_blank">
+                        <i class="fa fa-2x fa-github"></i>
+                    </a>
+                
+                    <a class="social-link" href="/atom.xml" target="_blank">
+                        <i class="fa fa-2x fa-rss"></i>
+                    </a>
+                
+                
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+    </script>
+    <div class="site-visitors-container white-text">
+        <span>
+            <i class="fa fa-user"></i>
+            <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+        </span>
+        <span>&nbsp;|&nbsp;</span>
+        <span>
+            <i class="fa fa-eye"></i>
+            <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+        </span>
+    </div>
+
+
+            </div>
+            
+
+            
+            <div class="col m8 s12">
+                <h5 class="white-text">友情链接</h5>
+                
+                    <a class="social-link" href="http://tutuge.me/" target="_blank">土土哥的技术博客</a>
+                
+                    <a class="social-link" href="http://neoyeelf.github.io/" target="_blank">屌刘neoye的博客</a>
+                
+                    <a class="social-link" href="http://diao.li/" target="_blank">李伟涛的博客</a>
+                
+                    <a class="social-link" href="http://suta.im/" target="_blank">苏塔是没有脚的设计师</a>
+                
+                    <a class="social-link" href="http://jfantasy.github.io/" target="_blank">JFantasy的个人博客</a>
+                
+                    <a class="social-link" href="http://pyroc.at/" target="_blank">丁基友的博客</a>
+                
+            </div>
+            
+        </div>
+    </div>
+    
+
+    <div class="footer-copyright green-link-context">
+        <div class="container">
+            © 2019 raytaylorlin.github.io, All rights reserved.
+            <p class="right" style="margin-top: 0;">本博客由 <a href="https://hexo.io">Hexo</a> 强力驱动 | 主题 <a href="https://github.com/raytaylorlin/hexo-theme-raytaylorism">raytaylorism</a></p>
+        </div>
+    </div>
+</footer>
+
+
+    <noscript>
+    <div class="noscript">
+        <p class="center-align">当前网速较慢或者你使用的浏览器不支持博客特定功能，请尝试刷新或换用Chrome、Firefox等现代浏览器</p>
+    </div>
+</noscript>
+<div class="noscript">
+    <p class="center-align">当前网速较慢或者你使用的浏览器不支持博客特定功能，请尝试刷新或换用Chrome、Firefox等现代浏览器</p>
+</div>
+
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/materialize.min.js"></script>
+
+<script>
+    (function($) {
+        $(document).ready(function() {
+            // 隐藏禁用javascript（针对微信内置浏览器）的提示
+            $('.noscript').hide();
+
+            // 图片缩放效果
+            var $imgs = $('img').not('.slider-image').not('.avatar-image').not('.carousel-image').not('.card-cover-image').not('.qrcode');
+
+            // 给图片加上点击放大效果（materialbox插件）
+            $imgs.addClass('materialboxed').each(function(i, el) {
+                $(this).attr('data-caption', $(this).attr('alt') || ' ');
+            }).materialbox();
+
+            // 优化表格的显示
+            $('table').each(function() {
+                var $table = $(this);
+                // 除去多行代码的情况
+                if ($table.find('pre').length == 0) {
+                    $table.addClass('responsive-table striped bordered');
+                }
+            });
+
+            // 首页幻灯片
+            $('.slider').slider({indicators: true, full_width: true, interval: 8000});
+
+            $(".button-collapse").sideNav();
+            $(".category-menu").sideNav();
+
+            // 针对gallery post
+            $('.carousel').carousel({full_width: true});
+            $('.carousel-control.prev').click(function() {
+                $('.carousel').carousel('prev');
+            });
+            $('.carousel-control.next').click(function() {
+                $('.carousel').carousel('next');
+            });
+
+            // 文章目录
+            $('article').not('.simple-article').find('h1').add('h2').add('h3').add('h4').add('h5').add('h6').scrollSpy();
+
+            // 目录随屏幕滚动（防止目录过长越过footer）
+            var $toc = $('.toc');
+            var scrollTargetTop = 0;
+            $(window).scroll(function() {
+                var $activeLink = $toc.find('a.active.section');
+                if ($(window).scrollTop() < 100) {
+                    scrollTargetTop = 0;
+                } else {
+                    if ($activeLink[0]) {
+                        scrollTargetTop = $activeLink.offset().top - $toc.offset().top;
+                    }
+                }
+                $toc.css('top', '-' + scrollTargetTop + 'px');
+            });
+
+            // 修正文章目录的left-border颜色
+            var color = $('.table-of-contents-text').css('color');
+            $('.table-of-contents-link').css('border-left-color', color);
+
+            // 针对移动端做的优化：FAB按钮点击一下收回
+            if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                $('.fixed-action-btn').addClass('click-to-toggle');
+            }
+            // 回到顶部
+            $('.btn-return-top').click(function() {
+                $('body, html').animate({
+                    scrollTop: 0
+                }, 500);
+            });
+
+            // 重置读书页面的Tab标签页的颜色
+            $('li.tab a').hover(function() {
+                $(this).toggleClass('text-lighten-4');
+            });
+            $('.indicator').addClass('green lighten-2');
+
+            
+            // 添加new标签
+            $('.menu-reading').append('<span class="new badge green"></span>');
+            
+
+            // 搜索功能
+            $('.modal-trigger').leanModal({
+                // 打开搜索框时自动聚焦
+                ready: function() {
+                    if ($('#search').is(":visible")) {
+                        $('#search-input').focus();
+                    }
+                }
+            });
+            var searchXml = "search.xml";
+            if (searchXml.length == 0) {
+             	searchXml = "search.xml";
+            }
+            var searchPath = "/" + searchXml;
+            initSearch(searchPath, 'search-input', 'search-result');
+        });
+
+        // 初始化搜索与匹配函数
+        var initSearch = function(path, search_id, content_id) {
+            'use strict';
+            $.ajax({
+                url: path,
+                dataType: "xml",
+                success: function(xmlResponse) {
+                    // get the contents from search data
+                    var datas = $("entry", xmlResponse).map(function() {
+                        return {
+                            title: $("title", this).text(),
+                            content: $("content", this).text(),
+                            url: $("url", this).text()
+                        };
+                    }).get();
+                    var $input = document.getElementById(search_id);
+                    var $resultContent = document.getElementById(content_id);
+                    $input.addEventListener('input', function() {
+                        var str = '<ul class=\"search-result-list\">';
+                        var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                        $resultContent.innerHTML = "";
+                        if (this.value.trim().length <= 0) {
+                            return;
+                        }
+                        // perform local searching
+                        datas.forEach(function(data) {
+                            var isMatch = true;
+                            var content_index = [];
+                            var data_title = data.title.trim().toLowerCase();
+                            var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                            var data_url = data.url;
+                            var index_title = -1;
+                            var index_content = -1;
+                            var first_occur = -1;
+                            // only match artiles with not empty titles and contents
+                            if (data_title != '' && data_content != '') {
+                                keywords.forEach(function(keyword, i) {
+                                    index_title = data_title.indexOf(keyword);
+                                    index_content = data_content.indexOf(keyword);
+                                    if (index_title < 0 && index_content < 0) {
+                                        isMatch = false;
+                                    } else {
+                                        if (index_content < 0) {
+                                            index_content = 0;
+                                        }
+                                        if (i == 0) {
+                                            first_occur = index_content;
+                                        }
+                                    }
+                                });
+                            }
+                            // show search results
+                            if (isMatch) {
+                                keywords.forEach(function(keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    data_title = data_title.replace(regS, "<span class=\"search-keyword green lighten-2\">" + keyword + "</span>");
+                                });
+
+                                str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                                var content = data.content.trim().replace(/<[^>]+>/g, "");
+                                if (first_occur >= 0) {
+                                    // cut out 100 characters
+                                    var start = first_occur - 20;
+                                    var end = first_occur + 80;
+                                    if (start < 0) {
+                                        start = 0;
+                                    }
+                                    if (start == 0) {
+                                        end = 100;
+                                    }
+                                    if (end > content.length) {
+                                        end = content.length;
+                                    }
+                                    var match_content = content.substring(start, end);
+                                    // highlight all keywords
+                                    keywords.forEach(function(keyword) {
+                                        var regS = new RegExp(keyword, "gi");
+                                        match_content = match_content.replace(regS, "<span class=\"search-keyword green lighten-2\">" + keyword + "</span>");
+                                    });
+
+                                    str += "<p class=\"search-result\">..." + match_content + "...</p>"
+                                }
+                                str += "</li>";
+                            }
+                        });
+                        str += "</ul>";
+                        $resultContent.innerHTML = str;
+                    });
+                }
+            });
+        }
+    })(jQuery);
+</script>
+
+
+<script src="/js/prettify.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("pre").addClass("prettyprint");
+        prettyPrint();
+    });
+</script>
+
+
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-43460643-1', 'auto');
+    ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+<script type="text/javascript" async src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+
+</body>
+</html>

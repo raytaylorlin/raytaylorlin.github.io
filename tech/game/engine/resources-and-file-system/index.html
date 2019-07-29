@@ -1,0 +1,931 @@
+<!DOCTYPE HTML>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    
+
+    <title>游戏引擎中的资源与文件系统 | </title>
+    <meta name="author" content="RayTaylor Lin">
+    
+    <meta name="description" content="水镜一人性，月读一波明。轻扬一宿星，枫过一帆灵。">
+    
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta property="og:title" content="游戏引擎中的资源与文件系统">
+    <meta property="og:site_name" content="Ray Taylor Lin&#39;s world">
+
+    
+    <meta property="og:image" content>
+    
+
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="alternate" href="/atom.xml" title="Ray Taylor Lin&#39;s world" type="application/atom+xml">
+    <link rel="stylesheet" href="/css/lib/materialize.min.css">
+    <link rel="stylesheet" href="/css/lib/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+
+    
+        <link rel="stylesheet" href="/css/lib/prettify-tomorrow-night-eighties.css" type="text/css">
+    
+    <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+</head>
+</html>
+
+<body>
+    <img src="/weixin_favicon.png" style="position: absolute; left: -9999px; opacity: 0; filter: alpha(opacity=0);">
+
+    <nav class="indigo">
+    <div class="nav-wrapper">
+        <a href="#" data-activates="main-menu" class="button-collapse">
+            <i class="fa fa-navicon"></i>
+        </a>
+        <div class>
+            <a href="/" class="brand-logo hide-on-med-and-down">Ray Taylor Lin&#39;s world</a>
+            <ul class="right hide-on-med-and-down">
+                
+                    <li>
+                        <a class="menu-home " href="/">
+                            <i class="fa fa-home "></i>
+                            
+                            首页
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-archive " href="/archives">
+                            <i class="fa fa-archive "></i>
+                            
+                            归档
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-category category-menu" href="javascript:;" data-activates="category-menu">
+                            <i class="fa fa-bookmark "></i>
+                            
+                            分类
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-reading " href="/reading">
+                            <i class="fa fa-book "></i>
+                            
+                            读书
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-about " href="/about">
+                            <i class="fa fa-user "></i>
+                            
+                            关于
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-search modal-trigger " href="#search">
+                            <i class="fa fa-search "></i>
+                            
+                            搜索
+                        </a>
+                    </li>
+                
+            </ul>
+            <div>
+    <ul class="side-nav indigo darken-1" id="main-menu">
+        
+        <li class="side-user">
+            <div class="row">
+                <div class="col s4 no-padding">
+                    <img class="avatar-image circle responsive-img" src="http://tp2.sinaimg.cn/1956184117/180/5674436546/1" alt="User Avatar">
+                </div>
+                <div class="info col s8 valign-wrapper no-padding">
+                    <div class="valign">
+                        <p class="name">林寿山</p>
+                        <p class="desc">游戏开发/Web前端</p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        
+
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-home " href="/">
+                    <i class="fa fa-home "></i>
+                    
+                    首页
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-archive " href="/archives">
+                    <i class="fa fa-archive "></i>
+                    
+                    归档
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-category category-menu" href="javascript:;" data-activates="category-menu">
+                    <i class="fa fa-bookmark "></i>
+                    
+                    分类
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-reading " href="/reading">
+                    <i class="fa fa-book "></i>
+                    
+                    读书
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-about " href="/about">
+                    <i class="fa fa-user "></i>
+                    
+                    关于
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-search modal-trigger " href="#search">
+                    <i class="fa fa-search "></i>
+                    
+                    搜索
+                </a>
+            </li>
+        
+    </ul>
+
+    <ul class="side-nav indigo darken-1" id="category-menu">
+    
+
+            
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/日常/">
+                    日常 <span class="right">8 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/技术/">
+                    技术 <span class="right">93 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/算法/">
+                    算法 <span class="right">6 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/Linux/">
+                    Linux <span class="right">2 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/综合/">
+                    综合 <span class="right">23 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/综合/演示/">
+                    演示 <span class="right">2 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/综合/设计模式/">
+                    设计模式 <span class="right">3 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/综合/软件工程/">
+                    软件工程 <span class="right">15 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/综合/杂项/">
+                    杂项 <span class="right">1 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/综合/项目/">
+                    项目 <span class="right">2 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/游戏开发/">
+                    游戏开发 <span class="right">19 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/游戏开发/服务器端/">
+                    服务器端 <span class="right">2 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/游戏开发/客户端/">
+                    客户端 <span class="right">1 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/游戏开发/游戏引擎/">
+                    游戏引擎 <span class="right">11 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/游戏开发/Unity/">
+                    Unity <span class="right">5 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-3" collapse-level="3">
+                <a class="no-padding" href="/categories/技术/游戏开发/Unity/NGUI/">
+                    NGUI <span class="right">5 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/编程语言/">
+                    编程语言 <span class="right">15 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/编程语言/Lua/">
+                    Lua <span class="right">7 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/编程语言/其它语言/">
+                    其它语言 <span class="right">4 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/编程语言/Python/">
+                    Python <span class="right">4 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/工具/">
+                    工具 <span class="right">7 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/工具/IDE/">
+                    IDE <span class="right">3 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/工具/Git/">
+                    Git <span class="right">4 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/Web前端/">
+                    Web前端 <span class="right">21 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/Web前端/HTTP协议/">
+                    HTTP协议 <span class="right">7 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/Web前端/CSS/">
+                    CSS <span class="right">3 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/Web前端/HTML5/">
+                    HTML5 <span class="right">2 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/Web前端/NodeJS/">
+                    NodeJS <span class="right">9 篇</span></a>
+                
+            </li>
+
+        
+
+    </ul>
+</div>
+
+        </div>
+    </div>
+</nav>
+
+<div id="search" class="modal search-modal">
+    <div class="row">
+        <div class="input-field col s12">
+              <input id="search-input" type="text">
+              <label for="search-input">搜索</label>
+        </div>
+
+    </div>
+    <div id="search-result" class="search-result col s12">
+
+    </div>
+</div>
+
+
+    <main>
+        <div class="container main-container">
+    <nav class="page-nav hide-on-small-only">
+    <div class="nav-wrapper indigo">
+        <span class="breadcrumb">当前位置（分类目录）</span>
+        
+            
+    
+    
+    <a class="breadcrumb" href="/categories/技术/">技术</a><a class="breadcrumb" href="/categories/技术/游戏开发/">游戏开发</a><a class="breadcrumb" href="/categories/技术/游戏开发/游戏引擎/">游戏引擎</a>
+
+
+        
+
+        
+    </div>
+</nav>
+
+<article>
+    <div class="card">
+        <div class="card-content">
+            
+
+            <div class="article-title">
+                
+    
+        <h1>游戏引擎中的资源与文件系统</h1>
+    
+
+
+            </div>
+            <time class="green-link-context" datetime="2016-06-17T06:10:20.000Z"><a href="/tech/game/engine/resources-and-file-system/">2016-06-17</a></time>
+
+            <span id="busuanzi_container_page_pv" class="read-times-container">
+    <i class="fa fa-eye"></i>
+    <span id="busuanzi_value_page_pv"></span>
+</span>
+
+            
+    <div class="tags-row">
+        
+            <a href="/tags/游戏引擎/" class="chip green lighten-1">游戏引擎</a>
+        
+            <a href="/tags/架构/" class="chip green lighten-1">架构</a>
+        
+    </div>
+
+
+            <div class="toc green-link-context hide-on-med-and-down">
+    <ol class="section table-of-contents"><li class="section table-of-contents-item section table-of-contents-level-1"><a class="section table-of-contents-link" href="#1-文件系统"><span class="section table-of-contents-text">1. 文件系统</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#1-1-文件名和路径"><span class="section table-of-contents-text">1.1 文件名和路径</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#1-2-基本文件I-O"><span class="section table-of-contents-text">1.2 基本文件I/O</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#1-2-1-文件I-O-API"><span class="section table-of-contents-text">1.2.1 文件I/O API</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#1-2-2-同步与异步"><span class="section table-of-contents-text">1.2.2 同步与异步</span></a></li></ol></li></ol></li><li class="section table-of-contents-item section table-of-contents-level-1"><a class="section table-of-contents-link" href="#2-资源管理器"><span class="section table-of-contents-text">2. 资源管理器</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#2-1-离线资源管理与工具链"><span class="section table-of-contents-text">2.1 离线资源管理与工具链</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#2-1-1-资产的版本控制"><span class="section table-of-contents-text">2.1.1 资产的版本控制</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#2-1-2-资源数据库"><span class="section table-of-contents-text">2.1.2 资源数据库</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#2-1-3-一些成功的资源数据库设计"><span class="section table-of-contents-text">2.1.3 一些成功的资源数据库设计</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#2-1-4-资产调节管道"><span class="section table-of-contents-text">2.1.4 资产调节管道</span></a></li></ol></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#2-2-运行时资源管理"><span class="section table-of-contents-text">2.2 运行时资源管理</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#2-2-1-运行时资源管理器的责任"><span class="section table-of-contents-text">2.2.1 运行时资源管理器的责任</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#2-2-1-资源文件及目录组织"><span class="section table-of-contents-text">2.2.1 资源文件及目录组织</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#2-2-2-资源文件格式和GUID"><span class="section table-of-contents-text">2.2.2 资源文件格式和GUID</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#2-2-3-资源注册表"><span class="section table-of-contents-text">2.2.3 资源注册表</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#2-2-4-资源生命期"><span class="section table-of-contents-text">2.2.4 资源生命期</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#2-2-5-资源的内存管理"><span class="section table-of-contents-text">2.2.5 资源的内存管理</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#2-2-6-资源的交叉引用"><span class="section table-of-contents-text">2.2.6 资源的交叉引用</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-4"><a class="section table-of-contents-link" href="#2-2-6-1-处理资源内部引用"><span class="section table-of-contents-text">2.2.6.1 处理资源内部引用</span></a></li><li class="section table-of-contents-item section table-of-contents-level-4"><a class="section table-of-contents-link" href="#2-2-6-2-处理资源外部引用"><span class="section table-of-contents-text">2.2.6.2 处理资源外部引用</span></a></li></ol></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#2-2-7-资源载入后初始化"><span class="section table-of-contents-text">2.2.7 资源载入后初始化</span></a></li></ol></li></ol></li></ol>
+</div>
+
+
+            <div class="entry green-link-context">
+                <p>载入及管理多种媒体，是游戏引擎必须具备的能力。多数引擎会采用某种类型的资源（或资产）管理器，载入并管理游戏所需的资源，并确保在同一时间每个媒体文件只可载入一份。每个资源管理器都会大量使用文件系统。本文将介绍现代三维游戏引擎中的各种文件系统API，再分析典型资源管理器的运作方式。</p>
+<a id="more"></a>
+<h1 id="1-文件系统"><a href="#1-文件系统" class="headerlink" title="1. 文件系统"></a>1. 文件系统</h1><h2 id="1-1-文件名和路径"><a href="#1-1-文件名和路径" class="headerlink" title="1.1 文件名和路径"></a>1.1 文件名和路径</h2><p>关于文件和文件夹路径的概念，绝对路径和相对路径的概念，它们在各种操作系统之间的区别，属于常识范畴，此处不赘述。</p>
+<p>关于搜寻路径，是指含若干个路径（以特殊字符分隔）的字符串，寻找文件时会从这些路径逐个寻找，PATH环境变量就是一种搜寻路径。在运行期搜寻资产是费时的做法，而通常资产路径会在运行期之前就得知，所以应该完全避免搜寻资产。</p>
+<p>关于路径API，一般用于对路径进行多种操作，如分离“目录/文件名/扩展名”、使路径规范化、绝对和相对路径互转等等。游戏引擎通常会实现或封装轻量化的路径处理API，以便实现跨平台，从各种特殊的储存媒体（如记忆棒、DVD盘、网络文件系统等等）中存取数据，以及提供操作系统API未能提供的功能，如串流（即在游戏运行中同时载入数据）。</p>
+<h2 id="1-2-基本文件I-O"><a href="#1-2-基本文件I-O" class="headerlink" title="1.2 基本文件I/O"></a>1.2 基本文件I/O</h2><h3 id="1-2-1-文件I-O-API"><a href="#1-2-1-文件I-O-API" class="headerlink" title="1.2.1 文件I/O API"></a>1.2.1 文件I/O API</h3><p>许多游戏引擎都会把文件I/O API封装成自定义的API，这样至少有三个好处：保证I/O API在所有目标平台上均有相同行为；API可以简化到只剩下实际需要的函数，使维护开支维持最小限度；可提供延伸功能，如处理各种特殊的储存媒体（同自定义路径处理API）。</p>
+<p>每次调用输入/输出，都需要称为缓冲区的数据区块，以供程序和磁盘之间传送字节。当API负责管理数据缓冲，就称之为有缓冲功能的API，否则为无缓冲。C标准程序库中，以f开头的文件API是带缓冲的，如<code>fopen()</code>，没有f开头是无缓冲的，如<code>read()</code>。有时自行管理缓冲区是有必要的。例如往日志写数据可能会显著降低性能，可以先把数据累积在内存缓冲，满溢后才写进盘内，甚至把缓冲输出函数置于另一线程里，以避免令主游戏循环发生流水线停顿。</p>
+<h3 id="1-2-2-同步与异步"><a href="#1-2-2-同步与异步" class="headerlink" title="1.2.2 同步与异步"></a>1.2.2 同步与异步</h3><p>C标准库的两种文件I/O库都是同步的，即程序发出I/O请求以后，必须等待读/写数据完毕，程序才能继续运行。为了提高用户体验，往往要使用串流来载入资源，这必须使用异步文件I/O库。多数异步I/O库容许主程序在请求发出后一段时间，等待I/O操作完成才继续运行。有些异步I/O库容许程序员取得某异步操作所需时间的估算，一些API也可以为请求设置时限，并设置请求超时的安排（例如取消请求、通知程序、继续尝试等）。</p>
+<p>异步I/O操作常有不同的优先权，例如从硬盘中串流音频，并且在串流其他资源时播放音频，显然前者优先权高于后者。异步I/O系统必须能暂停较低优先权的请求，才可以让较高优先权的I/O请求有机会在时限前完成。</p>
+<p>关于异步操作（不局限于文件I/O）的实现原理，一般是利用另一线程进行同步操作来实现。主线程调用异步函数时，会把请求放入一个队列，并立即传回。同时，I/O线程从队列中取出请求，并以阻塞I/O函数处理这些请求。请求的工作完成后，就会调用主线程之前提供的回调函数告之该操作己完成。若主线程选择等待完成I/O请求，就会使用信号量处理（每个请求对应一个信号量，主线程把自身处于休眠状态，等待I/O线程在完成请求工作后通知信号量）。</p>
+<h1 id="2-资源管理器"><a href="#2-资源管理器" class="headerlink" title="2. 资源管理器"></a>2. 资源管理器</h1><p>资源管理器由两部分组成：一部分负责管理离线工具链，用来创建资产并把它们转换成引擎可用的形式；另一部分在执行期管理资源，确保资源在使用前已载入内存，不需要时从内存卸下。</p>
+<h2 id="2-1-离线资源管理与工具链"><a href="#2-1-离线资源管理与工具链" class="headerlink" title="2.1 离线资源管理与工具链"></a>2.1 离线资源管理与工具链</h2><h3 id="2-1-1-资产的版本控制"><a href="#2-1-1-资产的版本控制" class="headerlink" title="2.1.1 资产的版本控制"></a>2.1.1 资产的版本控制</h3><p>有些游戏团队使用源码版本控制工具来管理资源。艺术资产通常有极大的数据量，直接从中央版本库复制到本地往往是低效的。以下是一些参考解决方案：</p>
+<ul>
+<li>使用如Alienbrain这种特别针对极大量数据的商业VCS</li>
+<li>在VCS上精心设计一套系统，保证用户只会取得其真正所需的文件到本地</li>
+<li>顽皮狗开发了一款私有工具。用户拥有资产版本库的完整本地视图，只要文件未签出，本地就一直是UNIX的符号链接（Windows可以使用junction实现）以消除数据复制。当签出文件时则移除符号链接，更换为本地副本，签入时则相反。</li>
+</ul>
+<h3 id="2-1-2-资源数据库"><a href="#2-1-2-资源数据库" class="headerlink" title="2.1.2 资源数据库"></a>2.1.2 资源数据库</h3><p>游戏引擎不会使用多数资产原本的格式，而是需要通过一些资产调节管道转换资产，转换过程中每个资源都会产生<strong>元数据</strong>描述如何对资源进行处理。例如描述压缩纹理时，使用哪种压缩方法；描述导出动画片段时，导出哪个范围的帧。大型游戏需要“资源数据库”来管理资源管道所需的数据。无论采用什么形式，数据库都需要提供以下功能：</p>
+<ul>
+<li>以一致的方式处理多种类型的资源</li>
+<li>创建、删除、查看、移动磁盘位置和修改资源</li>
+<li>资源交叉引用其他资源，并维持数据库内的引用完整性</li>
+<li>保存版本历史，含完整日志记录、改动者及事由</li>
+<li>支持不同形式的搜索和查询</li>
+</ul>
+<h3 id="2-1-3-一些成功的资源数据库设计"><a href="#2-1-3-一些成功的资源数据库设计" class="headerlink" title="2.1.3 一些成功的资源数据库设计"></a>2.1.3 一些成功的资源数据库设计</h3><ul>
+<li>虚幻3：由万用工具UnrealEd管理，它是引擎的一部分<ul>
+<li>优点：创建资产后能立即看到资产在游戏中运行的模样；以单一、整合、一致的界面管理所有类型的资源；资产必须明确导入数据库，制作初期便可检查资源有效性</li>
+<li>缺点：所有资源存于少量的大型二进制包文件，不利于VCS合并；资源重命名或移动时，使用虚拟对象，即把旧资源映射到新名称/位置，问题是虚拟对象会闲置、累积起来造成问题，尤其是删除资源时变得严重</li>
+</ul>
+</li>
+<li>顽皮狗的《神秘海域》引擎<ul>
+<li>最初使用MySQL存储资源元数据，并编写自制GUI工具Builder管理，后改用Perforce以提供版本控制，元数据改为XML</li>
+<li>Builder管理演员（包含行为的动态对象）和关卡（含静态背景网格和关卡信息等）两种类型的资源，动画可以组成名为动画包（buddle）的伪文件夹</li>
+<li>引擎含一组基于命令行的工具，用于查询数据库，处理资源原生DCC文件，生成某演员或关卡</li>
+<li>优点：资源粒度小；Builder仅提供必需的特性；源文件映射显而易见，用户容易得知某资源由哪些资产而来；容易更改DCC数据的到处及处理方式；依赖系统会自动处理，生成资产非常容易</li>
+<li>缺点：欠缺预览资产的可视化工具；各种类型的工具没有完全整合</li>
+</ul>
+</li>
+<li>OGRE：拥有一个颇完备、设计非常好的运行时资源管理器，通过一组简单一致又有扩展性的接口就能载入任何类型的资源。缺点在于仅是运行时方案，本身提供的离线处理很弱</li>
+<li>微软的XNA：通过VS IDE的项目管理及生成系统，把游戏资产以同样形式管理及生成</li>
+</ul>
+<h3 id="2-1-4-资产调节管道"><a href="#2-1-4-资产调节管道" class="headerlink" title="2.1.4 资产调节管道"></a>2.1.4 资产调节管道</h3><p>资产调节管道用于将DCC原生格式文件转换成引擎可用的形式，一般经过3个处理阶段：</p>
+<ol>
+<li>导出器：为DCC工具编写自定义插件，将数据导出为某种中间格式。如果DCC不提供自定义方法，则应该把数据存成开放格式，或比较直观的文本格式，或其他可做反向工程的原生格式</li>
+<li>资源编译器：对DCC导出的数据进行一定处理，如把网格的三角形重新排列成三角形带，或压缩纹理。并非所有数据都要编译</li>
+<li>资源链接器：将多个资源先结合成单个有用的包，如复杂的三维模型，然后才载入至游戏引擎。并非所有数据都要链接</li>
+</ol>
+<p>如同程序的源文件，各资产之间也有依赖关系，例如某网格引用若干个材质，这些材质又引用多个纹理。这些依赖关系通常会影响资产在管道内的处理次序，也可告诉我们，当某个源资产做出改动后，要重新生成哪些资产。每个资产调节管道都需要一组规则来描述资产间的依赖关系，并自己搭建系统或使用像make这样的工具来以正确顺序生成资产。一定要管理好资产间的依赖。</p>
+<h2 id="2-2-运行时资源管理"><a href="#2-2-运行时资源管理" class="headerlink" title="2.2 运行时资源管理"></a>2.2 运行时资源管理</h2><h3 id="2-2-1-运行时资源管理器的责任"><a href="#2-2-1-运行时资源管理器的责任" class="headerlink" title="2.2.1 运行时资源管理器的责任"></a>2.2.1 运行时资源管理器的责任</h3><ul>
+<li>确保任何时候，同一个资源在内存中只有一份副本</li>
+<li>管理每个资源的生命期</li>
+<li>处理复合资源的载入（如三维模型）</li>
+<li>维护引用完整性：包括单个资源内的交叉引用，以及资源间的交叉引用</li>
+<li>管理资源载入后的内存用量，确保资源储存在内存中合适的地方</li>
+<li>容许按资源类型，载入资源后执行自定义的处理</li>
+<li>通常提供统一的易扩展的接口管理多种资源类型</li>
+<li>若引擎支持，则要处理串流</li>
+</ul>
+<h3 id="2-2-1-资源文件及目录组织"><a href="#2-2-1-资源文件及目录组织" class="headerlink" title="2.2.1 资源文件及目录组织"></a>2.2.1 资源文件及目录组织</h3><p>资源一般储存为磁盘上的文件，并位于使创作者方便而组织的树状目录中。但引擎通常不会理会资源被放置于资源树中的哪个位置，引擎会把多个资源包裹为单一文件，这种手法能将寻道时间、开启每个文件的时间、从文件读至内存的时间都降到最低。</p>
+<p>OGRE使用ZIP存档资源，因为ZIP是开放格式，内部虚拟文件有相对路径，可被压缩（载入数据后解压所花的时间，通常比读取无压缩数据所花的时间少），并可视为模块（例如把需要本地化的资产打包，针对不同语言制作不同版本的ZIP）。虚幻3采取类似的手法，但是其所有资源都必须置于大型的pak自定义格式文件中，并不容许资源以盘上独立文件出现。</p>
+<h3 id="2-2-2-资源文件格式和GUID"><a href="#2-2-2-资源文件格式和GUID" class="headerlink" title="2.2.2 资源文件格式和GUID"></a>2.2.2 资源文件格式和GUID</h3><p>每类资源都可能有不同的文件格式。单一文件格式也可储存多种不同类型的资产，如Granny的文件格式可轻易用来储存任何种类的数据。许多引擎会自定义文件格式，因为引擎所需部分信息可能没有标准格式可以支持，以及对资源脱机处理，以让其遵从某种内存布局加速运行时载入。</p>
+<p>所有资源都需要GUID来识别，最常见就是使用资源的文件系统路径（操作系统保证两个文件不能有相同的路径），也有使用128位散列GUID的。虚幻3的GUID格式是包名和包内资源路径串接而成，像《战争机器》的一个资源GUID为<code>Locust_Boomer.PhysicalMaterials.LocustBommerLeather</code>。</p>
+<h3 id="2-2-3-资源注册表"><a href="#2-2-3-资源注册表" class="headerlink" title="2.2.3 资源注册表"></a>2.2.3 资源注册表</h3><p>资源管理器都含某种形式的资源注册表，以<strong>保证在任何时间，载入内存的每个资源只会有一份副本</strong>。最简单的实现方法是使用字典，键为资源的GUID，而值是指向内存中资源的指针。资源载入内存时，加进资源注册表字典。卸下资源时，就删除其注册表记录。</p>
+<p>若不能从表中找到请求的资源，最直觉的处理手法就是自动载入该资源。但这样做可能会因为临时从硬盘或光驱等缓慢设备读取数据而严重拖慢游戏帧率。因此引擎可采取这两种替代手法：游戏进行中完全禁止加载资源（游戏关卡的所有资源在游戏进行前全部加载，那时候通常是loading界面）；或资源以相对较难实现的异步形式加载，如玩关卡A时，关卡B的资源在后台加载。</p>
+<h3 id="2-2-4-资源生命期"><a href="#2-2-4-资源生命期" class="headerlink" title="2.2.4 资源生命期"></a>2.2.4 资源生命期</h3><p>资源管理器的职责之一是自动管理资源生命期，或对游戏提供所需API供手动管理。每个资源对生命期有不同需求：游戏持续的所有时间（如角色网格、纹理、动画，HUD的纹理字形等等），持续某一关卡的时间，短于所在关卡的时间（如过场动画），即时串流（如BGM、环境音效等）。</p>
+<p>某资源的载入时期通常在玩家第一次看见该资源便能决定，但何时卸下资源归还内存，就难以回答，因为可能存在多个关卡共享的资源。解决方案之一就是对资源引用计数，即载入新关卡时，遍历所需资源并引用加1，再遍历即将结束的关卡的资源，所有引用减1。下图给出了资源引用计数的例子。</p>
+<p><img src="http://raytaylorlin-blog.oss-cn-shenzhen.aliyuncs.com/image%2Fengine%2F%E8%BD%BD%E5%85%A5%E6%88%96%E5%8D%B8%E4%B8%8B%E4%B8%A4%E4%B8%AA%E5%85%B3%E5%8D%A1%E6%97%B6%E8%B5%84%E6%BA%90%E7%9A%84%E5%BC%95%E7%94%A8%E5%8F%98%E5%8C%96.jpg" alt="载入或卸下两个关卡时资源的引用变化"></p>
+<h3 id="2-2-5-资源的内存管理"><a href="#2-2-5-资源的内存管理" class="headerlink" title="2.2.5 资源的内存管理"></a>2.2.5 资源的内存管理</h3><p>资源加载的内存位置可能不同，像纹理、顶点缓冲、着色器驻留在显存，大部分资源驻留在主内存。设计游戏引擎时，有时用已有的内存分配器来设计资源系统，有时则要让内存分配器配合资源管理所需。</p>
+<ul>
+<li>基于堆栈分配器：若游戏是以线性关卡为中心，且内存足够容纳各个完整关卡，则可用堆栈分配器。注意栈顶端先分配驻留资源（LSR，各关卡共享的资源），再分配关卡所需内存。</li>
+<li>基于池分配器：因为每个内存组块大小相同，要注意设计资源数据时，必须避免大型连续数据结构，容许资源能被切割成同等大小的块。这种分配方式天生的问题就是文件内<strong>最后的组块</strong>空间被浪费。选择组块大小时，可以考虑设为操作系统I/O缓冲区大小的倍数，如512KB。</li>
+<li>资源组块分配器：专为解决上述组块浪费内存而设的分配模式。只需管理一个链表，内含所有未用满内存的组块以及自由内存块的位置及大小。这种方案有一个问题是卸下资源内存时，其“边角”的组块也会同时消失。解决方案是只利用该种分配器分配<strong>和对应关卡生命期相同的内存</strong>，这需要独立地管理每个关卡的组块，且用户请求分配时指明从哪个关卡分配内存。</li>
+<li>分段资源文件：将资源文件分为若干段，每段分为若干个组块（与池分配器配合）。各段的作用不同，有的是为主内存而设的数据，有的是仅在载入过程中使用、载入后被弃置的临时数据，有的是发行版本不会载入的调试信息</li>
+</ul>
+<h3 id="2-2-6-资源的交叉引用"><a href="#2-2-6-资源的交叉引用" class="headerlink" title="2.2.6 资源的交叉引用"></a>2.2.6 资源的交叉引用</h3><p>资源的交叉引用意味着资源间的依赖性，所以资源数据库可以表达为依赖对象所组成的有向图。交叉引用可以分为内部（单个文件里对象间的引用）和外部（引用另一个文件的对象）。下图给出了资源数据库的交叉引用例子。</p>
+<p><img src="http://raytaylorlin-blog.oss-cn-shenzhen.aliyuncs.com/image%2Fengine%2F%E8%B5%84%E6%BA%90%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E4%BA%A4%E5%8F%89%E5%BC%95%E7%94%A8%E4%BE%8B%E5%AD%90.png" alt="资源数据库的交叉引用例子"></p>
+<h4 id="2-2-6-1-处理资源内部引用"><a href="#2-2-6-1-处理资源内部引用" class="headerlink" title="2.2.6.1 处理资源内部引用"></a>2.2.6.1 处理资源内部引用</h4><p>在C++中， 由于指针的内存地址总会变，而且离开运行中的程序就失去意义，所以不能用指针来表示对象间的依赖。可以将资源引用存为GUID（全局唯一的字符串或散列码），资源管理器要维护一个全局资源查找表，其中键为GUID，值为资源在内存中的地址。</p>
+<p>储存对象到二进制文件的另一常用方法是，把指针转换为为文件偏移值，并建立指针修正表。下图给出了储存二进制文件以及将文件载入内存的指针修正示意，具体过程为：①把每个对象的内存影响遍历一次，顺序写至文件成为连续映像；②写进文件的代码，清楚知道对象的数据类型和类，也就知道每个对象的指针在哪里，把这些指针位置储存到指针修正表并一同写进文件；③载入文件至内存时，映像内对象仍保持连续，并凭借修正表修正所有指针。</p>
+<p><img src="http://raytaylorlin-blog.oss-cn-shenzhen.aliyuncs.com/image%2Fengine%2F%E5%82%A8%E5%AD%98%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%96%87%E4%BB%B6%E4%BB%A5%E5%8F%8A%E5%B0%86%E6%96%87%E4%BB%B6%E8%BD%BD%E5%85%A5%E5%86%85%E5%AD%98%E7%9A%84%E6%8C%87%E9%92%88%E4%BF%AE%E6%AD%A3%E7%A4%BA%E6%84%8F.jpg" alt="储存二进制文件以及将文件载入内存的指针修正示意"></p>
+<p>从文件载入C++对象，必须调用对象的构造函数。这个问题有两个常见解决方案：使用纯C结构体来储存数据或使用无虚函数、只含不做事情的平凡构造函数的C++ struct/class；表里记录对象属于哪个类，并使用<a href="https://en.wikipedia.org/wiki/Placement_syntax" target="_blank" rel="noopener">placement new</a>语法调用构造函数，像下面的代码所示。</p>
+<pre><code>void* pObject = ConvertOffsetToPointer(objectOffset);
+::new(pObject) ClassName;  // placement new语法，ClassName为对象所属的类名
+</code></pre><h4 id="2-2-6-2-处理资源外部引用"><a href="#2-2-6-2-处理资源外部引用" class="headerlink" title="2.2.6.2 处理资源外部引用"></a>2.2.6.2 处理资源外部引用</h4><p>以上提及的两个方案，仅对资源内部引用有效。要正确表示外部引用，除了指明偏移值或GUID，还要加上资源对象所属文件的路径。一般做法是：载入每个资源文件时，扫描文件中的交叉引用表，并载入所有被外部引用但未载入的资源文件，当载入所有互相依赖的资源时，就用主查找表把所有指针转换成真实的内存地址。</p>
+<h3 id="2-2-7-资源载入后初始化"><a href="#2-2-7-资源载入后初始化" class="headerlink" title="2.2.7 资源载入后初始化"></a>2.2.7 资源载入后初始化</h3><p>有一些资源载入内存时需要进行一些无法避免的初始化，例如三维网格的顶点和索引载入主内存后，几乎总是要传送至显存，而且只能在运行时进行。在C++中，可以使用多态为每个类设置如<code>Init()</code>和<code>Destroy()</code>的虚函数用于独立初始化和销毁工作。载入后初始化和资源内存分配策略息息相关，有时初始化会在文件的数据上新增数据（如额外计算类中的成员数据），有时初始化的数据用来取代己载入的数据（如引擎载入过时格式的网格数据，自动转换为最新格式，以保证向后兼容）。可以采用先载入到临时内存区域，初始化完成后再把相关数据复制到内存最终位置。</p>
+<p>参考文献：电子工业出版社《游戏引擎架构》第6章</p>
+
+                
+<p class="green-link-context">
+    <a href="/tech/game/engine/game-loop/" rel="next" title="游戏循环的实现方式">
+    上一篇：游戏循环的实现方式
+  </a>
+</p>
+
+
+
+<p class="green-link-context">
+    <a href="/tech/game/engine/engine-support-system-2/" rel="next" title="游戏引擎支持系统（下）">
+    下一篇：游戏引擎支持系统（下）
+  </a>
+</p>
+
+
+            </div>
+			
+        </div>
+    </div>
+</article>
+
+
+
+
+    <section id="comment">
+        <div id="disqus_thread"></div>
+        <script>
+            var disqus_config = function() {
+                this.page.url = 'http://raytaylorlin.github.io/tech/game/engine/resources-and-file-system/';
+                this.page.identifier = 'tech/game/engine/resources-and-file-system/';
+            };
+            (function() {
+                var d = document,
+                    s = d.createElement('script');
+                s.src = '//raytaylorlin.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', + new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the
+            <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+        </noscript>
+    </section>
+
+
+
+</div>
+
+        <div class="fixed-action-btn float-sitemap">
+    <a class="btn-floating btn-large green">
+      <i class="fa fa-caret-square-o-up"></i>
+    </a>
+    <ul>
+      <li><a class="btn-return-top btn-floating waves-effect pink" title="回到顶部"><i class="fa fa-arrow-circle-o-up"></i></a></li>
+      <li><a class="btn-floating waves-effect button-collapse orange darken-1" data-activates="main-menu" title="菜单"><i class="fa fa-navicon"></i></a></li>
+    </ul>
+  </div>
+
+    </main>
+    <footer class="page-footer indigo darken-1">
+    
+    <div class="footer-container container">
+        <div class="row">
+            
+            <div class="social-group col m4 s12">
+                <h5 class="white-text">社交</h5>
+                
+                    <a class="social-link" href="http://weibo.com/1956184117" target="_blank">
+                        <i class="fa fa-2x fa-weibo"></i>
+                    </a>
+                
+                    <a class="social-link" href="https://github.com/raytaylorlin" target="_blank">
+                        <i class="fa fa-2x fa-github"></i>
+                    </a>
+                
+                    <a class="social-link" href="/atom.xml" target="_blank">
+                        <i class="fa fa-2x fa-rss"></i>
+                    </a>
+                
+                
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+    </script>
+    <div class="site-visitors-container white-text">
+        <span>
+            <i class="fa fa-user"></i>
+            <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+        </span>
+        <span>&nbsp;|&nbsp;</span>
+        <span>
+            <i class="fa fa-eye"></i>
+            <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+        </span>
+    </div>
+
+
+            </div>
+            
+
+            
+            <div class="col m8 s12">
+                <h5 class="white-text">友情链接</h5>
+                
+                    <a class="social-link" href="http://tutuge.me/" target="_blank">土土哥的技术博客</a>
+                
+                    <a class="social-link" href="http://neoyeelf.github.io/" target="_blank">屌刘neoye的博客</a>
+                
+                    <a class="social-link" href="http://diao.li/" target="_blank">李伟涛的博客</a>
+                
+                    <a class="social-link" href="http://suta.im/" target="_blank">苏塔是没有脚的设计师</a>
+                
+                    <a class="social-link" href="http://jfantasy.github.io/" target="_blank">JFantasy的个人博客</a>
+                
+                    <a class="social-link" href="http://pyroc.at/" target="_blank">丁基友的博客</a>
+                
+            </div>
+            
+        </div>
+    </div>
+    
+
+    <div class="footer-copyright green-link-context">
+        <div class="container">
+            © 2019 raytaylorlin.github.io, All rights reserved.
+            <p class="right" style="margin-top: 0;">本博客由 <a href="https://hexo.io">Hexo</a> 强力驱动 | 主题 <a href="https://github.com/raytaylorlin/hexo-theme-raytaylorism">raytaylorism</a></p>
+        </div>
+    </div>
+</footer>
+
+
+    <noscript>
+    <div class="noscript">
+        <p class="center-align">当前网速较慢或者你使用的浏览器不支持博客特定功能，请尝试刷新或换用Chrome、Firefox等现代浏览器</p>
+    </div>
+</noscript>
+<div class="noscript">
+    <p class="center-align">当前网速较慢或者你使用的浏览器不支持博客特定功能，请尝试刷新或换用Chrome、Firefox等现代浏览器</p>
+</div>
+
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/materialize.min.js"></script>
+
+<script>
+    (function($) {
+        $(document).ready(function() {
+            // 隐藏禁用javascript（针对微信内置浏览器）的提示
+            $('.noscript').hide();
+
+            // 图片缩放效果
+            var $imgs = $('img').not('.slider-image').not('.avatar-image').not('.carousel-image').not('.card-cover-image').not('.qrcode');
+
+            // 给图片加上点击放大效果（materialbox插件）
+            $imgs.addClass('materialboxed').each(function(i, el) {
+                $(this).attr('data-caption', $(this).attr('alt') || ' ');
+            }).materialbox();
+
+            // 优化表格的显示
+            $('table').each(function() {
+                var $table = $(this);
+                // 除去多行代码的情况
+                if ($table.find('pre').length == 0) {
+                    $table.addClass('responsive-table striped bordered');
+                }
+            });
+
+            // 首页幻灯片
+            $('.slider').slider({indicators: true, full_width: true, interval: 8000});
+
+            $(".button-collapse").sideNav();
+            $(".category-menu").sideNav();
+
+            // 针对gallery post
+            $('.carousel').carousel({full_width: true});
+            $('.carousel-control.prev').click(function() {
+                $('.carousel').carousel('prev');
+            });
+            $('.carousel-control.next').click(function() {
+                $('.carousel').carousel('next');
+            });
+
+            // 文章目录
+            $('article').not('.simple-article').find('h1').add('h2').add('h3').add('h4').add('h5').add('h6').scrollSpy();
+
+            // 目录随屏幕滚动（防止目录过长越过footer）
+            var $toc = $('.toc');
+            var scrollTargetTop = 0;
+            $(window).scroll(function() {
+                var $activeLink = $toc.find('a.active.section');
+                if ($(window).scrollTop() < 100) {
+                    scrollTargetTop = 0;
+                } else {
+                    if ($activeLink[0]) {
+                        scrollTargetTop = $activeLink.offset().top - $toc.offset().top;
+                    }
+                }
+                $toc.css('top', '-' + scrollTargetTop + 'px');
+            });
+
+            // 修正文章目录的left-border颜色
+            var color = $('.table-of-contents-text').css('color');
+            $('.table-of-contents-link').css('border-left-color', color);
+
+            // 针对移动端做的优化：FAB按钮点击一下收回
+            if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                $('.fixed-action-btn').addClass('click-to-toggle');
+            }
+            // 回到顶部
+            $('.btn-return-top').click(function() {
+                $('body, html').animate({
+                    scrollTop: 0
+                }, 500);
+            });
+
+            // 重置读书页面的Tab标签页的颜色
+            $('li.tab a').hover(function() {
+                $(this).toggleClass('text-lighten-4');
+            });
+            $('.indicator').addClass('green lighten-2');
+
+            
+            // 添加new标签
+            $('.menu-reading').append('<span class="new badge green"></span>');
+            
+
+            // 搜索功能
+            $('.modal-trigger').leanModal({
+                // 打开搜索框时自动聚焦
+                ready: function() {
+                    if ($('#search').is(":visible")) {
+                        $('#search-input').focus();
+                    }
+                }
+            });
+            var searchXml = "search.xml";
+            if (searchXml.length == 0) {
+             	searchXml = "search.xml";
+            }
+            var searchPath = "/" + searchXml;
+            initSearch(searchPath, 'search-input', 'search-result');
+        });
+
+        // 初始化搜索与匹配函数
+        var initSearch = function(path, search_id, content_id) {
+            'use strict';
+            $.ajax({
+                url: path,
+                dataType: "xml",
+                success: function(xmlResponse) {
+                    // get the contents from search data
+                    var datas = $("entry", xmlResponse).map(function() {
+                        return {
+                            title: $("title", this).text(),
+                            content: $("content", this).text(),
+                            url: $("url", this).text()
+                        };
+                    }).get();
+                    var $input = document.getElementById(search_id);
+                    var $resultContent = document.getElementById(content_id);
+                    $input.addEventListener('input', function() {
+                        var str = '<ul class=\"search-result-list\">';
+                        var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                        $resultContent.innerHTML = "";
+                        if (this.value.trim().length <= 0) {
+                            return;
+                        }
+                        // perform local searching
+                        datas.forEach(function(data) {
+                            var isMatch = true;
+                            var content_index = [];
+                            var data_title = data.title.trim().toLowerCase();
+                            var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                            var data_url = data.url;
+                            var index_title = -1;
+                            var index_content = -1;
+                            var first_occur = -1;
+                            // only match artiles with not empty titles and contents
+                            if (data_title != '' && data_content != '') {
+                                keywords.forEach(function(keyword, i) {
+                                    index_title = data_title.indexOf(keyword);
+                                    index_content = data_content.indexOf(keyword);
+                                    if (index_title < 0 && index_content < 0) {
+                                        isMatch = false;
+                                    } else {
+                                        if (index_content < 0) {
+                                            index_content = 0;
+                                        }
+                                        if (i == 0) {
+                                            first_occur = index_content;
+                                        }
+                                    }
+                                });
+                            }
+                            // show search results
+                            if (isMatch) {
+                                keywords.forEach(function(keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    data_title = data_title.replace(regS, "<span class=\"search-keyword green lighten-2\">" + keyword + "</span>");
+                                });
+
+                                str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                                var content = data.content.trim().replace(/<[^>]+>/g, "");
+                                if (first_occur >= 0) {
+                                    // cut out 100 characters
+                                    var start = first_occur - 20;
+                                    var end = first_occur + 80;
+                                    if (start < 0) {
+                                        start = 0;
+                                    }
+                                    if (start == 0) {
+                                        end = 100;
+                                    }
+                                    if (end > content.length) {
+                                        end = content.length;
+                                    }
+                                    var match_content = content.substring(start, end);
+                                    // highlight all keywords
+                                    keywords.forEach(function(keyword) {
+                                        var regS = new RegExp(keyword, "gi");
+                                        match_content = match_content.replace(regS, "<span class=\"search-keyword green lighten-2\">" + keyword + "</span>");
+                                    });
+
+                                    str += "<p class=\"search-result\">..." + match_content + "...</p>"
+                                }
+                                str += "</li>";
+                            }
+                        });
+                        str += "</ul>";
+                        $resultContent.innerHTML = str;
+                    });
+                }
+            });
+        }
+    })(jQuery);
+</script>
+
+
+<script src="/js/prettify.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("pre").addClass("prettyprint");
+        prettyPrint();
+    });
+</script>
+
+
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-43460643-1', 'auto');
+    ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+<script type="text/javascript" async src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+
+</body>
+</html>

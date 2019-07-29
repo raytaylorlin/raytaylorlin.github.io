@@ -1,0 +1,949 @@
+<!DOCTYPE HTML>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    
+
+    <title>人体学接口设备（HID） | </title>
+    <meta name="author" content="RayTaylor Lin">
+    
+    <meta name="description" content="水镜一人性，月读一波明。轻扬一宿星，枫过一帆灵。">
+    
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta property="og:title" content="人体学接口设备（HID）">
+    <meta property="og:site_name" content="Ray Taylor Lin&#39;s world">
+
+    
+    <meta property="og:image" content>
+    
+
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="alternate" href="/atom.xml" title="Ray Taylor Lin&#39;s world" type="application/atom+xml">
+    <link rel="stylesheet" href="/css/lib/materialize.min.css">
+    <link rel="stylesheet" href="/css/lib/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+
+    
+        <link rel="stylesheet" href="/css/lib/prettify-tomorrow-night-eighties.css" type="text/css">
+    
+    <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+</head>
+</html>
+
+<body>
+    <img src="/weixin_favicon.png" style="position: absolute; left: -9999px; opacity: 0; filter: alpha(opacity=0);">
+
+    <nav class="indigo">
+    <div class="nav-wrapper">
+        <a href="#" data-activates="main-menu" class="button-collapse">
+            <i class="fa fa-navicon"></i>
+        </a>
+        <div class>
+            <a href="/" class="brand-logo hide-on-med-and-down">Ray Taylor Lin&#39;s world</a>
+            <ul class="right hide-on-med-and-down">
+                
+                    <li>
+                        <a class="menu-home " href="/">
+                            <i class="fa fa-home "></i>
+                            
+                            首页
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-archive " href="/archives">
+                            <i class="fa fa-archive "></i>
+                            
+                            归档
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-category category-menu" href="javascript:;" data-activates="category-menu">
+                            <i class="fa fa-bookmark "></i>
+                            
+                            分类
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-reading " href="/reading">
+                            <i class="fa fa-book "></i>
+                            
+                            读书
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-about " href="/about">
+                            <i class="fa fa-user "></i>
+                            
+                            关于
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-search modal-trigger " href="#search">
+                            <i class="fa fa-search "></i>
+                            
+                            搜索
+                        </a>
+                    </li>
+                
+            </ul>
+            <div>
+    <ul class="side-nav indigo darken-1" id="main-menu">
+        
+        <li class="side-user">
+            <div class="row">
+                <div class="col s4 no-padding">
+                    <img class="avatar-image circle responsive-img" src="http://tp2.sinaimg.cn/1956184117/180/5674436546/1" alt="User Avatar">
+                </div>
+                <div class="info col s8 valign-wrapper no-padding">
+                    <div class="valign">
+                        <p class="name">林寿山</p>
+                        <p class="desc">游戏开发/Web前端</p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        
+
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-home " href="/">
+                    <i class="fa fa-home "></i>
+                    
+                    首页
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-archive " href="/archives">
+                    <i class="fa fa-archive "></i>
+                    
+                    归档
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-category category-menu" href="javascript:;" data-activates="category-menu">
+                    <i class="fa fa-bookmark "></i>
+                    
+                    分类
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-reading " href="/reading">
+                    <i class="fa fa-book "></i>
+                    
+                    读书
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-about " href="/about">
+                    <i class="fa fa-user "></i>
+                    
+                    关于
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-search modal-trigger " href="#search">
+                    <i class="fa fa-search "></i>
+                    
+                    搜索
+                </a>
+            </li>
+        
+    </ul>
+
+    <ul class="side-nav indigo darken-1" id="category-menu">
+    
+
+            
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/日常/">
+                    日常 <span class="right">8 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/技术/">
+                    技术 <span class="right">93 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/算法/">
+                    算法 <span class="right">6 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/Linux/">
+                    Linux <span class="right">2 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/综合/">
+                    综合 <span class="right">23 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/综合/演示/">
+                    演示 <span class="right">2 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/综合/设计模式/">
+                    设计模式 <span class="right">3 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/综合/软件工程/">
+                    软件工程 <span class="right">15 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/综合/杂项/">
+                    杂项 <span class="right">1 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/综合/项目/">
+                    项目 <span class="right">2 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/游戏开发/">
+                    游戏开发 <span class="right">19 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/游戏开发/服务器端/">
+                    服务器端 <span class="right">2 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/游戏开发/客户端/">
+                    客户端 <span class="right">1 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/游戏开发/游戏引擎/">
+                    游戏引擎 <span class="right">11 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/游戏开发/Unity/">
+                    Unity <span class="right">5 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-3" collapse-level="3">
+                <a class="no-padding" href="/categories/技术/游戏开发/Unity/NGUI/">
+                    NGUI <span class="right">5 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/编程语言/">
+                    编程语言 <span class="right">15 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/编程语言/Lua/">
+                    Lua <span class="right">7 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/编程语言/其它语言/">
+                    其它语言 <span class="right">4 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/编程语言/Python/">
+                    Python <span class="right">4 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/工具/">
+                    工具 <span class="right">7 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/工具/IDE/">
+                    IDE <span class="right">3 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/工具/Git/">
+                    Git <span class="right">4 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/Web前端/">
+                    Web前端 <span class="right">21 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/Web前端/HTTP协议/">
+                    HTTP协议 <span class="right">7 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/Web前端/CSS/">
+                    CSS <span class="right">3 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/Web前端/HTML5/">
+                    HTML5 <span class="right">2 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/Web前端/NodeJS/">
+                    NodeJS <span class="right">9 篇</span></a>
+                
+            </li>
+
+        
+
+    </ul>
+</div>
+
+        </div>
+    </div>
+</nav>
+
+<div id="search" class="modal search-modal">
+    <div class="row">
+        <div class="input-field col s12">
+              <input id="search-input" type="text">
+              <label for="search-input">搜索</label>
+        </div>
+
+    </div>
+    <div id="search-result" class="search-result col s12">
+
+    </div>
+</div>
+
+
+    <main>
+        <div class="container main-container">
+    <nav class="page-nav hide-on-small-only">
+    <div class="nav-wrapper indigo">
+        <span class="breadcrumb">当前位置（分类目录）</span>
+        
+            
+    
+    
+    <a class="breadcrumb" href="/categories/技术/">技术</a><a class="breadcrumb" href="/categories/技术/游戏开发/">游戏开发</a><a class="breadcrumb" href="/categories/技术/游戏开发/游戏引擎/">游戏引擎</a>
+
+
+        
+
+        
+    </div>
+</nav>
+
+<article>
+    <div class="card">
+        <div class="card-content">
+            
+
+            <div class="article-title">
+                
+    
+        <h1>人体学接口设备（HID）</h1>
+    
+
+
+            </div>
+            <time class="green-link-context" datetime="2016-07-13T08:45:32.000Z"><a href="/tech/game/engine/human-interface-device/">2016-07-13</a></time>
+
+            <span id="busuanzi_container_page_pv" class="read-times-container">
+    <i class="fa fa-eye"></i>
+    <span id="busuanzi_value_page_pv"></span>
+</span>
+
+            
+    <div class="tags-row">
+        
+            <a href="/tags/游戏引擎/" class="chip green lighten-1">游戏引擎</a>
+        
+            <a href="/tags/架构/" class="chip green lighten-1">架构</a>
+        
+    </div>
+
+
+            <div class="toc green-link-context hide-on-med-and-down">
+    <ol class="section table-of-contents"><li class="section table-of-contents-item section table-of-contents-level-1"><a class="section table-of-contents-link" href="#1-HID的接口技术"><span class="section table-of-contents-text">1. HID的接口技术</span></a></li><li class="section table-of-contents-item section table-of-contents-level-1"><a class="section table-of-contents-link" href="#2-HID的输入输出类型"><span class="section table-of-contents-text">2. HID的输入输出类型</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#2-1-输入类型"><span class="section table-of-contents-text">2.1 输入类型</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#2-1-1-数字式按钮"><span class="section table-of-contents-text">2.1.1 数字式按钮</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#2-1-2-模拟式轴和相对性轴"><span class="section table-of-contents-text">2.1.2 模拟式轴和相对性轴</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#2-1-3-加速计及三维定向"><span class="section table-of-contents-text">2.1.3 加速计及三维定向</span></a></li></ol></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#2-2-输出类型"><span class="section table-of-contents-text">2.2 输出类型</span></a></li></ol></li><li class="section table-of-contents-item section table-of-contents-level-1"><a class="section table-of-contents-link" href="#3-游戏引擎的HID系统"><span class="section table-of-contents-text">3. 游戏引擎的HID系统</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#3-1-死区"><span class="section table-of-contents-text">3.1 死区</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#3-2-模拟信号过滤"><span class="section table-of-contents-text">3.2 模拟信号过滤</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#3-3-输入事件检测"><span class="section table-of-contents-text">3.3 输入事件检测</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#3-3-1-按下和释放按钮"><span class="section table-of-contents-text">3.3.1 按下和释放按钮</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#3-3-2-弦（chord）"><span class="section table-of-contents-text">3.3.2 弦（chord）</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#3-3-3-序列检测"><span class="section table-of-contents-text">3.3.3 序列检测</span></a></li></ol></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#3-4-跨平台HID系统"><span class="section table-of-contents-text">3.4 跨平台HID系统</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#3-5-输入的重映射"><span class="section table-of-contents-text">3.5 输入的重映射</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#3-6-上下文相关控制"><span class="section table-of-contents-text">3.6 上下文相关控制</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#3-7-禁用输入"><span class="section table-of-contents-text">3.7 禁用输入</span></a></li></ol></li></ol>
+</div>
+
+
+            <div class="entry green-link-context">
+                <p>游戏是有互动性的计算机模拟，为游戏而设的人体学接口设备（Human Interface Device，HID）种类繁多，包括摇杆、手柄、键盘、鼠标、Wii遥控器，以及方向盘、跳舞毯、电子吉他等等专用输入设备。本文探讨游戏引擎如何自入体学接口设备读取输入，处理输入，以及向玩家反馈输出。</p>
+<a id="more"></a>
+<h1 id="1-HID的接口技术"><a href="#1-HID的接口技术" class="headerlink" title="1. HID的接口技术"></a>1. HID的接口技术</h1><ul>
+<li>轮询<ul>
+<li>像手柄这样的简单设备，可通过定期轮询硬件来读取输入（通常在主游戏循环里每次迭代轮询一次）</li>
+<li>要明确查询（输出）设备的状态，可直接读取硬件寄存器；读取经内存映射的I/O端口，或通过较高级的软件接口间接读取</li>
+<li>微软为Xbox 360手柄而设的XInput API是简单轮询的好例子。游戏在每帧调用<code>XInputGetState()</code>函数，它与硬件／驱动通信，适当地读取数据，并把所有结果包装成<code>XINPUT_STATE</code>结构，此结构含有手柄设备上所有输入的当前状态</li>
+</ul>
+</li>
+<li>中断：像鼠标这样的设备没必要在静止时还不断发送数据。这类设备通常以硬件中断方式来通信。中断服务程序用来读取设备状态，把状态储存以供后续处理，然后交还CPU给主程序</li>
+<li>无线设备：对于蓝牙设备，软件必须以<strong>蓝牙协议</strong>和它们通信。这种通信一般由引擎主线程以外的线程负责处理，或至少被封装为简单接口供主循环调用。从程序员的角度来说，蓝牙基本和其他传统轮询设备的状态一样</li>
+</ul>
+<h1 id="2-HID的输入输出类型"><a href="#2-HID的输入输出类型" class="headerlink" title="2. HID的输入输出类型"></a>2. HID的输入输出类型</h1><h2 id="2-1-输入类型"><a href="#2-1-输入类型" class="headerlink" title="2.1 输入类型"></a>2.1 输入类型</h2><h3 id="2-1-1-数字式按钮"><a href="#2-1-1-数字式按钮" class="headerlink" title="2.1.1 数字式按钮"></a>2.1.1 数字式按钮</h3><p>数字式按钮只有两个状态——按下（down或press）或释放（up或release），软件中则以1或0表示。有时设备上所有按钮的状态会结合为一个无符号整数值，如XBox 360手柄的状态是以<code>XINPUT_GAMEPAD</code>结构传回。这个结构体第一个字段是一个16位无符号整数变量wButtons，存放所有按钮的状态。每个按钮都会定义一个掩码，实际使用时将wButtons和掩码做&amp;运算来判断是否被按下。</p>
+<h3 id="2-1-2-模拟式轴和相对性轴"><a href="#2-1-2-模拟式轴和相对性轴" class="headerlink" title="2.1.2 模拟式轴和相对性轴"></a>2.1.2 模拟式轴和相对性轴</h3><p>模拟式输入是指可获取一个范围以内的数值。此类输入通常用来代表摇杆的二维位置（使用两个模拟输入， 一个x轴一个y轴）。模拟式输入信号通常都要被数字化，表示为软件中的整数，再送入引擎处理。像Xbox 360手柄拇指摇杆的偏转量（sThumbLX/sThumbLY/sThumbRX/sThumbRY）取值范围是-32768~32767，而左右扳机（bLeftTrigger/bRightTrigger）取值范围是0（没扣压）~255（完全扣压）。</p>
+<p>上述模拟式轴的位置都是<strong>绝对</strong>的，而有些输入是<strong>相对</strong>性的。这类设备不能界定在哪个位置的输入值为0，相反，输入为0代表设备的位置没变动，非零值代表自上次读取输入至今的增量，如鼠标、鼠标滚轮和轨迹球等等。</p>
+<h3 id="2-1-3-加速计及三维定向"><a href="#2-1-3-加速计及三维定向" class="headerlink" title="2.1.3 加速计及三维定向"></a>2.1.3 加速计及三维定向</h3><p>Wii遥控器、PS3的Sixaxis及智能手机都包含加速传感器，能感应xyz三个主轴的加速度。Wii的一些游戏会利用3个加速计去估算控制器在玩家手上的定向。其原理是基于我们在地球表面上玩这些游戏，而地球的1g引力能对物体产生固定的向下加速度。</p>
+<p>若把控制器完美地水平放置，并指向电视方向，那么垂直方向（z）的加速计应量度到大约-1g。若垂直握着控制器，使其指向上方，则可以预期z应为0，而y应为1g（ 因为y传感器会感受到完整的引力效果）。当我们校准加速计得知每个轴的零点，就可以使用逆正弦和逆余弦，轻松求得偏航角、俯仰角和滚动角。</p>
+<h2 id="2-2-输出类型"><a href="#2-2-输出类型" class="headerlink" title="2.2 输出类型"></a>2.2 输出类型</h2><ul>
+<li>震动反馈：模拟游戏角色在游戏中受到扰动或撞击等感觉。震动通常由若干个马达驱动，每个马达带有稍不平衡的负重，以不同速度旋转。游戏可开关这些马达，并通过调节其旋转速度来向玩家双手产生不同的触觉效果</li>
+<li>力反馈：通过由马达驱动的制动器，以其产生的力对抗玩家施于HID上的力。常见于街机赛车游戏——当玩家尝试转方向盘时，方向盘会产生阻力，其输出原理同震动反馈</li>
+<li>其他输入/输出：有些HID设备含扬声器、麦克风等音频接口；较老的像Dreamcast的手柄支持插入记忆卡；Xbox 360手柄和Wii遥控器带有4个软件控制的LED灯；乐器、跳舞毯等特殊设备有其专门的输入／输出类型；近年发展的姿势界面（如Kinect）和VR设备，也是非常独特的HID</li>
+</ul>
+<h1 id="3-游戏引擎的HID系统"><a href="#3-游戏引擎的HID系统" class="headerlink" title="3. 游戏引擎的HID系统"></a>3. 游戏引擎的HID系统</h1><p>多数游戏引擎不会直接使用HID的原始输入数据，而是引入至少一个在HID和游戏之间的间接层，将输入以多种形式抽象化。下面会介绍一些HID系统的典型需求。</p>
+<h2 id="3-1-死区"><a href="#3-1-死区" class="headerlink" title="3.1 死区"></a>3.1 死区</h2><p>假定模拟轴的输入值范围是$I_{min}$到$I_m$，未触碰模拟轴时，稳定及清晰的“未扰动”输入值为$I_0$。</p>
+<p>HID本质上是模拟设备，其产生的电压含有噪声，以致实际上量度到的输入会轻微$I_0$附近浮动。解决办法是引入一个围绕$I_0$的死区。对于摇杆，死区可以定义为$[I_0-\sigma, I_0+\sigma]$；对于扳机，则定义为$[I_0, I_0+\sigma]$。任何位于死区的输入值都可以简单地被钳制为$I_0$。死区必须足够大以容纳未扰动控制的最大噪声，同时也必须足够小以免影响玩家对HID的反应手感。</p>
+<h2 id="3-2-模拟信号过滤"><a href="#3-2-模拟信号过滤" class="headerlink" title="3.2 模拟信号过滤"></a>3.2 模拟信号过滤</h2><p>即使控制器不在死区范围，其输入仍会有信号噪声问题，这些噪声有时候会导致游戏中的行为显得抖动或不自然。由于噪声信号的频率通常比玩家产生的要高。所以，解决办法之一是，先利用低通滤波器过滤原始输入，再把结果传送至游戏中使用。</p>
+<p>结合未过滤输入的时变函数$u(t)$，己过滤输入为$f(t)=(1-a)f(t-\Delta t)+au(t)$，其中参数$a$由帧持续时间$\Delta t$和过滤常数$RC$所确定，即$a=\frac{\Delta t}{RC+\Delta t}$。公式转换C++代码如下：</p>
+<pre><code>F32 lowPassFilter(F32 unfilteredInput, F32 lastFramesFilteredInput, F32 rc, F32 dt) {
+    F32 a = dt / (rc + dt);
+    return (1 - a) * lastFramesFilteredInput + a * unfilteredInput;
+}
+</code></pre><p>另一个过滤HID输入的方法是计算移动平均。例如，若要计算3帧时间范围内的输入数据平均，只需把原始输入数据简单地储存于3个元素大小的循环缓冲区里，把此数组的值求和除3，就是过滤后的输入值。因为初始时该数组并未填满有效数据，要注意处理前两帧的输入。</p>
+<h2 id="3-3-输入事件检测"><a href="#3-3-输入事件检测" class="headerlink" title="3.3 输入事件检测"></a>3.3 输入事件检测</h2><h3 id="3-3-1-按下和释放按钮"><a href="#3-3-1-按下和释放按钮" class="headerlink" title="3.3.1 按下和释放按钮"></a>3.3.1 按下和释放按钮</h3><p>假设按钮的输入位在释放时为0，按下时为1。可以记录上一帧的状态（32位位整型），和本帧的状态位异或，为1的位表示状态发生变化。再审视每个按钮的当前状态，若某按钮的状态有改变，而当前的状态是按下，则产生按下事件，否则产生释放事件。</p>
+<h3 id="3-3-2-弦（chord）"><a href="#3-3-2-弦（chord）" class="headerlink" title="3.3.2 弦（chord）"></a>3.3.2 弦（chord）</h3><p>弦是指一组按钮，当同时被按下时，会在游戏中产生一个独特行为。一般通过检测两个或以上的按钮状态，当该组按钮全部同时被按下才执行操作。但弦有许多细节值得注意：</p>
+<ul>
+<li>小心避免同时产生个别按钮的动作和弦的动作。要在检测个别按钮的时候，同时检查弦里的<strong>其他按键并没有被按下</strong></li>
+<li>弦的检测代码必须健壮，防止人们按下弦中的某一按钮稍早于其他按钮。有几种方法可以处理这些情况<ul>
+<li>从策划的角度，将按钮输入设计为，弦总是作用于某个按钮的动作再加上额外的动作。例如，若按L1是主武器开火，按L2投射手榴弹，可能L1+L2的弦是令主要武器开火、投射手榴弹，并发送能量波使这些武器的伤害力加倍。这样从玩家的角度来说游戏表现出的行为没有不同</li>
+<li>在个别按钮按下后，加入一段延迟时间，然后才算作是一个有效的游戏事件。在延迟期间（如2或3帧），若检测到一个弦，那么那个弦就会凌驾个别按钮产生事件</li>
+<li>按下单个按钮时立即执行动作，但容许这些动作被之后弦的动作抢占</li>
+<li>按下按钮时检测弦，但之后释放按钮时才产生效果</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-3-3-序列检测"><a href="#3-3-3-序列检测" class="headerlink" title="3.3.3 序列检测"></a>3.3.3 序列检测</h3><p>序列指玩家通过HID，在一段时间内完成一串动作，最常用于格斗游戏，如在0.5-1秒内连续按下“左右左ABA”。序列检测的基本原理是：保留HID输入的动作短期记录，当检测到序列第一个成分，就会把该成分及其时间戳记录在历史缓冲区中。之后，检测到每个后续成分时，需要检查距上一个成分所经过的时间，若时间仍在容许范围内，就把该成分加入缓冲区中。若整个序列于限定时间内完成，就会产生对应的事件。若在过程中检测到无效输入，或超过规定事件，那么整个历史缓冲区会被重置。</p>
+<p>要检测连打按钮频率，只须记录该按钮上一次被按下事件的时间Tlast和两次按下按钮的时间间隔。若该间隔超过了给定的阈值，则不更新Tlast。那么，在有一对新的够迅速的按钮按下事件产生之前，序列会一直判定为无效。</p>
+<p>要检测诸如“在1s内连续按下ABA的序列”，可以参照下面的伪代码。其中<code>ButtonsJustWentDown()</code>函数来检查若干个按钮的按下事件。当成功检测到序列，就会广播指定事件，令整个游戏都能接收到。</p>
+<pre><code>class ButtonSequenceDetector {
+    U32 m_aButtonIds; // 检测的序列
+    U32 m_buttonCount; // 序列中的按钮数目
+    F32 m_dtMax; // 整个序列的最大时限
+    EventId m_eventId ; // 完成序列的事件
+    U32 m_iButton; // 要检测的下一个按钮
+    F32 m_tStart; // 序列的开始时间，以秒为单位
+
+public:
+    void Update() {
+        ASSERT(m_iButton &lt; m_buttonCount);
+        // 计算下个预期的按钮，以位掩码表示（把1左移至正确的位索引）
+        U32 buttonMask = (1U &lt;&lt; m_aButtonid[m_iButton]);
+        // 若玩家按下预期以外的按钮，废止现时的序列（使用位取反运算检测所有其他按钮）
+        if (ButtonsJustWentDown(~buttonMask)) {
+            m_iButton = 0; // 重置
+        }
+        // 否则，若预期按钮刚被按下，检查dt及适当更新状态
+        else if (ButtonsJustWentDown(buttonMask)) {
+            // 序列中第一个按钮
+            if (m_iButton == 0) {
+                m_tStart = CurrentTime();
+                ++m_iButton;
+            } else {
+                F32 dt = CurrentTime() - m_tStart;
+                // 时间间隔符合要求，序列仍然有效
+                if (dt &lt; m_dtMax) {
+                    ++m_iButton;
+                    // 判断序列是否完成
+                    if (m_iButton == m_buttonCount) {
+                        // 广播事件并重置
+                        BroadcastEvent(m_eventId);
+                        m_iButton = 0;
+                    }
+                }
+                // 按得不够快，重置
+                else {
+                    m_iButton = 0;
+                }
+            }
+        }
+    }
+}
+</code></pre><p>再复杂的序列包含了摇杆方向，例如检测左拇指摇杆沿顺时针方向旋转一周。可以把遥杆位置的二维范围分割成4个象限。顺时针方向旋转时，经过的象限顺序是左上，右上，右下，左下。只要把象限检测当作按钮处理，就可稍修改上文按钮序列检测代码来完成任务。</p>
+<h2 id="3-4-跨平台HID系统"><a href="#3-4-跨平台HID系统" class="headerlink" title="3.4 跨平台HID系统"></a>3.4 跨平台HID系统</h2><p>引擎处理多平台的HID数据时，应该提供某形式的硬件抽象层，使游戏代码和硬件相关细节隔离。此抽象层能把目标硬件的原始控制标识符转化为抽象的控制索引。例如Xbox 360及PS3的两款手柄的控制布局几乎相同，所以可以设立一套抽象标识符来屏蔽它们的差异。</p>
+<h2 id="3-5-输入的重映射"><a href="#3-5-输入的重映射" class="headerlink" title="3.5 输入的重映射"></a>3.5 输入的重映射</h2><p>许多游戏提供给玩家修改键位的选项，这就需要把原始输入映射到最终的游戏功能上。可以给每个游戏功能一个唯一标识符，然后加一个简单的表，把每个抽象的控制索引映射至游戏中的逻辑功能。要改变映射，可以更换整个表，或是让玩家设置该表中的个别条目。</p>
+<p>但要小心不同的输入种类和取值范围，像某个游戏逻辑需要轴，就不能改用按钮操控。为了允许合理的输入映射，可以把所有输入分类并归一化：</p>
+<ul>
+<li>数字式按钮：按钮状态打包成32位字，每一位代表一个按钮的状态</li>
+<li>单向绝对轴（如扳机、模拟式按钮）：产生[O, 1]的浮点数</li>
+<li>双向绝对轴（如摇杆）：产生[-1, 1]的浮点数</li>
+<li>相对轴（如鼠标滚轮、轨迹球）：产生[-1, 1]的浮点数，其中±1代表单帧内最大的相对偏移值</li>
+</ul>
+<h2 id="3-6-上下文相关控制"><a href="#3-6-上下文相关控制" class="headerlink" title="3.6 上下文相关控制"></a>3.6 上下文相关控制</h2><p>许多游戏里一个物理控制会根据上下文有着不同功能，例如若角色站在门前，按“使用”按钮会开门，若角色附近有一个物体，按“使用”按钮会拾起该物体。上下文相关控制可简单地采用状态机来实现，即根据当前状态个别HID控制可能有不同用途。要注意有时还需要实现优先系统，为不同物体赋予权值，来决定同等条件下优先让哪个物体（状态）生效。</p>
+<h2 id="3-7-禁用输入"><a href="#3-7-禁用输入" class="headerlink" title="3.7 禁用输入"></a>3.7 禁用输入</h2><p>在某些场合可能需要禁用玩家的输入，例如过场动画禁用所有输入，玩家经过窄巷暂停自由旋转摄像机。一个较差的方法是使用位掩码来禁用设备上的某些控制，这种方法缺陷是如果忘记重置掩码，很可能使玩家持续失去控制。所以应该小心处理游戏逻辑，并加入一些防故障机制。</p>
+<p>另一个更好的做法是，把禁用某玩家动作及行为的逻辑写进玩家或摄像机的代码里。这样，若摄像机某时刻决定要忽略右拇指轴的输入，游戏引擎内其他系统仍然能自由读取该输入做其他用途。</p>
+<p>参考文献：电子工业出版社《游戏引擎架构》第8章</p>
+
+                
+<p class="green-link-context">
+    <a href="/tech/game/engine/gameplay-system-introduction/" rel="next" title="游戏引擎的游戏性系统简介">
+    上一篇：游戏引擎的游戏性系统简介
+  </a>
+</p>
+
+
+
+<p class="green-link-context">
+    <a href="/tech/game/engine/real-time-simulation/" rel="next" title="实时游戏的时间模拟">
+    下一篇：实时游戏的时间模拟
+  </a>
+</p>
+
+
+            </div>
+			
+        </div>
+    </div>
+</article>
+
+
+
+
+    <section id="comment">
+        <div id="disqus_thread"></div>
+        <script>
+            var disqus_config = function() {
+                this.page.url = 'http://raytaylorlin.github.io/tech/game/engine/human-interface-device/';
+                this.page.identifier = 'tech/game/engine/human-interface-device/';
+            };
+            (function() {
+                var d = document,
+                    s = d.createElement('script');
+                s.src = '//raytaylorlin.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', + new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the
+            <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+        </noscript>
+    </section>
+
+
+
+</div>
+
+        <div class="fixed-action-btn float-sitemap">
+    <a class="btn-floating btn-large green">
+      <i class="fa fa-caret-square-o-up"></i>
+    </a>
+    <ul>
+      <li><a class="btn-return-top btn-floating waves-effect pink" title="回到顶部"><i class="fa fa-arrow-circle-o-up"></i></a></li>
+      <li><a class="btn-floating waves-effect button-collapse orange darken-1" data-activates="main-menu" title="菜单"><i class="fa fa-navicon"></i></a></li>
+    </ul>
+  </div>
+
+    </main>
+    <footer class="page-footer indigo darken-1">
+    
+    <div class="footer-container container">
+        <div class="row">
+            
+            <div class="social-group col m4 s12">
+                <h5 class="white-text">社交</h5>
+                
+                    <a class="social-link" href="http://weibo.com/1956184117" target="_blank">
+                        <i class="fa fa-2x fa-weibo"></i>
+                    </a>
+                
+                    <a class="social-link" href="https://github.com/raytaylorlin" target="_blank">
+                        <i class="fa fa-2x fa-github"></i>
+                    </a>
+                
+                    <a class="social-link" href="/atom.xml" target="_blank">
+                        <i class="fa fa-2x fa-rss"></i>
+                    </a>
+                
+                
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+    </script>
+    <div class="site-visitors-container white-text">
+        <span>
+            <i class="fa fa-user"></i>
+            <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+        </span>
+        <span>&nbsp;|&nbsp;</span>
+        <span>
+            <i class="fa fa-eye"></i>
+            <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+        </span>
+    </div>
+
+
+            </div>
+            
+
+            
+            <div class="col m8 s12">
+                <h5 class="white-text">友情链接</h5>
+                
+                    <a class="social-link" href="http://tutuge.me/" target="_blank">土土哥的技术博客</a>
+                
+                    <a class="social-link" href="http://neoyeelf.github.io/" target="_blank">屌刘neoye的博客</a>
+                
+                    <a class="social-link" href="http://diao.li/" target="_blank">李伟涛的博客</a>
+                
+                    <a class="social-link" href="http://suta.im/" target="_blank">苏塔是没有脚的设计师</a>
+                
+                    <a class="social-link" href="http://jfantasy.github.io/" target="_blank">JFantasy的个人博客</a>
+                
+                    <a class="social-link" href="http://pyroc.at/" target="_blank">丁基友的博客</a>
+                
+            </div>
+            
+        </div>
+    </div>
+    
+
+    <div class="footer-copyright green-link-context">
+        <div class="container">
+            © 2019 raytaylorlin.github.io, All rights reserved.
+            <p class="right" style="margin-top: 0;">本博客由 <a href="https://hexo.io">Hexo</a> 强力驱动 | 主题 <a href="https://github.com/raytaylorlin/hexo-theme-raytaylorism">raytaylorism</a></p>
+        </div>
+    </div>
+</footer>
+
+
+    <noscript>
+    <div class="noscript">
+        <p class="center-align">当前网速较慢或者你使用的浏览器不支持博客特定功能，请尝试刷新或换用Chrome、Firefox等现代浏览器</p>
+    </div>
+</noscript>
+<div class="noscript">
+    <p class="center-align">当前网速较慢或者你使用的浏览器不支持博客特定功能，请尝试刷新或换用Chrome、Firefox等现代浏览器</p>
+</div>
+
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/materialize.min.js"></script>
+
+<script>
+    (function($) {
+        $(document).ready(function() {
+            // 隐藏禁用javascript（针对微信内置浏览器）的提示
+            $('.noscript').hide();
+
+            // 图片缩放效果
+            var $imgs = $('img').not('.slider-image').not('.avatar-image').not('.carousel-image').not('.card-cover-image').not('.qrcode');
+
+            // 给图片加上点击放大效果（materialbox插件）
+            $imgs.addClass('materialboxed').each(function(i, el) {
+                $(this).attr('data-caption', $(this).attr('alt') || ' ');
+            }).materialbox();
+
+            // 优化表格的显示
+            $('table').each(function() {
+                var $table = $(this);
+                // 除去多行代码的情况
+                if ($table.find('pre').length == 0) {
+                    $table.addClass('responsive-table striped bordered');
+                }
+            });
+
+            // 首页幻灯片
+            $('.slider').slider({indicators: true, full_width: true, interval: 8000});
+
+            $(".button-collapse").sideNav();
+            $(".category-menu").sideNav();
+
+            // 针对gallery post
+            $('.carousel').carousel({full_width: true});
+            $('.carousel-control.prev').click(function() {
+                $('.carousel').carousel('prev');
+            });
+            $('.carousel-control.next').click(function() {
+                $('.carousel').carousel('next');
+            });
+
+            // 文章目录
+            $('article').not('.simple-article').find('h1').add('h2').add('h3').add('h4').add('h5').add('h6').scrollSpy();
+
+            // 目录随屏幕滚动（防止目录过长越过footer）
+            var $toc = $('.toc');
+            var scrollTargetTop = 0;
+            $(window).scroll(function() {
+                var $activeLink = $toc.find('a.active.section');
+                if ($(window).scrollTop() < 100) {
+                    scrollTargetTop = 0;
+                } else {
+                    if ($activeLink[0]) {
+                        scrollTargetTop = $activeLink.offset().top - $toc.offset().top;
+                    }
+                }
+                $toc.css('top', '-' + scrollTargetTop + 'px');
+            });
+
+            // 修正文章目录的left-border颜色
+            var color = $('.table-of-contents-text').css('color');
+            $('.table-of-contents-link').css('border-left-color', color);
+
+            // 针对移动端做的优化：FAB按钮点击一下收回
+            if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                $('.fixed-action-btn').addClass('click-to-toggle');
+            }
+            // 回到顶部
+            $('.btn-return-top').click(function() {
+                $('body, html').animate({
+                    scrollTop: 0
+                }, 500);
+            });
+
+            // 重置读书页面的Tab标签页的颜色
+            $('li.tab a').hover(function() {
+                $(this).toggleClass('text-lighten-4');
+            });
+            $('.indicator').addClass('green lighten-2');
+
+            
+            // 添加new标签
+            $('.menu-reading').append('<span class="new badge green"></span>');
+            
+
+            // 搜索功能
+            $('.modal-trigger').leanModal({
+                // 打开搜索框时自动聚焦
+                ready: function() {
+                    if ($('#search').is(":visible")) {
+                        $('#search-input').focus();
+                    }
+                }
+            });
+            var searchXml = "search.xml";
+            if (searchXml.length == 0) {
+             	searchXml = "search.xml";
+            }
+            var searchPath = "/" + searchXml;
+            initSearch(searchPath, 'search-input', 'search-result');
+        });
+
+        // 初始化搜索与匹配函数
+        var initSearch = function(path, search_id, content_id) {
+            'use strict';
+            $.ajax({
+                url: path,
+                dataType: "xml",
+                success: function(xmlResponse) {
+                    // get the contents from search data
+                    var datas = $("entry", xmlResponse).map(function() {
+                        return {
+                            title: $("title", this).text(),
+                            content: $("content", this).text(),
+                            url: $("url", this).text()
+                        };
+                    }).get();
+                    var $input = document.getElementById(search_id);
+                    var $resultContent = document.getElementById(content_id);
+                    $input.addEventListener('input', function() {
+                        var str = '<ul class=\"search-result-list\">';
+                        var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                        $resultContent.innerHTML = "";
+                        if (this.value.trim().length <= 0) {
+                            return;
+                        }
+                        // perform local searching
+                        datas.forEach(function(data) {
+                            var isMatch = true;
+                            var content_index = [];
+                            var data_title = data.title.trim().toLowerCase();
+                            var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                            var data_url = data.url;
+                            var index_title = -1;
+                            var index_content = -1;
+                            var first_occur = -1;
+                            // only match artiles with not empty titles and contents
+                            if (data_title != '' && data_content != '') {
+                                keywords.forEach(function(keyword, i) {
+                                    index_title = data_title.indexOf(keyword);
+                                    index_content = data_content.indexOf(keyword);
+                                    if (index_title < 0 && index_content < 0) {
+                                        isMatch = false;
+                                    } else {
+                                        if (index_content < 0) {
+                                            index_content = 0;
+                                        }
+                                        if (i == 0) {
+                                            first_occur = index_content;
+                                        }
+                                    }
+                                });
+                            }
+                            // show search results
+                            if (isMatch) {
+                                keywords.forEach(function(keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    data_title = data_title.replace(regS, "<span class=\"search-keyword green lighten-2\">" + keyword + "</span>");
+                                });
+
+                                str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                                var content = data.content.trim().replace(/<[^>]+>/g, "");
+                                if (first_occur >= 0) {
+                                    // cut out 100 characters
+                                    var start = first_occur - 20;
+                                    var end = first_occur + 80;
+                                    if (start < 0) {
+                                        start = 0;
+                                    }
+                                    if (start == 0) {
+                                        end = 100;
+                                    }
+                                    if (end > content.length) {
+                                        end = content.length;
+                                    }
+                                    var match_content = content.substring(start, end);
+                                    // highlight all keywords
+                                    keywords.forEach(function(keyword) {
+                                        var regS = new RegExp(keyword, "gi");
+                                        match_content = match_content.replace(regS, "<span class=\"search-keyword green lighten-2\">" + keyword + "</span>");
+                                    });
+
+                                    str += "<p class=\"search-result\">..." + match_content + "...</p>"
+                                }
+                                str += "</li>";
+                            }
+                        });
+                        str += "</ul>";
+                        $resultContent.innerHTML = str;
+                    });
+                }
+            });
+        }
+    })(jQuery);
+</script>
+
+
+<script src="/js/prettify.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("pre").addClass("prettyprint");
+        prettyPrint();
+    });
+</script>
+
+
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-43460643-1', 'auto');
+    ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+<script type="text/javascript" async src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+
+</body>
+</html>

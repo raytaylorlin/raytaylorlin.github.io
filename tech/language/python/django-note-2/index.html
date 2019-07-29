@@ -1,0 +1,963 @@
+<!DOCTYPE HTML>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    
+
+    <title>Django学习笔记（2）——Django的模型 | </title>
+    <meta name="author" content="RayTaylor Lin">
+    
+    <meta name="description" content="水镜一人性，月读一波明。轻扬一宿星，枫过一帆灵。">
+    
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta property="og:title" content="Django学习笔记（2）——Django的模型">
+    <meta property="og:site_name" content="Ray Taylor Lin&#39;s world">
+
+    
+    <meta property="og:image" content>
+    
+
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="alternate" href="/atom.xml" title="Ray Taylor Lin&#39;s world" type="application/atom+xml">
+    <link rel="stylesheet" href="/css/lib/materialize.min.css">
+    <link rel="stylesheet" href="/css/lib/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+
+    
+        <link rel="stylesheet" href="/css/lib/prettify-tomorrow-night-eighties.css" type="text/css">
+    
+    <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+</head>
+</html>
+
+<body>
+    <img src="/weixin_favicon.png" style="position: absolute; left: -9999px; opacity: 0; filter: alpha(opacity=0);">
+
+    <nav class="indigo">
+    <div class="nav-wrapper">
+        <a href="#" data-activates="main-menu" class="button-collapse">
+            <i class="fa fa-navicon"></i>
+        </a>
+        <div class>
+            <a href="/" class="brand-logo hide-on-med-and-down">Ray Taylor Lin&#39;s world</a>
+            <ul class="right hide-on-med-and-down">
+                
+                    <li>
+                        <a class="menu-home " href="/">
+                            <i class="fa fa-home "></i>
+                            
+                            首页
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-archive " href="/archives">
+                            <i class="fa fa-archive "></i>
+                            
+                            归档
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-category category-menu" href="javascript:;" data-activates="category-menu">
+                            <i class="fa fa-bookmark "></i>
+                            
+                            分类
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-reading " href="/reading">
+                            <i class="fa fa-book "></i>
+                            
+                            读书
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-about " href="/about">
+                            <i class="fa fa-user "></i>
+                            
+                            关于
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-search modal-trigger " href="#search">
+                            <i class="fa fa-search "></i>
+                            
+                            搜索
+                        </a>
+                    </li>
+                
+            </ul>
+            <div>
+    <ul class="side-nav indigo darken-1" id="main-menu">
+        
+        <li class="side-user">
+            <div class="row">
+                <div class="col s4 no-padding">
+                    <img class="avatar-image circle responsive-img" src="http://tp2.sinaimg.cn/1956184117/180/5674436546/1" alt="User Avatar">
+                </div>
+                <div class="info col s8 valign-wrapper no-padding">
+                    <div class="valign">
+                        <p class="name">林寿山</p>
+                        <p class="desc">游戏开发/Web前端</p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        
+
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-home " href="/">
+                    <i class="fa fa-home "></i>
+                    
+                    首页
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-archive " href="/archives">
+                    <i class="fa fa-archive "></i>
+                    
+                    归档
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-category category-menu" href="javascript:;" data-activates="category-menu">
+                    <i class="fa fa-bookmark "></i>
+                    
+                    分类
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-reading " href="/reading">
+                    <i class="fa fa-book "></i>
+                    
+                    读书
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-about " href="/about">
+                    <i class="fa fa-user "></i>
+                    
+                    关于
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-search modal-trigger " href="#search">
+                    <i class="fa fa-search "></i>
+                    
+                    搜索
+                </a>
+            </li>
+        
+    </ul>
+
+    <ul class="side-nav indigo darken-1" id="category-menu">
+    
+
+            
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/日常/">
+                    日常 <span class="right">8 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/技术/">
+                    技术 <span class="right">93 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/算法/">
+                    算法 <span class="right">6 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/Linux/">
+                    Linux <span class="right">2 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/综合/">
+                    综合 <span class="right">23 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/综合/演示/">
+                    演示 <span class="right">2 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/综合/设计模式/">
+                    设计模式 <span class="right">3 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/综合/软件工程/">
+                    软件工程 <span class="right">15 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/综合/杂项/">
+                    杂项 <span class="right">1 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/综合/项目/">
+                    项目 <span class="right">2 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/游戏开发/">
+                    游戏开发 <span class="right">19 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/游戏开发/服务器端/">
+                    服务器端 <span class="right">2 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/游戏开发/客户端/">
+                    客户端 <span class="right">1 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/游戏开发/游戏引擎/">
+                    游戏引擎 <span class="right">11 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/游戏开发/Unity/">
+                    Unity <span class="right">5 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-3" collapse-level="3">
+                <a class="no-padding" href="/categories/技术/游戏开发/Unity/NGUI/">
+                    NGUI <span class="right">5 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/编程语言/">
+                    编程语言 <span class="right">15 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/编程语言/Lua/">
+                    Lua <span class="right">7 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/编程语言/其它语言/">
+                    其它语言 <span class="right">4 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/编程语言/Python/">
+                    Python <span class="right">4 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/工具/">
+                    工具 <span class="right">7 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/工具/IDE/">
+                    IDE <span class="right">3 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/工具/Git/">
+                    Git <span class="right">4 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/Web前端/">
+                    Web前端 <span class="right">21 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/Web前端/HTTP协议/">
+                    HTTP协议 <span class="right">7 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/Web前端/CSS/">
+                    CSS <span class="right">3 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/Web前端/HTML5/">
+                    HTML5 <span class="right">2 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/Web前端/NodeJS/">
+                    NodeJS <span class="right">9 篇</span></a>
+                
+            </li>
+
+        
+
+    </ul>
+</div>
+
+        </div>
+    </div>
+</nav>
+
+<div id="search" class="modal search-modal">
+    <div class="row">
+        <div class="input-field col s12">
+              <input id="search-input" type="text">
+              <label for="search-input">搜索</label>
+        </div>
+
+    </div>
+    <div id="search-result" class="search-result col s12">
+
+    </div>
+</div>
+
+
+    <main>
+        <div class="container main-container">
+    <nav class="page-nav hide-on-small-only">
+    <div class="nav-wrapper indigo">
+        <span class="breadcrumb">当前位置（分类目录）</span>
+        
+            
+    
+    
+    <a class="breadcrumb" href="/categories/技术/">技术</a><a class="breadcrumb" href="/categories/技术/编程语言/">编程语言</a><a class="breadcrumb" href="/categories/技术/编程语言/Python/">Python</a>
+
+
+        
+
+        
+    </div>
+</nav>
+
+<article>
+    <div class="card">
+        <div class="card-content">
+            
+
+            <div class="article-title">
+                
+    
+        <h1>Django学习笔记（2）——Django的模型</h1>
+    
+
+
+            </div>
+            <time class="green-link-context" datetime="2014-02-03T07:21:11.000Z"><a href="/tech/language/python/django-note-2/">2014-02-03</a></time>
+
+            <span id="busuanzi_container_page_pv" class="read-times-container">
+    <i class="fa fa-eye"></i>
+    <span id="busuanzi_value_page_pv"></span>
+</span>
+
+            
+    <div class="tags-row">
+        
+            <a href="/tags/Django/" class="chip green lighten-1">Django</a>
+        
+            <a href="/tags/Python/" class="chip green lighten-1">Python</a>
+        
+    </div>
+
+
+            <div class="toc green-link-context hide-on-med-and-down">
+    <ol class="section table-of-contents"><li class="section table-of-contents-item section table-of-contents-level-1"><a class="section table-of-contents-link" href="#1-不使用模型的数据库查询方法"><span class="section table-of-contents-text">1. 不使用模型的数据库查询方法</span></a></li><li class="section table-of-contents-item section table-of-contents-level-1"><a class="section table-of-contents-link" href="#2-Django的模型"><span class="section table-of-contents-text">2. Django的模型</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#2-1-数据库配置"><span class="section table-of-contents-text">2.1 数据库配置</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#2-2-创建一个app"><span class="section table-of-contents-text">2.2 创建一个app</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#2-3-定义模型"><span class="section table-of-contents-text">2.3 定义模型</span></a></li></ol></li><li class="section table-of-contents-item section table-of-contents-level-1"><a class="section table-of-contents-link" href="#3-常用的数据库操作"><span class="section table-of-contents-text">3. 常用的数据库操作</span></a></li><li class="section table-of-contents-item section table-of-contents-level-1"><a class="section table-of-contents-link" href="#4-结语"><span class="section table-of-contents-text">4. 结语</span></a></li></ol>
+</div>
+
+
+            <div class="entry green-link-context">
+                <p>在Django中，视图负责处理一些业务逻辑，然后返回响应结果。在当代Web应用中，业务逻辑经常牵涉到与数据库的交互，在后台连接数据库服务器，从中取出一些数据，然后在Web页面用漂亮的格式展示这些数据。这个网站也可能会向访问者提供修改数据库数据的方法。</p>
+<p>在这一篇博文中，我们将以MySQL数据库为例，先看看不使用Django模型的数据库查询方法，然后开始学习Django的模型。</p>
+<a id="more"></a>
+<h1 id="1-不使用模型的数据库查询方法"><a href="#1-不使用模型的数据库查询方法" class="headerlink" title="1. 不使用模型的数据库查询方法"></a>1. 不使用模型的数据库查询方法</h1><p>假如我们不采用Django的模型，如何从数据库中获取数据呢？通常的做法就是在视图（View）层中连接数据库，写SQL语句查询数据库，然后把数据渲染给浏览器。在本例的视图中，我们使用了MySQLdb类库（可以从<a href="http://www.djangoproject.com/r/python-mysql/" target="_blank" rel="noopener">这里</a>获得）来连接MySQL数据库，取回一些记录，将它们提供给模板以显示一个网页代码看起来像下面这样：</p>
+<pre><code># view.py
+from django.http import HttpResponse
+import MySQLdb
+
+def book_list_view(request):
+    db = MySQLdb.connect(user=&apos;me&apos;, db=&apos;mydb&apos;, passwd=&apos;secret&apos;, host=&apos;localhost&apos;)
+    cursor = db.cursor()
+    cursor.execute(&apos;SELECT name FROM books ORDER BY name&apos;)
+    names = [row[0] for row in cursor.fetchall()]
+    db.close()
+    return HttpResponse(names)
+</code></pre><p>这个方法可以达成目标，但存在着一些问题：将数据库连接参数硬编码于代码之中。 理想情况下，这些参数应当保存在 Django 配置中；我们不得不重复同样的代码：创建数据库连接、创建数据库游标、执行某个语句、然后关闭数据库；它把我们栓死在MySQL之上。如果过段时间，我们要从MySQL换到PostgreSQL，就不得不使用不同的数据库适配器（例如psycopg而不是MySQLdb），改变连接参数，根据SQL语句的类型可能还要修改SQL。理想情况下，应对所使用的数据库服务器进行抽象，这样一来只在一处修改即可变换数据库服务器。</p>
+<p>接下来我们将开始学习Django中的模型，它提供了一种优雅的方法来抽象数据库层面的操作。</p>
+<h1 id="2-Django的模型"><a href="#2-Django的模型" class="headerlink" title="2. Django的模型"></a>2. Django的模型</h1><h2 id="2-1-数据库配置"><a href="#2-1-数据库配置" class="headerlink" title="2.1 数据库配置"></a>2.1 数据库配置</h2><p>假定你已经完成了数据库服务器的安装，并且已经在其中创建了数据库（我是直接装了WAMP，然后启动MySQL服务）。那么只需要在settings.py文件里面设置连接数据库的参数即可，下面是以MySQL为例。</p>
+<pre><code>DATABASE_ENGINE = &apos;mysql&apos;
+DATABASE_NAME = &apos;db_my_database&apos;
+DATABASE_USER = &apos;root&apos;
+DATABASE_PASSWORD = &apos;123456&apos;
+DATABASE_HOST = &apos;127.0.0.1&apos;
+DATABASE_PORT = &apos;3306&apos;
+</code></pre><p>输入下面这些命令来测试你的数据库配置：</p>
+<pre><code>from django.db import connection
+cursor = connection.cursor()
+</code></pre><p>如果没有显示什么错误信息，那么你的数据库配置是正确的。否则，你就得查看错误信息来纠正错误。详情可参考<a href="http://djangobook.py3k.cn/2.0/chapter05/" target="_blank" rel="noopener">这里</a>的表5-2。</p>
+<h2 id="2-2-创建一个app"><a href="#2-2-创建一个app" class="headerlink" title="2.2 创建一个app"></a>2.2 创建一个app</h2><p>Django规定，如果要使用模型，必须要创建一个app。在上一篇中我们创建的是project，project和app的区别就是：一个project包含很多个Django app以及对它们的配置，一个app是一套Django功能的集合，通常包括模型和视图，按Python的包结构的方式存在。下面的语句创建了一个名为books的app，这个目录包含了这个app的模型models.py和视图views.py，它们都是空的。</p>
+<pre><code>python manage.py startapp books
+</code></pre><h2 id="2-3-定义模型"><a href="#2-3-定义模型" class="headerlink" title="2.3 定义模型"></a>2.3 定义模型</h2><p>下面我们围绕一个关于书的例子来设计数据库。想象一下这样一个最简化的保存书籍信息的数据库：<em>书</em>有“书名”“作者”“出版社”“出版日期”，<em>作者</em>有“名字”“年龄”“Email”，<em>出版社</em>有“名字”“地址”，其中<em>书</em>可以有多个<em>作者</em>（多对多关系），但只能有一个<em>出版社</em>（一对多关系）。</p>
+<p>如果你之前接触过数据库，对这些一定不陌生。首先你应该会设计3个表分别表示<em>书</em>、<em>作者</em>、<em>出版社</em>，然后开始着手写创建表的SQL语句（如果你要像我一样偷懒，甚至直接开个Navicat就开始创建表了），接下来就是常见的增删查改，你在你的网站的逻辑中写各种“INSERT INTO”“DELETE”“SELECT”“UPDATE”SQL语句来操作数据库。当网站的规模增长到一定程度，你可能会觉得不断重复写各种SQL语句会显得特别繁琐。下面我们来看看Django是如何定义模型的。</p>
+<pre><code># models.py
+from django.db import models
+
+class Publisher(models.Model):
+    name = models.CharField(max_length=30)
+    address = models.CharField(max_length=50, blank = True)  # blank为True表明可空
+
+class Author(models.Model):
+    name = models.CharField(max_length=30)
+    age = models.IntegerField()
+    email = models.EmailField()
+
+class Book(models.Model):
+    title = models.CharField(max_length=100)
+    author = models.ManyToManyField(Author)
+    publisher = models.ForeignKey(Publisher)
+    publication_date = models.DateField()
+</code></pre><p>看着这段代码，你可以这样理解：这里定义的每个类都继承了models.Model，代表数据库中的表；类里面的字段代表数据表中的字段，数据类型则由CharField（相当于varchar）、DateField（相当于datetime）这样显而易见的类加上属性（如max_length限定长度）来定义；表与表之间的关系则由ManyToManyField（多对多）、ForeignKey（外键，一对多）和OneToOneFiled（一对一）来限定。</p>
+<p>接下来在settings.py中找到INSTALLED_APPS这一项，如下：</p>
+<pre><code>INSTALLED_APPS = (
+    &apos;django.contrib.auth&apos;,
+    &apos;django.contrib.contenttypes&apos;,
+    &apos;django.contrib.sessions&apos;,
+    &apos;django.contrib.sites&apos;,
+    &apos;mysite.books&apos;,   # 加上这一句，mysite是project，books是app
+)
+</code></pre><p>在命令行中运行<code>python manage.py syncdb</code>，看到几行“Creating table…”的字样，你的数据表就创建好了。只要你定义了模型的类和字段，Django将全部自动帮你创建好数据库。</p>
+<p>syncdb命令是同步你的模型到数据库的一个简单方法。它会根据INSTALLED_APPS里设置的app来检查数据库，如果表不存在，它就会创建它。需要注意的是，syncdb并不能将模型的修改或删除同步到数据库；如果你修改或删除了一个模型，并想把它提交到数据库，syncdb并不会做出任何处理。如果你觉得这很不方便，可以使用一个Django的第三方的app——South——来同步数据库，使用方法可参考<a href="http://www.cnblogs.com/BeginMan/p/3324774.html" target="_blank" rel="noopener">这篇文章</a></p>
+<h1 id="3-常用的数据库操作"><a href="#3-常用的数据库操作" class="headerlink" title="3. 常用的数据库操作"></a>3. 常用的数据库操作</h1><p>下面直接在代码里面注释说明，Django设计的简洁可以让你一看代码就知道怎么通过模型去访问数据库。</p>
+<pre><code>from books.models import Publisher
+
+# 先创建对象，然后再save，相当于SQL中的INSERT
+p1 = Publisher(name=&apos;Apress&apos;, address=&apos;2855 Telegraph Avenue&apos;)
+p1.save()
+# 注意：尽管我们没有在models给表设置主键，但是Django会自动添加一个id作为主键
+
+# 通过objects这个模型管理器的all()获得所有数据行，相当于SQL中的SELECT * FROM
+publisher_list = Publisher.objects.all()
+for publisher in publisher_list:
+    # 对每个publisher做处理
+
+# 修改其中一个字段，再save，相当于SQL中的UPDATE（但这里会更新所有列）
+p1.name = &apos;Apress Publishing&apos;
+p1.save()
+# 如果只需要更新一列，可以用update方法，并应用于结果集上更新多个数据
+Publisher.objects.all().update(address=&apos;USA&apos;)
+
+# 删除掉数据库中的一行，相当于SQL中的DELETE
+p1.delete()
+
+# filter相当于SQL中的WHERE，可设置条件过滤结果
+p2 = Publisher.objects.filter(name=&apos;Apress&apos;)    #单条件查询
+p2 = Publisher.objects.filter(name=&apos;Apress&apos;, address__contains=&apos;Telegraph&apos;)    # 多条件查询，双下划线表明会进行一些魔术般的操作，contains部分会被翻译成WHERE address LIKE &apos;%Telegraph%&apos;
+
+# 用get来获取单个结果，注意如果没有结果或结果不唯一会抛异常
+try:
+    p = Publisher.objects.get(name=&apos;Apress&apos;)
+except Publisher.DoesNotExist:
+    print &quot;Apress isn&apos;t in the database yet.&quot;
+else:
+    print &quot;Apress is in the database.&quot;
+
+# 按name字段来排序，相当于SQL中的ORDER BY，如果换成&quot;-name&quot;则是逆序
+result = Publisher.objects.order_by(&quot;name&quot;)
+
+# 上面的方法可以连锁使用
+Publisher.objects.filter(country=&quot;U.S.A.&quot;).order_by(&quot;-name&quot;)
+
+# 用索引限定数据行数，相当于SQL中的OFFSET 0 LIMIT 2
+Publisher.objects.order_by(&apos;name&apos;)[0:2]
+
+# 直接通过字段外键来访问数据，这有点类似于SQL中的JOIN
+from books.models import Book
+publisher_addr = Book.objects.get(id=1).publisher.address
+
+# 对于用&quot;ForeignKey&quot;定义的关系，关系的另一端也能反向追溯回来。通过字段名加_set的方式可以访问到
+p = Publisher.objects.get(name=&apos;Apress Publishing&apos;)
+p.book_set.all()
+# 注意到Publisher类里面没有定义book这个字段，但因为定义了外键，Django已经帮我们生成了book_set这个属性
+
+# 多对多和外键工作方式相同，只不过我们处理的是QuerySet而不是模型实例
+b = Book.objects.get(id=1).author.all()
+# 反向查询还是字段名加_set，例如要查看一个作者的所有书籍
+a = Author.objects.get(name=&apos;Adrian&apos;)
+a.book_set.all()
+</code></pre><h1 id="4-结语"><a href="#4-结语" class="headerlink" title="4. 结语"></a>4. 结语</h1><p>从上面的介绍可以看到Django的模型已经帮我们干了非常多的事情，比如我们可以通过访问对象的属性和方法来操作数据库，这种技术叫做<a href="http://zh.wikipedia.org/wiki/%E5%AF%B9%E8%B1%A1%E5%85%B3%E7%B3%BB%E6%98%A0%E5%B0%84" target="_blank" rel="noopener">对象关系映射</a>（ORM，Object Relational Mapping）。本文仅仅介绍了Django模型最基础的部分，其他高级的用法比如增加额外的Manager方法，添加修改数据库字段等应用可以参照<a href="http://djangobook.py3k.cn/2.0/chapter10/" target="_blank" rel="noopener">这里</a>。虽然Django给我们提供了如此方便的工具，但它还是需要一定的学习成本的，比如以前你简简单单写个SQL语句就可以搞定的事情，现在要转换为对象的思维，然后去定义模型，学习模型的API。而且听别人说，在涉及到比较复杂的数据库查询和优化的时候，ORM会显得力不从心，所幸Django可以支持原始SQL查询（同样请参见上面的链接）。在日常使用和中小型应用中，使用Django的ORM已经游刃有余，毕竟开发效率才是王道。</p>
+
+                
+<p class="green-link-context">
+    <a href="/tech/language/python/django-note-3/" rel="next" title="Django学习笔记（3）——Django的模板">
+    上一篇：Django学习笔记（3）——Django的模板
+  </a>
+</p>
+
+
+
+<p class="green-link-context">
+    <a href="/tech/language/python/django-note-1/" rel="next" title="Django学习笔记（1）——开始Django">
+    下一篇：Django学习笔记（1）——开始Django
+  </a>
+</p>
+
+
+            </div>
+			
+        </div>
+    </div>
+</article>
+
+
+
+
+    <section id="comment">
+        <div id="disqus_thread"></div>
+        <script>
+            var disqus_config = function() {
+                this.page.url = 'http://raytaylorlin.github.io/tech/language/python/django-note-2/';
+                this.page.identifier = 'tech/language/python/django-note-2/';
+            };
+            (function() {
+                var d = document,
+                    s = d.createElement('script');
+                s.src = '//raytaylorlin.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', + new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the
+            <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+        </noscript>
+    </section>
+
+
+
+</div>
+
+        <div class="fixed-action-btn float-sitemap">
+    <a class="btn-floating btn-large green">
+      <i class="fa fa-caret-square-o-up"></i>
+    </a>
+    <ul>
+      <li><a class="btn-return-top btn-floating waves-effect pink" title="回到顶部"><i class="fa fa-arrow-circle-o-up"></i></a></li>
+      <li><a class="btn-floating waves-effect button-collapse orange darken-1" data-activates="main-menu" title="菜单"><i class="fa fa-navicon"></i></a></li>
+    </ul>
+  </div>
+
+    </main>
+    <footer class="page-footer indigo darken-1">
+    
+    <div class="footer-container container">
+        <div class="row">
+            
+            <div class="social-group col m4 s12">
+                <h5 class="white-text">社交</h5>
+                
+                    <a class="social-link" href="http://weibo.com/1956184117" target="_blank">
+                        <i class="fa fa-2x fa-weibo"></i>
+                    </a>
+                
+                    <a class="social-link" href="https://github.com/raytaylorlin" target="_blank">
+                        <i class="fa fa-2x fa-github"></i>
+                    </a>
+                
+                    <a class="social-link" href="/atom.xml" target="_blank">
+                        <i class="fa fa-2x fa-rss"></i>
+                    </a>
+                
+                
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+    </script>
+    <div class="site-visitors-container white-text">
+        <span>
+            <i class="fa fa-user"></i>
+            <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+        </span>
+        <span>&nbsp;|&nbsp;</span>
+        <span>
+            <i class="fa fa-eye"></i>
+            <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+        </span>
+    </div>
+
+
+            </div>
+            
+
+            
+            <div class="col m8 s12">
+                <h5 class="white-text">友情链接</h5>
+                
+                    <a class="social-link" href="http://tutuge.me/" target="_blank">土土哥的技术博客</a>
+                
+                    <a class="social-link" href="http://neoyeelf.github.io/" target="_blank">屌刘neoye的博客</a>
+                
+                    <a class="social-link" href="http://diao.li/" target="_blank">李伟涛的博客</a>
+                
+                    <a class="social-link" href="http://suta.im/" target="_blank">苏塔是没有脚的设计师</a>
+                
+                    <a class="social-link" href="http://jfantasy.github.io/" target="_blank">JFantasy的个人博客</a>
+                
+                    <a class="social-link" href="http://pyroc.at/" target="_blank">丁基友的博客</a>
+                
+            </div>
+            
+        </div>
+    </div>
+    
+
+    <div class="footer-copyright green-link-context">
+        <div class="container">
+            © 2019 raytaylorlin.github.io, All rights reserved.
+            <p class="right" style="margin-top: 0;">本博客由 <a href="https://hexo.io">Hexo</a> 强力驱动 | 主题 <a href="https://github.com/raytaylorlin/hexo-theme-raytaylorism">raytaylorism</a></p>
+        </div>
+    </div>
+</footer>
+
+
+    <noscript>
+    <div class="noscript">
+        <p class="center-align">当前网速较慢或者你使用的浏览器不支持博客特定功能，请尝试刷新或换用Chrome、Firefox等现代浏览器</p>
+    </div>
+</noscript>
+<div class="noscript">
+    <p class="center-align">当前网速较慢或者你使用的浏览器不支持博客特定功能，请尝试刷新或换用Chrome、Firefox等现代浏览器</p>
+</div>
+
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/materialize.min.js"></script>
+
+<script>
+    (function($) {
+        $(document).ready(function() {
+            // 隐藏禁用javascript（针对微信内置浏览器）的提示
+            $('.noscript').hide();
+
+            // 图片缩放效果
+            var $imgs = $('img').not('.slider-image').not('.avatar-image').not('.carousel-image').not('.card-cover-image').not('.qrcode');
+
+            // 给图片加上点击放大效果（materialbox插件）
+            $imgs.addClass('materialboxed').each(function(i, el) {
+                $(this).attr('data-caption', $(this).attr('alt') || ' ');
+            }).materialbox();
+
+            // 优化表格的显示
+            $('table').each(function() {
+                var $table = $(this);
+                // 除去多行代码的情况
+                if ($table.find('pre').length == 0) {
+                    $table.addClass('responsive-table striped bordered');
+                }
+            });
+
+            // 首页幻灯片
+            $('.slider').slider({indicators: true, full_width: true, interval: 8000});
+
+            $(".button-collapse").sideNav();
+            $(".category-menu").sideNav();
+
+            // 针对gallery post
+            $('.carousel').carousel({full_width: true});
+            $('.carousel-control.prev').click(function() {
+                $('.carousel').carousel('prev');
+            });
+            $('.carousel-control.next').click(function() {
+                $('.carousel').carousel('next');
+            });
+
+            // 文章目录
+            $('article').not('.simple-article').find('h1').add('h2').add('h3').add('h4').add('h5').add('h6').scrollSpy();
+
+            // 目录随屏幕滚动（防止目录过长越过footer）
+            var $toc = $('.toc');
+            var scrollTargetTop = 0;
+            $(window).scroll(function() {
+                var $activeLink = $toc.find('a.active.section');
+                if ($(window).scrollTop() < 100) {
+                    scrollTargetTop = 0;
+                } else {
+                    if ($activeLink[0]) {
+                        scrollTargetTop = $activeLink.offset().top - $toc.offset().top;
+                    }
+                }
+                $toc.css('top', '-' + scrollTargetTop + 'px');
+            });
+
+            // 修正文章目录的left-border颜色
+            var color = $('.table-of-contents-text').css('color');
+            $('.table-of-contents-link').css('border-left-color', color);
+
+            // 针对移动端做的优化：FAB按钮点击一下收回
+            if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                $('.fixed-action-btn').addClass('click-to-toggle');
+            }
+            // 回到顶部
+            $('.btn-return-top').click(function() {
+                $('body, html').animate({
+                    scrollTop: 0
+                }, 500);
+            });
+
+            // 重置读书页面的Tab标签页的颜色
+            $('li.tab a').hover(function() {
+                $(this).toggleClass('text-lighten-4');
+            });
+            $('.indicator').addClass('green lighten-2');
+
+            
+            // 添加new标签
+            $('.menu-reading').append('<span class="new badge green"></span>');
+            
+
+            // 搜索功能
+            $('.modal-trigger').leanModal({
+                // 打开搜索框时自动聚焦
+                ready: function() {
+                    if ($('#search').is(":visible")) {
+                        $('#search-input').focus();
+                    }
+                }
+            });
+            var searchXml = "search.xml";
+            if (searchXml.length == 0) {
+             	searchXml = "search.xml";
+            }
+            var searchPath = "/" + searchXml;
+            initSearch(searchPath, 'search-input', 'search-result');
+        });
+
+        // 初始化搜索与匹配函数
+        var initSearch = function(path, search_id, content_id) {
+            'use strict';
+            $.ajax({
+                url: path,
+                dataType: "xml",
+                success: function(xmlResponse) {
+                    // get the contents from search data
+                    var datas = $("entry", xmlResponse).map(function() {
+                        return {
+                            title: $("title", this).text(),
+                            content: $("content", this).text(),
+                            url: $("url", this).text()
+                        };
+                    }).get();
+                    var $input = document.getElementById(search_id);
+                    var $resultContent = document.getElementById(content_id);
+                    $input.addEventListener('input', function() {
+                        var str = '<ul class=\"search-result-list\">';
+                        var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                        $resultContent.innerHTML = "";
+                        if (this.value.trim().length <= 0) {
+                            return;
+                        }
+                        // perform local searching
+                        datas.forEach(function(data) {
+                            var isMatch = true;
+                            var content_index = [];
+                            var data_title = data.title.trim().toLowerCase();
+                            var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                            var data_url = data.url;
+                            var index_title = -1;
+                            var index_content = -1;
+                            var first_occur = -1;
+                            // only match artiles with not empty titles and contents
+                            if (data_title != '' && data_content != '') {
+                                keywords.forEach(function(keyword, i) {
+                                    index_title = data_title.indexOf(keyword);
+                                    index_content = data_content.indexOf(keyword);
+                                    if (index_title < 0 && index_content < 0) {
+                                        isMatch = false;
+                                    } else {
+                                        if (index_content < 0) {
+                                            index_content = 0;
+                                        }
+                                        if (i == 0) {
+                                            first_occur = index_content;
+                                        }
+                                    }
+                                });
+                            }
+                            // show search results
+                            if (isMatch) {
+                                keywords.forEach(function(keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    data_title = data_title.replace(regS, "<span class=\"search-keyword green lighten-2\">" + keyword + "</span>");
+                                });
+
+                                str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                                var content = data.content.trim().replace(/<[^>]+>/g, "");
+                                if (first_occur >= 0) {
+                                    // cut out 100 characters
+                                    var start = first_occur - 20;
+                                    var end = first_occur + 80;
+                                    if (start < 0) {
+                                        start = 0;
+                                    }
+                                    if (start == 0) {
+                                        end = 100;
+                                    }
+                                    if (end > content.length) {
+                                        end = content.length;
+                                    }
+                                    var match_content = content.substring(start, end);
+                                    // highlight all keywords
+                                    keywords.forEach(function(keyword) {
+                                        var regS = new RegExp(keyword, "gi");
+                                        match_content = match_content.replace(regS, "<span class=\"search-keyword green lighten-2\">" + keyword + "</span>");
+                                    });
+
+                                    str += "<p class=\"search-result\">..." + match_content + "...</p>"
+                                }
+                                str += "</li>";
+                            }
+                        });
+                        str += "</ul>";
+                        $resultContent.innerHTML = str;
+                    });
+                }
+            });
+        }
+    })(jQuery);
+</script>
+
+
+<script src="/js/prettify.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("pre").addClass("prettyprint");
+        prettyPrint();
+    });
+</script>
+
+
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-43460643-1', 'auto');
+    ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+<script type="text/javascript" async src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+
+</body>
+</html>

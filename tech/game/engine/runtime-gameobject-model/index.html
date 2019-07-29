@@ -1,0 +1,934 @@
+<!DOCTYPE HTML>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    
+
+    <title>运行时游戏对象模型（上）——模型架构 | </title>
+    <meta name="author" content="RayTaylor Lin">
+    
+    <meta name="description" content="水镜一人性，月读一波明。轻扬一宿星，枫过一帆灵。">
+    
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta property="og:title" content="运行时游戏对象模型（上）——模型架构">
+    <meta property="og:site_name" content="Ray Taylor Lin&#39;s world">
+
+    
+    <meta property="og:image" content>
+    
+
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="alternate" href="/atom.xml" title="Ray Taylor Lin&#39;s world" type="application/atom+xml">
+    <link rel="stylesheet" href="/css/lib/materialize.min.css">
+    <link rel="stylesheet" href="/css/lib/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+
+    
+        <link rel="stylesheet" href="/css/lib/prettify-tomorrow-night-eighties.css" type="text/css">
+    
+    <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+</head>
+</html>
+
+<body>
+    <img src="/weixin_favicon.png" style="position: absolute; left: -9999px; opacity: 0; filter: alpha(opacity=0);">
+
+    <nav class="indigo">
+    <div class="nav-wrapper">
+        <a href="#" data-activates="main-menu" class="button-collapse">
+            <i class="fa fa-navicon"></i>
+        </a>
+        <div class>
+            <a href="/" class="brand-logo hide-on-med-and-down">Ray Taylor Lin&#39;s world</a>
+            <ul class="right hide-on-med-and-down">
+                
+                    <li>
+                        <a class="menu-home " href="/">
+                            <i class="fa fa-home "></i>
+                            
+                            首页
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-archive " href="/archives">
+                            <i class="fa fa-archive "></i>
+                            
+                            归档
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-category category-menu" href="javascript:;" data-activates="category-menu">
+                            <i class="fa fa-bookmark "></i>
+                            
+                            分类
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-reading " href="/reading">
+                            <i class="fa fa-book "></i>
+                            
+                            读书
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-about " href="/about">
+                            <i class="fa fa-user "></i>
+                            
+                            关于
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-search modal-trigger " href="#search">
+                            <i class="fa fa-search "></i>
+                            
+                            搜索
+                        </a>
+                    </li>
+                
+            </ul>
+            <div>
+    <ul class="side-nav indigo darken-1" id="main-menu">
+        
+        <li class="side-user">
+            <div class="row">
+                <div class="col s4 no-padding">
+                    <img class="avatar-image circle responsive-img" src="http://tp2.sinaimg.cn/1956184117/180/5674436546/1" alt="User Avatar">
+                </div>
+                <div class="info col s8 valign-wrapper no-padding">
+                    <div class="valign">
+                        <p class="name">林寿山</p>
+                        <p class="desc">游戏开发/Web前端</p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        
+
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-home " href="/">
+                    <i class="fa fa-home "></i>
+                    
+                    首页
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-archive " href="/archives">
+                    <i class="fa fa-archive "></i>
+                    
+                    归档
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-category category-menu" href="javascript:;" data-activates="category-menu">
+                    <i class="fa fa-bookmark "></i>
+                    
+                    分类
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-reading " href="/reading">
+                    <i class="fa fa-book "></i>
+                    
+                    读书
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-about " href="/about">
+                    <i class="fa fa-user "></i>
+                    
+                    关于
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-search modal-trigger " href="#search">
+                    <i class="fa fa-search "></i>
+                    
+                    搜索
+                </a>
+            </li>
+        
+    </ul>
+
+    <ul class="side-nav indigo darken-1" id="category-menu">
+    
+
+            
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/日常/">
+                    日常 <span class="right">8 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/技术/">
+                    技术 <span class="right">93 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/算法/">
+                    算法 <span class="right">6 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/Linux/">
+                    Linux <span class="right">2 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/综合/">
+                    综合 <span class="right">23 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/综合/演示/">
+                    演示 <span class="right">2 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/综合/设计模式/">
+                    设计模式 <span class="right">3 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/综合/软件工程/">
+                    软件工程 <span class="right">15 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/综合/杂项/">
+                    杂项 <span class="right">1 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/综合/项目/">
+                    项目 <span class="right">2 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/游戏开发/">
+                    游戏开发 <span class="right">19 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/游戏开发/服务器端/">
+                    服务器端 <span class="right">2 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/游戏开发/客户端/">
+                    客户端 <span class="right">1 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/游戏开发/游戏引擎/">
+                    游戏引擎 <span class="right">11 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/游戏开发/Unity/">
+                    Unity <span class="right">5 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-3" collapse-level="3">
+                <a class="no-padding" href="/categories/技术/游戏开发/Unity/NGUI/">
+                    NGUI <span class="right">5 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/编程语言/">
+                    编程语言 <span class="right">15 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/编程语言/Lua/">
+                    Lua <span class="right">7 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/编程语言/其它语言/">
+                    其它语言 <span class="right">4 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/编程语言/Python/">
+                    Python <span class="right">4 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/工具/">
+                    工具 <span class="right">7 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/工具/IDE/">
+                    IDE <span class="right">3 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/工具/Git/">
+                    Git <span class="right">4 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-1" collapse-level="1">
+                <a class="no-padding" href="/categories/技术/Web前端/">
+                    Web前端 <span class="right">21 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/Web前端/HTTP协议/">
+                    HTTP协议 <span class="right">7 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/Web前端/CSS/">
+                    CSS <span class="right">3 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/Web前端/HTML5/">
+                    HTML5 <span class="right">2 篇</span></a>
+                
+            </li>
+
+        
+
+            <li class="collapse-level-2" collapse-level="2">
+                <a class="no-padding" href="/categories/技术/Web前端/NodeJS/">
+                    NodeJS <span class="right">9 篇</span></a>
+                
+            </li>
+
+        
+
+    </ul>
+</div>
+
+        </div>
+    </div>
+</nav>
+
+<div id="search" class="modal search-modal">
+    <div class="row">
+        <div class="input-field col s12">
+              <input id="search-input" type="text">
+              <label for="search-input">搜索</label>
+        </div>
+
+    </div>
+    <div id="search-result" class="search-result col s12">
+
+    </div>
+</div>
+
+
+    <main>
+        <div class="container main-container">
+    <nav class="page-nav hide-on-small-only">
+    <div class="nav-wrapper indigo">
+        <span class="breadcrumb">当前位置（分类目录）</span>
+        
+            
+    
+    
+    <a class="breadcrumb" href="/categories/技术/">技术</a><a class="breadcrumb" href="/categories/技术/游戏开发/">游戏开发</a><a class="breadcrumb" href="/categories/技术/游戏开发/游戏引擎/">游戏引擎</a>
+
+
+        
+
+        
+    </div>
+</nav>
+
+<article>
+    <div class="card">
+        <div class="card-content">
+            
+
+            <div class="article-title">
+                
+    
+        <h1>运行时游戏对象模型（上）——模型架构</h1>
+    
+
+
+            </div>
+            <time class="green-link-context" datetime="2016-12-31T14:37:32.000Z"><a href="/tech/game/engine/runtime-gameobject-model/">2016-12-31</a></time>
+
+            <span id="busuanzi_container_page_pv" class="read-times-container">
+    <i class="fa fa-eye"></i>
+    <span id="busuanzi_value_page_pv"></span>
+</span>
+
+            
+    <div class="tags-row">
+        
+            <a href="/tags/游戏引擎/" class="chip green lighten-1">游戏引擎</a>
+        
+            <a href="/tags/游戏对象模型/" class="chip green lighten-1">游戏对象模型</a>
+        
+    </div>
+
+
+            <div class="toc green-link-context hide-on-med-and-down">
+    <ol class="section table-of-contents"><li class="section table-of-contents-item section table-of-contents-level-1"><a class="section table-of-contents-link" href="#1-各种运行时对象模型架构"><span class="section table-of-contents-text">1. 各种运行时对象模型架构</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#1-1-以对象为中心的架构"><span class="section table-of-contents-text">1.1 以对象为中心的架构</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#1-1-1-使用面向对象架构的问题"><span class="section table-of-contents-text">1.1.1 使用面向对象架构的问题</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#1-1-2-使用“合成”来简化层次结构"><span class="section table-of-contents-text">1.1.2 使用“合成”来简化层次结构</span></a></li></ol></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#1-2-以属性为中心的架构"><span class="section table-of-contents-text">1.2 以属性为中心的架构</span></a></li></ol></li><li class="section table-of-contents-item section table-of-contents-level-1"><a class="section table-of-contents-link" href="#2-对象引用与世界查询"><span class="section table-of-contents-text">2. 对象引用与世界查询</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#2-1-对象引用方法"><span class="section table-of-contents-text">2.1 对象引用方法</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#2-1-1-指针"><span class="section table-of-contents-text">2.1.1 指针</span></a></li><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#2-1-2-句柄"><span class="section table-of-contents-text">2.1.2 句柄</span></a></li></ol></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#2-2-对象查询方法"><span class="section table-of-contents-text">2.2 对象查询方法</span></a></li></ol></li></ol>
+</div>
+
+
+            <div class="entry green-link-context">
+                <p>在游戏性基础系统的各种组件中，运行时对象模型可能是最复杂的，通常它会提供这些核心功能：动态产生（spawn）和销毁（destroy）游戏对象，联系底层引擎系统，实时模拟对象行为，对象查询和引用，存档及对象持久性等等。本文将从对象模型架构开始，阐述“以对象为中心”和“以属性为中心”的两种基本架构，接着介绍几种游戏对象引用和查询的方法。</p>
+<a id="more"></a>
+<h1 id="1-各种运行时对象模型架构"><a href="#1-各种运行时对象模型架构" class="headerlink" title="1. 各种运行时对象模型架构"></a>1. 各种运行时对象模型架构</h1><h2 id="1-1-以对象为中心的架构"><a href="#1-1-以对象为中心的架构" class="headerlink" title="1.1 以对象为中心的架构"></a>1.1 以对象为中心的架构</h2><p>这种架构中每个逻辑游戏对象会实现为类的实例，或一组互相连接的实例。然而单纯使用继承和多态会导致一系列类层次结构的问题。</p>
+<h3 id="1-1-1-使用面向对象架构的问题"><a href="#1-1-1-使用面向对象架构的问题" class="headerlink" title="1.1.1 使用面向对象架构的问题"></a>1.1.1 使用面向对象架构的问题</h3><p>类层次结构逐渐变得单一庞大。如下图①实现《吃豆人》（PacMan）的一种简单类结构，随着功能增长，该结构会同时往纵、横方向发展，并出现以下问题：</p>
+<ul>
+<li>类难以理解、维护及修改：要理解一个类，就要理解其所有父类（例如在派生类中修改一个看似无害的虚函数，就可能会违背了众基类中某个基类的假设），参考下图②复杂的单一类树节选</li>
+<li>不能表达多维分类：继承有着“是一个”的语义，导致在分类对象时只能从一个维度去设计。如下图③，各类载具的分类看似合乎逻辑，但如果再加入一种“水陆两用载具”则无从下手</li>
+<li>多重继承的弊端：解决“水陆两用载具”的解决方法之一就是使用C++的多重继承，如下图④。然而多重继承有其严重弊端，此处不再赘述</li>
+<li>使用接口：像C#或Java类只能继承一个类，但可以实现多个接口，这样共用的功能就能抽出来（也称为mix-in类）。如下图⑤，任何继承MHealth的类会有血量信息，并可以被杀</li>
+<li><strong>冒泡效应</strong>：当游戏加入越来越多的功能，程序员很容易不断把若干个类中<strong>公用但与基类无关</strong>的代码上升到基类中（即为了所谓的复用利用了继承的便利），这种趋势会令功能代码沿层次结构上移到基类（冒泡），从而违背类职责应该保持单一的原则</li>
+</ul>
+<p><img src="http://raytaylorlin-blog.oss-cn-shenzhen.aliyuncs.com/image/engine/%E4%BD%BF%E7%94%A8%E5%8D%95%E4%B8%80%E5%BA%9E%E5%A4%A7%E7%9A%84%E7%B1%BB%E5%B1%82%E6%AC%A1%E7%BB%93%E6%9E%84%E7%9A%84%E5%90%84%E7%A7%8D%E9%97%AE%E9%A2%98.jpg" alt="使用单一庞大的类层次结构的各种问题"></p>
+<h3 id="1-1-2-使用“合成”来简化层次结构"><a href="#1-1-2-使用“合成”来简化层次结构" class="headerlink" title="1.1.2 使用“合成”来简化层次结构"></a>1.1.2 使用“合成”来简化层次结构</h3><p>面向对象设计中过度使用“是一个（is-a）”关系，会限制了我们创造新游戏类型的设计选择，而且难以扩展现存类的功能。若像下图左边的继承结构，希望一个游戏对象类有碰撞功能，它必须要继承自CollidableObject ，即使它可能是隐形的而并不需要RenderableObject的功能。若把不同的功能分离为独立的“组件”类，它们互不相干，由一个轻量的GameObject采用“有一个（has-a）”关系持有并管理，如下图右边，则可以大大简化。Unity便是运用这种思想的例子。</p>
+<p><img src="http://raytaylorlin-blog.oss-cn-shenzhen.aliyuncs.com/image/engine/%E4%BD%BF%E7%94%A8%E7%BB%84%E4%BB%B6%E5%90%88%E6%88%90%E6%B8%B8%E6%88%8F%E5%AF%B9%E8%B1%A1.jpg" alt="使用组件合成游戏对象"></p>
+<p>对于GameObject管理其组件声明周期的具体实现，具体的做法是GameObject持有所有可能组件的指针并默认为空，而具体的游戏对象继承GameObject后，自行初始化所需的基本组件，并实现自己的特殊组件。但是当需要扩展新组件时，都要修改GameObject类，不符合开闭原则，因此更好的做法是以下这种GameObject持有Component列表的结构。</p>
+<p><img src="http://raytaylorlin-blog.oss-cn-shenzhen.aliyuncs.com/image/engine/%E4%BD%BF%E7%94%A8%E9%80%9A%E7%94%A8%E7%BB%84%E4%BB%B6%E7%9A%84%E8%AE%BE%E8%AE%A1.jpg" alt="使用通用组件的设计"></p>
+<h2 id="1-2-以属性为中心的架构"><a href="#1-2-以属性为中心的架构" class="headerlink" title="1.2 以属性为中心的架构"></a>1.2 以属性为中心的架构</h2><p>以对象为中心，会自然地关注对象属性和行为。以属性为中心，则是先定义所有属性，再为每个属性键表存储关联该属性的对象，<em>像数据库表就是这种设计</em>。</p>
+<p>这种设计的优点是趋向更有效地使用内存，因为只需储存实际上用到的属性；也更容易使用数据驱动的方式来建模。最后是比以对象为中心的模型更加缓存友好，因为有些游戏硬件的内存存取成本远高于执行指令和运算。把数据连续储存于内存之中，能减少或消除缓存命中失败。这种数据布局方式称为<strong>数组的结构（struct of array）</strong>。以下代码展示了与传统 <em>结构的数组（array of struct）</em>的对比。</p>
+<pre><code>static const U32 MAX_GAME_OBJECTS = 1024;
+// 传统结构的数组方式
+struct GameObject
+{
+    U32 m_uniqueId;
+    Vector m_pos;
+    Quaternion m_rot;
+};
+GameObject g_AllGameObjects[MAX_GAME_OBJECTS];
+
+// 对缓存更友好的数组的结构方式
+struct AllGameObjects
+{
+    U32 m_UniqueId[MAX_GAME_OBJECTS];
+    Vector m_Pos[MAX_GAME_OBJECTS];
+    Quaternion m_Rot[MAX_GAME_OBJECTS];
+}
+AllGameObjects g_allGameObjects;
+</code></pre><p>这种设计的缺点是单凭凑齐一些细粒度的属性去实现一个大规模的行为，并非易事。这种系统也可能更难以除错，因为程序员不能一次性地把游戏对象拉到监视视窗中检查它的属性。</p>
+<h1 id="2-对象引用与世界查询"><a href="#2-对象引用与世界查询" class="headerlink" title="2. 对象引用与世界查询"></a>2. 对象引用与世界查询</h1><h2 id="2-1-对象引用方法"><a href="#2-1-对象引用方法" class="headerlink" title="2.1 对象引用方法"></a>2.1 对象引用方法</h2><h3 id="2-1-1-指针"><a href="#2-1-1-指针" class="headerlink" title="2.1.1 指针"></a>2.1.1 指针</h3><p>每个游戏对象通常需要某种唯一标识符以便互相区分，并且能在运行时或工具方（世界编辑器）找到所需的对象，也可用该标识符作为对象间通信的目标。当通过查询找到一个游戏对象时，需要以某种方式引用它。C/C++中最常见的做法就是使用指针，因为指针是实现对象引用最快、最高效并最容易使用的方式。但使用指针很容易出现孤立对象、过时指针、无效指针等问题，所以开发引擎的团队制定严格的编程惯例，或使用安全的约束方法如智能指针。</p>
+<p>智能指针是一个小型对象，行为与指针非常接近，但其扩展了规避原始C/C++指针所衍生的问题。关于智能指针可参考C++的一些高级书目，此处不赘述，仅建议<strong>尽量不要在项目中尝试自己实现恶心的智能指针</strong>，如果必须使用，尽量选用像Boost这样的成熟实现。</p>
+<h3 id="2-1-2-句柄"><a href="#2-1-2-句柄" class="headerlink" title="2.1.2 句柄"></a>2.1.2 句柄</h3><p>句柄就是某全局句柄表的整数索引，而句柄表则储存指向引用对象的指针。下图说明了此数据结构。</p>
+<p><img src="http://raytaylorlin-blog.oss-cn-shenzhen.aliyuncs.com/image/engine/%E5%8F%A5%E6%9F%84%E5%BC%95%E7%94%A8%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F%E5%8F%8A%E5%B8%B8%E8%A7%81%E5%BA%94%E7%94%A8.jpg" alt="句柄引用对象的实现方式及常见应用"></p>
+<p>虽然句柄可以实现为原始整数，但句柄表的索引通常会包装成一个简单类，以提供更方便创建句柄和解引用的接口。以下是一种简单实现（省略其他与句柄无关的实现）。注意在。</p>
+<pre><code>/* GameObject类储存了它的句柄索引，当要创建新句柄时就不用以地址搜寻句柄表了 */
+class GameObject
+{
+private:
+    GameObjectId m_uniqueId;  // 对象唯一标识符
+    U32 m_handleIndex;  // 供更快地创建句柄
+    friend class GameObjectHandle;  // 让它访问id及索引
+public:
+    GameObject()
+    {
+        m_uniqueId = AssignUniqueObjectId();
+        m_handleIndex = FindFreeSlotInHandleTable();
+    }
+}
+
+// 定义句柄表的大小，以及同时间的最大对象数目
+static const U32 MAX_GAME_OBJECTS = ...;
+// 全局句柄表，只是简单的数组，储存游戏对象指针
+static GameObject* g_apGameObject[MAX_GAME_OBJECTS];
+
+/* 句柄封装类 */
+class GameObjectHandle
+{
+private：
+    U32 m_handleIndex;
+    GameObjectId m_uniqueId;
+public:
+    explicit GameObjectHandle(GameObject&amp; object) :
+        m_handleIndex(object.m_handleIndex),
+        m_uniqueId(object.m_uniqueId) {}
+    // 句柄解引用
+    GameObject* ToObject() const
+    {
+        GameObject* pObject = g_apGameObject[m_handleIndex];
+        if (pObject != NULL &amp;&amp; pObject-&gt;m_uniqueId == m_uniqueId)
+            return pObject;
+        return NULL;
+    }
+}
+</code></pre><h2 id="2-2-对象查询方法"><a href="#2-2-对象查询方法" class="headerlink" title="2.2 对象查询方法"></a>2.2 对象查询方法</h2><p>取决于具体的游戏设计，开发者需要根据业务来查询不同种类的对象，例如找出玩家视线范围内的所有敌人角色，找出所有血量少于80%的可破坏游戏对象等等。游戏团队通常要判断，在游戏开发过程中哪些是可能最常用到的查询类型，并实现专用的数据结构加速查询。以下列举了一些可用于加速某类游戏对象查询的专门的数据结构。</p>
+<ul>
+<li>以唯一标识符搜寻：游戏对象的指针或句柄可储存于以唯一标识符为键的散列表或二叉查找树</li>
+<li>对合乎某条件的所有对象进行迭代：可预先以某种条件排序，并把结果储存在某个列表（例如不断维护一个在玩家某半径范围内的所有对象的列表来加速查询实现范围内的敌人）</li>
+<li>搜寻抛射体路径或对某目标点视线内的所有对象：通常会利用碰撞系统实现，多数碰撞系统会提供一些极快的光线投射功能</li>
+<li>搜寻某区域或半径范围内的所有对象：用一些空间散列数据结构去储存游戏对象，如四叉树、八叉树、kd树等等</li>
+</ul>
+<p>参考文献：电子工业出版社《游戏引擎架构》第14.1、14.2、14.5节</p>
+
+                
+<p class="green-link-context">
+    <a href="/tech/game/engine/realtime-update-gameobject/" rel="next" title="运行时游戏对象模型（下）——实时更新游戏对象">
+    上一篇：运行时游戏对象模型（下）——实时更新游戏对象
+  </a>
+</p>
+
+
+
+<p class="green-link-context">
+    <a href="/tech/game/engine/gameplay-system-introduction/" rel="next" title="游戏引擎的游戏性系统简介">
+    下一篇：游戏引擎的游戏性系统简介
+  </a>
+</p>
+
+
+            </div>
+			
+        </div>
+    </div>
+</article>
+
+
+
+
+    <section id="comment">
+        <div id="disqus_thread"></div>
+        <script>
+            var disqus_config = function() {
+                this.page.url = 'http://raytaylorlin.github.io/tech/game/engine/runtime-gameobject-model/';
+                this.page.identifier = 'tech/game/engine/runtime-gameobject-model/';
+            };
+            (function() {
+                var d = document,
+                    s = d.createElement('script');
+                s.src = '//raytaylorlin.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', + new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the
+            <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+        </noscript>
+    </section>
+
+
+
+</div>
+
+        <div class="fixed-action-btn float-sitemap">
+    <a class="btn-floating btn-large green">
+      <i class="fa fa-caret-square-o-up"></i>
+    </a>
+    <ul>
+      <li><a class="btn-return-top btn-floating waves-effect pink" title="回到顶部"><i class="fa fa-arrow-circle-o-up"></i></a></li>
+      <li><a class="btn-floating waves-effect button-collapse orange darken-1" data-activates="main-menu" title="菜单"><i class="fa fa-navicon"></i></a></li>
+    </ul>
+  </div>
+
+    </main>
+    <footer class="page-footer indigo darken-1">
+    
+    <div class="footer-container container">
+        <div class="row">
+            
+            <div class="social-group col m4 s12">
+                <h5 class="white-text">社交</h5>
+                
+                    <a class="social-link" href="http://weibo.com/1956184117" target="_blank">
+                        <i class="fa fa-2x fa-weibo"></i>
+                    </a>
+                
+                    <a class="social-link" href="https://github.com/raytaylorlin" target="_blank">
+                        <i class="fa fa-2x fa-github"></i>
+                    </a>
+                
+                    <a class="social-link" href="/atom.xml" target="_blank">
+                        <i class="fa fa-2x fa-rss"></i>
+                    </a>
+                
+                
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+    </script>
+    <div class="site-visitors-container white-text">
+        <span>
+            <i class="fa fa-user"></i>
+            <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+        </span>
+        <span>&nbsp;|&nbsp;</span>
+        <span>
+            <i class="fa fa-eye"></i>
+            <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+        </span>
+    </div>
+
+
+            </div>
+            
+
+            
+            <div class="col m8 s12">
+                <h5 class="white-text">友情链接</h5>
+                
+                    <a class="social-link" href="http://tutuge.me/" target="_blank">土土哥的技术博客</a>
+                
+                    <a class="social-link" href="http://neoyeelf.github.io/" target="_blank">屌刘neoye的博客</a>
+                
+                    <a class="social-link" href="http://diao.li/" target="_blank">李伟涛的博客</a>
+                
+                    <a class="social-link" href="http://suta.im/" target="_blank">苏塔是没有脚的设计师</a>
+                
+                    <a class="social-link" href="http://jfantasy.github.io/" target="_blank">JFantasy的个人博客</a>
+                
+                    <a class="social-link" href="http://pyroc.at/" target="_blank">丁基友的博客</a>
+                
+            </div>
+            
+        </div>
+    </div>
+    
+
+    <div class="footer-copyright green-link-context">
+        <div class="container">
+            © 2019 raytaylorlin.github.io, All rights reserved.
+            <p class="right" style="margin-top: 0;">本博客由 <a href="https://hexo.io">Hexo</a> 强力驱动 | 主题 <a href="https://github.com/raytaylorlin/hexo-theme-raytaylorism">raytaylorism</a></p>
+        </div>
+    </div>
+</footer>
+
+
+    <noscript>
+    <div class="noscript">
+        <p class="center-align">当前网速较慢或者你使用的浏览器不支持博客特定功能，请尝试刷新或换用Chrome、Firefox等现代浏览器</p>
+    </div>
+</noscript>
+<div class="noscript">
+    <p class="center-align">当前网速较慢或者你使用的浏览器不支持博客特定功能，请尝试刷新或换用Chrome、Firefox等现代浏览器</p>
+</div>
+
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/materialize.min.js"></script>
+
+<script>
+    (function($) {
+        $(document).ready(function() {
+            // 隐藏禁用javascript（针对微信内置浏览器）的提示
+            $('.noscript').hide();
+
+            // 图片缩放效果
+            var $imgs = $('img').not('.slider-image').not('.avatar-image').not('.carousel-image').not('.card-cover-image').not('.qrcode');
+
+            // 给图片加上点击放大效果（materialbox插件）
+            $imgs.addClass('materialboxed').each(function(i, el) {
+                $(this).attr('data-caption', $(this).attr('alt') || ' ');
+            }).materialbox();
+
+            // 优化表格的显示
+            $('table').each(function() {
+                var $table = $(this);
+                // 除去多行代码的情况
+                if ($table.find('pre').length == 0) {
+                    $table.addClass('responsive-table striped bordered');
+                }
+            });
+
+            // 首页幻灯片
+            $('.slider').slider({indicators: true, full_width: true, interval: 8000});
+
+            $(".button-collapse").sideNav();
+            $(".category-menu").sideNav();
+
+            // 针对gallery post
+            $('.carousel').carousel({full_width: true});
+            $('.carousel-control.prev').click(function() {
+                $('.carousel').carousel('prev');
+            });
+            $('.carousel-control.next').click(function() {
+                $('.carousel').carousel('next');
+            });
+
+            // 文章目录
+            $('article').not('.simple-article').find('h1').add('h2').add('h3').add('h4').add('h5').add('h6').scrollSpy();
+
+            // 目录随屏幕滚动（防止目录过长越过footer）
+            var $toc = $('.toc');
+            var scrollTargetTop = 0;
+            $(window).scroll(function() {
+                var $activeLink = $toc.find('a.active.section');
+                if ($(window).scrollTop() < 100) {
+                    scrollTargetTop = 0;
+                } else {
+                    if ($activeLink[0]) {
+                        scrollTargetTop = $activeLink.offset().top - $toc.offset().top;
+                    }
+                }
+                $toc.css('top', '-' + scrollTargetTop + 'px');
+            });
+
+            // 修正文章目录的left-border颜色
+            var color = $('.table-of-contents-text').css('color');
+            $('.table-of-contents-link').css('border-left-color', color);
+
+            // 针对移动端做的优化：FAB按钮点击一下收回
+            if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                $('.fixed-action-btn').addClass('click-to-toggle');
+            }
+            // 回到顶部
+            $('.btn-return-top').click(function() {
+                $('body, html').animate({
+                    scrollTop: 0
+                }, 500);
+            });
+
+            // 重置读书页面的Tab标签页的颜色
+            $('li.tab a').hover(function() {
+                $(this).toggleClass('text-lighten-4');
+            });
+            $('.indicator').addClass('green lighten-2');
+
+            
+            // 添加new标签
+            $('.menu-reading').append('<span class="new badge green"></span>');
+            
+
+            // 搜索功能
+            $('.modal-trigger').leanModal({
+                // 打开搜索框时自动聚焦
+                ready: function() {
+                    if ($('#search').is(":visible")) {
+                        $('#search-input').focus();
+                    }
+                }
+            });
+            var searchXml = "search.xml";
+            if (searchXml.length == 0) {
+             	searchXml = "search.xml";
+            }
+            var searchPath = "/" + searchXml;
+            initSearch(searchPath, 'search-input', 'search-result');
+        });
+
+        // 初始化搜索与匹配函数
+        var initSearch = function(path, search_id, content_id) {
+            'use strict';
+            $.ajax({
+                url: path,
+                dataType: "xml",
+                success: function(xmlResponse) {
+                    // get the contents from search data
+                    var datas = $("entry", xmlResponse).map(function() {
+                        return {
+                            title: $("title", this).text(),
+                            content: $("content", this).text(),
+                            url: $("url", this).text()
+                        };
+                    }).get();
+                    var $input = document.getElementById(search_id);
+                    var $resultContent = document.getElementById(content_id);
+                    $input.addEventListener('input', function() {
+                        var str = '<ul class=\"search-result-list\">';
+                        var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                        $resultContent.innerHTML = "";
+                        if (this.value.trim().length <= 0) {
+                            return;
+                        }
+                        // perform local searching
+                        datas.forEach(function(data) {
+                            var isMatch = true;
+                            var content_index = [];
+                            var data_title = data.title.trim().toLowerCase();
+                            var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                            var data_url = data.url;
+                            var index_title = -1;
+                            var index_content = -1;
+                            var first_occur = -1;
+                            // only match artiles with not empty titles and contents
+                            if (data_title != '' && data_content != '') {
+                                keywords.forEach(function(keyword, i) {
+                                    index_title = data_title.indexOf(keyword);
+                                    index_content = data_content.indexOf(keyword);
+                                    if (index_title < 0 && index_content < 0) {
+                                        isMatch = false;
+                                    } else {
+                                        if (index_content < 0) {
+                                            index_content = 0;
+                                        }
+                                        if (i == 0) {
+                                            first_occur = index_content;
+                                        }
+                                    }
+                                });
+                            }
+                            // show search results
+                            if (isMatch) {
+                                keywords.forEach(function(keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    data_title = data_title.replace(regS, "<span class=\"search-keyword green lighten-2\">" + keyword + "</span>");
+                                });
+
+                                str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                                var content = data.content.trim().replace(/<[^>]+>/g, "");
+                                if (first_occur >= 0) {
+                                    // cut out 100 characters
+                                    var start = first_occur - 20;
+                                    var end = first_occur + 80;
+                                    if (start < 0) {
+                                        start = 0;
+                                    }
+                                    if (start == 0) {
+                                        end = 100;
+                                    }
+                                    if (end > content.length) {
+                                        end = content.length;
+                                    }
+                                    var match_content = content.substring(start, end);
+                                    // highlight all keywords
+                                    keywords.forEach(function(keyword) {
+                                        var regS = new RegExp(keyword, "gi");
+                                        match_content = match_content.replace(regS, "<span class=\"search-keyword green lighten-2\">" + keyword + "</span>");
+                                    });
+
+                                    str += "<p class=\"search-result\">..." + match_content + "...</p>"
+                                }
+                                str += "</li>";
+                            }
+                        });
+                        str += "</ul>";
+                        $resultContent.innerHTML = str;
+                    });
+                }
+            });
+        }
+    })(jQuery);
+</script>
+
+
+<script src="/js/prettify.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("pre").addClass("prettyprint");
+        prettyPrint();
+    });
+</script>
+
+
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-43460643-1', 'auto');
+    ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+<script type="text/javascript" async src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+
+</body>
+</html>
